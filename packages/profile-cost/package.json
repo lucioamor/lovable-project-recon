@@ -1,0 +1,8 @@
+{
+  "name": "@nxlv-ai/lovable-profile-cost",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

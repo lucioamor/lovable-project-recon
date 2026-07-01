@@ -1,0 +1,12 @@
+{
+  "name": "@nxlv-ai/lovable-core",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./model": "./src/model.ts"
+  },
+  "optionalDependencies": {
+    "pg": "^8.13.0"
+  }
+}

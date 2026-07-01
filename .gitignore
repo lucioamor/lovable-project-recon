@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.log
+.env
+.env.local
+# generated reports
+*_USAGE_REPORT.md
+!docs/**/*_USAGE_REPORT.md

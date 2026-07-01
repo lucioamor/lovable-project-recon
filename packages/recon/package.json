@@ -1,0 +1,12 @@
+{
+  "name": "@nxlv-ai/lovable-recon",
+  "version": "0.0.0",
+  "type": "module",
+  "bin": {
+    "recon": "./src/cli.ts"
+  },
+  "dependencies": {
+    "@nxlv-ai/lovable-core": "*",
+    "@nxlv-ai/lovable-profile-cost": "*"
+  }
+}
