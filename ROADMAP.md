@@ -27,13 +27,13 @@ _Cost/runtime/waste recon + cleanup for Lovable Cloud portfolios. Sibling of `lo
 | F4 npx packaging | Done | `dist` builds, package `exports/files/bin`, packaged CLI e2e, release-please/OIDC workflow |
 | F5 rule depth/evaluate interface | Done for deterministic interface | POL-7/POL-8 first-pass logic, `--intent <file>` attached to results |
 | F6 extension contract | Done contract-first | `docs/EXTENSION_CONTRACT.md`; extension remains a future JSON exporter, not a bridge |
-| Clean planning | Partial by design | `recon clean` dry-run/gated plan; executor/verify intentionally not implemented while all actions are `applySafe: false` |
+| Clean planning/apply contract | Done safe-gated | `recon clean` dry-run/gated plan plus `applyCleanPlan` executor/verify contract; current real remediations remain review-required (`applySafe: false`) |
 
 ## Remaining Work
 
 - Enrich seed corpus files by hand against the heterogeneous usage reports where more detail is needed. The current corpus is index-derived except the central-genial hand-reviewed fixture.
-- Add structured, policy-specific clean executors only after a remediation is proven safe enough to mark `applySafe: true`.
-- Add verify flow for clean apply: re-scan, diff, and rollback/incident notes where applicable.
+- Add structured, policy-specific clean executors only after a remediation is proven safe enough to mark `applySafe: true`; the core apply/verify contract is already in place.
+- Add rollback/incident notes for future mutating executors where applicable.
 - Build the browser extension exporter only if external demand appears; it should emit `ProjectEvidence` and never replay browser tokens to the CLI.
 - Optional future work: `profile-security` on the same core, SaaS/cockpit surface, official Lovable usage API producer if available.
 
