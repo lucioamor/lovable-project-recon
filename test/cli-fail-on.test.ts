@@ -49,4 +49,12 @@ describe("CLI --fail-on", () => {
     expect(res.stdout).toContain("## Project intent");
     expect(res.stdout).toContain("Keep telegram disabled");
   });
+
+  it("runs portfolio mode as evidence fan-out", () => {
+    const res = runCli(["scan", "--mode", "portfolio", "--dir", "corpus", "--json"]);
+
+    expect(res.status).toBe(0);
+    expect(res.stdout).toContain('"mode": "evidence"');
+    expect(res.stdout).toContain("central-genial");
+  });
 });

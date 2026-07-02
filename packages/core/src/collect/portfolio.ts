@@ -1,8 +1,7 @@
 import type { Collected, CollectOptions } from "./types.ts";
 
-// M4 stub. Will fan out across a whole portfolio using an authorized Lovable token
-// (captured with explicit consent via the extension, browser-first). It should collect
-// inventory + per-project deep signals and emit findings — never store the raw token.
+// Portfolio is a runner concern, not a single-project collector. The CLI implements
+// `scan --mode portfolio --dir <corpus>` as fan-out over ProjectEvidence files.
 export async function collectPortfolio(_opts: CollectOptions): Promise<Collected> {
-  throw new Error("portfolio mode is a stub (M4). It will require an authorized token and browser-first execution; " + "not implemented in M0.");
+  throw new Error("portfolio collection is a runner, not a single-project collector. Use `recon scan --mode portfolio --dir <evidence-dir>`.");
 }

@@ -102,7 +102,9 @@ in the waste-score.
 | `db` | read-only Supabase/Postgres connection | core runtime signals |
 | `static` | local repo (`supabase/`, source scan) | source signals |
 | `index` | `usage-reports/lovable_projects_index.json` | single project + portfolio |
-| `portfolio` | authorized token / extension, many projects | stub |
+| `evidence` | `ProjectEvidence` JSON | rich offline evidence |
+| `corpus` | directory of `*.evidence.json` files | evidence portfolio report |
+| `portfolio` | directory of `*.evidence.json` files | alias for evidence fan-out |
 
 ## Architecture
 

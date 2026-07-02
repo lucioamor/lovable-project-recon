@@ -35,7 +35,7 @@ Options:
   --repo <path>                       path to a Lovable checkout (required by --mode static)
   --index <file>                      structured lovable_projects_index.json (required by --mode index)
   --evidence <file>                   ProjectEvidence JSON (required by --mode evidence)
-  --dir <dir>                         directory of *.evidence.json files (required by --mode corpus)
+  --dir <dir>                         directory of *.evidence.json files (required by --mode corpus/portfolio)
   --project <name|id>                 project label or index project id
   --intent <file>                     project intent / roadmap context to attach to the result
   --fail-on <critical|high|medium|low> exit 1 when findings meet or exceed severity
@@ -51,6 +51,7 @@ Examples:
   recon scan --mode index --index usage-reports/lovable_projects_index.json --out ./PORTFOLIO_REPORT.md
   recon scan --mode evidence --evidence corpus/central-genial.evidence.json
   recon scan --mode corpus --dir corpus --out ./CORPUS_REPORT.md
+  recon scan --mode portfolio --dir corpus --out ./PORTFOLIO_REPORT.md
 `;
 
 async function main() {
@@ -99,7 +100,7 @@ async function main() {
     console.error("--evidence requires a file path");
     process.exit(1);
   }
-  if (mode === "corpus" && args["dir"] === true) {
+  if ((mode === "corpus" || mode === "portfolio") && args["dir"] === true) {
     console.error("--dir requires a directory path");
     process.exit(1);
   }
@@ -128,9 +129,9 @@ async function main() {
     );
     return;
   }
-  if (mode === "corpus") {
+  if (mode === "corpus" || mode === "portfolio") {
     if (typeof args["dir"] !== "string") {
-      console.error("corpus mode requires --dir <corpus-directory>");
+      console.error(`${mode} mode requires --dir <corpus-directory>`);
       process.exit(1);
     }
     const results = await Promise.all(listEvidenceFiles(args["dir"]).map((path) => runRecon("evidence", { evidencePath: path, intent }, costRules)));
@@ -144,7 +145,7 @@ async function main() {
       );
       return;
     }
-    const md = renderPortfolioReport(results, { sourceMode: "corpus" });
+    const md = renderPortfolioReport(results, { sourceMode: mode });
     if (typeof args["out"] === "string") {
       writeFileSync(args["out"], md);
       printPortfolioSummary(results, args["out"]);
