@@ -4,8 +4,8 @@ export * from "./model.ts";
 export * from "./engine.ts";
 export { scoreFindings } from "./score.ts";
 export { renderReport } from "./report.ts";
-export { buildCleanPlan, renderCleanPlan } from "./clean.ts";
-export type { CleanPlan, CleanPlanAction } from "./clean.ts";
+export { applyCleanPlan, buildCleanPlan, renderCleanPlan } from "./clean.ts";
+export type { AppliedCleanAction, CleanActionExecutor, CleanApplyResult, CleanPlan, CleanPlanAction, CleanVerificationDiff } from "./clean.ts";
 export { AUDIT_QUERIES } from "./queries.ts";
 export type { AuditQuery } from "./queries.ts";
 export { cronRunsPerDay, looksLikeLogTable, humanBytes, redactSecrets } from "./util.ts";
@@ -41,7 +41,7 @@ const COLLECTORS: Record<Mode, (o: CollectOptions) => Promise<Collected>> = {
   portfolio: collectPortfolio,
 };
 
-/** Orchestrates the read-only pipeline: collect → detect → score. */
+/** Orchestrates the read-only pipeline: collect -> detect -> score. */
 export async function runRecon(mode: Mode, opts: CollectOptions, rules: Rule[]): Promise<ReconResult> {
   const collect = COLLECTORS[mode];
   if (!collect) throw new Error(`unknown mode: ${mode}`);

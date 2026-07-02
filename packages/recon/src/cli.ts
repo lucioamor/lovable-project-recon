@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync } from "node:fs";
 import { renderPortfolioReport } from "@nxlv-ai/lovable-benchmarks";
-import { buildCleanPlan, runEvidencePortfolio, runIndexPortfolio, runRecon, renderCleanPlan, renderReport, redactSecrets, type Mode } from "@nxlv-ai/lovable-core";
+import { applyCleanPlan, buildCleanPlan, runEvidencePortfolio, runIndexPortfolio, runRecon, renderCleanPlan, renderReport, redactSecrets, type Mode } from "@nxlv-ai/lovable-core";
 import { costRules } from "@nxlv-ai/lovable-profile-cost";
 
 const VALID_MODES: Mode[] = ["demo", "db", "static", "index", "evidence", "corpus", "portfolio"];
@@ -24,7 +24,7 @@ function parseArgs(argv: string[]) {
   return args;
 }
 
-const HELP = `recon — runtime-waste recon for Lovable Cloud portfolios
+const HELP = `recon - runtime-waste recon for Lovable Cloud portfolios
 
 Usage:
   recon scan [options]
@@ -153,8 +153,12 @@ async function main() {
         console.error("clean --apply refused: no confirmed remediation is marked auto-applicable");
         process.exit(2);
       }
-      console.error("clean --apply refused: apply executor is not implemented yet; use the dry-run plan for review");
-      process.exit(2);
+      try {
+        await applyCleanPlan(plan, { before: result, verify: () => runRecon(mode, opts, costRules) });
+      } catch (err) {
+        console.error((err as Error).message);
+        process.exit(2);
+      }
     }
     return;
   }
@@ -235,11 +239,11 @@ async function main() {
 function printSummary(result: Awaited<ReturnType<typeof runRecon>>, outFile: string) {
   const { project, findings, score } = result;
   const bySev = (s: string) => findings.filter((f) => f.severity === s).length;
-  console.log(`\n  recon · ${project.name} (${project.mode})`);
-  console.log(`  waste-score ${score.wasteScore}/100 — ${score.headline}`);
-  console.log(`  findings: ${findings.length}  (🔴 ${bySev("critical")}  🟠 ${bySev("high")}  🟡 ${bySev("medium")}  ⚪ ${bySev("low")})`);
+  console.log(`\n  recon - ${project.name} (${project.mode})`);
+  console.log(`  waste-score ${score.wasteScore}/100 - ${score.headline}`);
+  console.log(`  findings: ${findings.length}  (critical ${bySev("critical")}  high ${bySev("high")}  medium ${bySev("medium")}  low ${bySev("low")})`);
   if (result.warnings.length) console.log(`  warnings: ${result.warnings.length}`);
-  console.log(`  report → ${outFile}\n`);
+  console.log(`  report -> ${outFile}\n`);
 }
 
 function printPortfolioSummary(results: Array<Awaited<ReturnType<typeof runRecon>>>, outFile: string) {

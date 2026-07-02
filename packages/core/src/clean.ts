@@ -1,6 +1,29 @@
 import type { Finding, ProjectMeta, RemediationAction, Severity } from "./model.ts";
 import type { ReconResult } from "./model.ts";
 
+export interface AppliedCleanAction {
+  findingId: string;
+  policy: string;
+  actionTitle: string;
+  detail?: string;
+}
+
+export interface CleanVerificationDiff {
+  beforeWasteScore: number;
+  afterWasteScore: number;
+  beforeFindings: number;
+  afterFindings: number;
+  changed: boolean;
+}
+
+export interface CleanApplyResult {
+  plan: CleanPlan;
+  appliedActions: AppliedCleanAction[];
+  verification?: CleanVerificationDiff;
+  warnings: string[];
+}
+
+export type CleanActionExecutor = (action: CleanPlanAction) => Promise<{ detail?: string } | void>;
 export interface CleanPlanAction {
   findingId: string;
   policy: string;
@@ -58,6 +81,29 @@ export function buildCleanPlan(result: ReconResult, opts: { apply?: boolean; gen
   };
 }
 
+export async function applyCleanPlan(plan: CleanPlan, opts: { executor?: CleanActionExecutor; before?: ReconResult; verify?: () => Promise<ReconResult> } = {}): Promise<CleanApplyResult> {
+  if (!plan.applyRequested) throw new Error("clean apply requires a plan built with apply=true");
+  if (plan.eligibleActions.length === 0) throw new Error("clean apply refused: no confirmed remediation is marked applySafe");
+  if (!opts.executor) throw new Error("clean apply refused: no action executor is configured for this environment");
+
+  const appliedActions: AppliedCleanAction[] = [];
+  for (const action of plan.eligibleActions) {
+    const applied = await opts.executor(action);
+    appliedActions.push({ findingId: action.findingId, policy: action.policy, actionTitle: action.action.title, detail: applied?.detail });
+  }
+
+  const warnings = [...plan.warnings];
+  let verification: CleanVerificationDiff | undefined;
+  if (opts.verify) {
+    if (!opts.before) warnings.push("clean apply verification ran without a before-scan baseline");
+    const after = await opts.verify();
+    if (opts.before) verification = diffVerification(opts.before, after);
+  } else {
+    warnings.push("clean apply verification was not run");
+  }
+
+  return { plan, appliedActions, verification, warnings };
+}
 export function renderCleanPlan(plan: CleanPlan): string {
   const L: string[] = [];
   L.push(`# ${plan.project.name} - Recon Clean Plan`);
@@ -107,6 +153,15 @@ export function renderCleanPlan(plan: CleanPlan): string {
   return L.join("\n");
 }
 
+function diffVerification(before: ReconResult, after: ReconResult): CleanVerificationDiff {
+  return {
+    beforeWasteScore: before.score.wasteScore,
+    afterWasteScore: after.score.wasteScore,
+    beforeFindings: before.findings.length,
+    afterFindings: after.findings.length,
+    changed: before.score.wasteScore !== after.score.wasteScore || before.findings.length !== after.findings.length,
+  };
+}
 function toPlanAction(finding: Finding, action: RemediationAction): CleanPlanAction {
   return {
     findingId: finding.id,
