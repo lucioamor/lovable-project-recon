@@ -1,4 +1,4 @@
-import type { ImportedAction, Mode, Observation, ProjectMeta, Resource } from "../model.ts";
+import type { ImportedAction, Mode, Observation, ProjectIntent, ProjectMeta, Resource } from "../model.ts";
 
 export interface Collected {
   project: ProjectMeta;
@@ -8,6 +8,7 @@ export interface Collected {
   raw: Record<string, unknown>;
   warnings: string[];
   importedActions?: ImportedAction[];
+  intent?: ProjectIntent;
   /** false when the collector is a stub / did not really evaluate the project (e.g. static M1). */
   assessed?: boolean;
 }
@@ -21,6 +22,7 @@ export interface CollectOptions {
   evidencePath?: string;
   projectId?: string;
   dir?: string;
+  intent?: ProjectIntent;
 }
 
 export interface Collector {

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { renderPortfolioReport } from "@nxlv-ai/lovable-benchmarks";
 import { listEvidenceFiles, listIndexProjects, runRecon, renderReport, redactSecrets, type Mode } from "@nxlv-ai/lovable-core";
 import { costRules } from "@nxlv-ai/lovable-profile-cost";
@@ -37,6 +37,7 @@ Options:
   --evidence <file>                   ProjectEvidence JSON (required by --mode evidence)
   --dir <dir>                         directory of *.evidence.json files (required by --mode corpus)
   --project <name|id>                 project label or index project id
+  --intent <file>                     project intent / roadmap context to attach to the result
   --fail-on <critical|high|medium|low> exit 1 when findings meet or exceed severity
   --out <file>                        write the Markdown report to a file
   --json                              print raw ReconResult as JSON instead of a report
@@ -65,12 +66,16 @@ async function main() {
   }
 
   const args = parseArgs(rest);
-  const KNOWN = new Set(["mode", "db", "project", "out", "json", "repo", "index", "evidence", "dir", "fail-on", "help"]);
+  const KNOWN = new Set(["mode", "db", "project", "out", "json", "repo", "index", "evidence", "dir", "intent", "fail-on", "help"]);
   for (const k of Object.keys(args)) {
     if (!KNOWN.has(k)) console.error(`warning: unknown flag --${k} (ignored)`);
   }
   if (args["out"] === true) {
     console.error("--out requires a file path");
+    process.exit(1);
+  }
+  if (args["intent"] === true) {
+    console.error("--intent requires a file path");
     process.exit(1);
   }
   if (args["help"]) {
@@ -85,6 +90,7 @@ async function main() {
   }
 
   const dbUrl = (args["db"] as string) || process.env["SUPABASE_DB_URL"];
+  const intent = typeof args["intent"] === "string" ? { source: args["intent"], body: readFileSync(args["intent"], "utf8") } : undefined;
   if (mode === "index" && args["index"] === true) {
     console.error("--index requires a file path");
     process.exit(1);
@@ -98,7 +104,7 @@ async function main() {
     process.exit(1);
   }
   if (mode === "index" && typeof args["index"] === "string" && !args["project"]) {
-    const results = await Promise.all(listIndexProjects(args["index"]).map((p) => runRecon("index", { indexPath: args["index"] as string, projectId: p.id }, costRules)));
+    const results = await Promise.all(listIndexProjects(args["index"]).map((p) => runRecon("index", { indexPath: args["index"] as string, projectId: p.id, intent }, costRules)));
     if (args["json"]) {
       const json = redactSecrets(JSON.stringify(results, null, 2));
       if (typeof args["out"] === "string") writeFileSync(args["out"], json);
@@ -127,7 +133,7 @@ async function main() {
       console.error("corpus mode requires --dir <corpus-directory>");
       process.exit(1);
     }
-    const results = await Promise.all(listEvidenceFiles(args["dir"]).map((path) => runRecon("evidence", { evidencePath: path }, costRules)));
+    const results = await Promise.all(listEvidenceFiles(args["dir"]).map((path) => runRecon("evidence", { evidencePath: path, intent }, costRules)));
     if (args["json"]) {
       const json = redactSecrets(JSON.stringify(results, null, 2));
       if (typeof args["out"] === "string") writeFileSync(args["out"], json);
@@ -158,6 +164,7 @@ async function main() {
     repoPath: args["repo"] as string | undefined,
     indexPath: args["index"] as string | undefined,
     evidencePath: args["evidence"] as string | undefined,
+    intent,
     token: process.env["LOVABLE_TOKEN"],
   };
 

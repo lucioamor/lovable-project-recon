@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { AUDIT_QUERIES } from "../packages/core/src/queries.ts";
 // Import the collector module directly: `pg` is imported lazily inside collectDb, so loading
 // this file for its pure helpers never requires the optional driver.
 import { bareName, classifyHttpResponses, deriveIdleDays, tablesPrunedByCron, toInt } from "../packages/core/src/collect/db.ts";
@@ -80,5 +81,15 @@ describe("db mode - runtime signal helpers", () => {
 
   it("returns undefined when no runtime timestamp is available", () => {
     expect(deriveIdleDays("2026-07-02T12:00:00.000Z", [], [])).toBeUndefined();
+  });
+});
+
+describe("db mode - trigger inventory query", () => {
+  it("includes a read-only trigger/function inventory query for POL-7", () => {
+    const query = AUDIT_QUERIES.find((q) => q.name === "triggers");
+
+    expect(query?.needs).toBe("public");
+    expect(query?.sql).toContain("pg_get_triggerdef");
+    expect(query?.sql).toContain("pg_get_functiondef");
   });
 });

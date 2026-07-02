@@ -36,6 +36,17 @@ export function renderReport(result: ReconResult): string {
   L.push(renderCapabilityMatrix(resources));
   L.push("");
 
+  if (result.intent) {
+    L.push("## Project intent");
+    L.push("");
+    L.push(`_Source: \`${result.intent.source}\`_`);
+    L.push("");
+    L.push("```text");
+    for (const line of result.intent.body.trim().split("\n")) L.push(line);
+    L.push("```");
+    L.push("");
+  }
+
   // Findings
   L.push("## Findings");
   L.push("");

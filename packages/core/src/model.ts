@@ -10,7 +10,7 @@ export type DriverCat = "A" | "B" | "C" | "D" | "E" | "F";
 
 export type Confidence = "confirmed" | "hypothesis";
 
-export type ResourceKind = "project" | "cloud" | "db" | "table" | "cron_job" | "edge_fn" | "bucket" | "realtime" | "ai_config" | "rls_policy" | "secret";
+export type ResourceKind = "project" | "cloud" | "db" | "table" | "cron_job" | "edge_fn" | "bucket" | "realtime" | "ai_config" | "rls_policy" | "secret" | "trigger";
 
 /** Something that exists in the project. */
 export interface Resource {
@@ -87,6 +87,11 @@ export interface ImportedAction {
   source?: string;
 }
 
+export interface ProjectIntent {
+  source: string;
+  body: string;
+}
+
 export interface ReconResult {
   project: ProjectMeta;
   resources: Resource[];
@@ -95,6 +100,7 @@ export interface ReconResult {
   score: RiskScore;
   warnings: string[];
   importedActions: ImportedAction[];
+  intent?: ProjectIntent;
   /** false when collection was a stub and no real assessment happened. */
   assessed: boolean;
 }

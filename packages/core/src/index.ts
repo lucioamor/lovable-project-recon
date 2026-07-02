@@ -55,6 +55,7 @@ export async function runRecon(mode: Mode, opts: CollectOptions, rules: Rule[]):
     score,
     warnings: collected.warnings,
     importedActions: collected.importedActions ?? [],
+    intent: collected.intent ?? opts.intent,
     assessed,
   };
 }

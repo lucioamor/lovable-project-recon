@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buildContext, type Collected } from "@nxlv-ai/lovable-core";
-import { pol1CronHygiene, pol3FetchDefaults, pol4AiCost, pol5RlsTenancy, pol6Secrets } from "@nxlv-ai/lovable-profile-cost";
+import { pol1CronHygiene, pol3FetchDefaults, pol4AiCost, pol5RlsTenancy, pol6Secrets, pol7WriteAmplification, pol8Observability } from "@nxlv-ai/lovable-profile-cost";
 
 const NOW = "2026-07-01T00:00:00.000Z";
 
@@ -102,5 +102,72 @@ describe("POL-6 secrets — case/spacing tolerant", () => {
     expect(f).toHaveLength(1);
     expect(f[0]!.title).toContain("in-source credential shape");
     expect(JSON.stringify(f[0])).not.toContain("SERVICE_ROLE_KEY=");
+  });
+});
+
+describe("POL-7 write amplification", () => {
+  it("flags trigger fan-out to another table", () => {
+    const ctx = buildContext(
+      collected([
+        {
+          id: "trigger:orders.notify",
+          kind: "trigger",
+          name: "orders.notify",
+          attrs: { table: "orders", functionDef: "BEGIN INSERT INTO notifications(order_id) VALUES (NEW.id); RETURN NEW; END;" },
+        },
+      ]),
+    );
+
+    const f = pol7WriteAmplification.evaluate(ctx);
+    expect(f).toHaveLength(1);
+    expect(f[0]!.policy).toBe("POL-7");
+  });
+
+  it("does not flag updated_at-only housekeeping triggers", () => {
+    const ctx = buildContext(
+      collected([
+        {
+          id: "trigger:orders.touch",
+          kind: "trigger",
+          name: "orders.touch",
+          attrs: { table: "orders", functionDef: "BEGIN NEW.updated_at = now(); RETURN NEW; END;" },
+        },
+      ]),
+    );
+
+    expect(pol7WriteAmplification.evaluate(ctx)).toHaveLength(0);
+  });
+
+  it("flags a high update/insert ratio from table stats", () => {
+    const ctx = buildContext(collected([{ id: "table:jobs", kind: "table", name: "jobs", attrs: { nTupIns: 100, nTupUpd: 2000 } }]));
+
+    const f = pol7WriteAmplification.evaluate(ctx);
+    expect(f).toHaveLength(1);
+    expect(f[0]!.id).toContain("update-ratio");
+  });
+});
+
+describe("POL-8 observability", () => {
+  it("flags static AI call sites when no ledger table exists", () => {
+    const ctx = buildContext(
+      collected([{ id: "project", kind: "project", name: "p", attrs: {} }], {
+        static: { modelIds: [{ file: "src/ai.ts", model: "google/gemini-2.5-flash-preview" }] },
+      }),
+    );
+
+    const f = pol8Observability.evaluate(ctx);
+    expect(f).toHaveLength(1);
+    expect(f[0]!.title).toContain("AI call sites");
+  });
+
+  it("does not flag AI when a ledger table exists", () => {
+    const ctx = buildContext(
+      collected([
+        { id: "ai_config", kind: "ai_config", name: "ai_config", attrs: { model: "gemini" } },
+        { id: "table:ai_usage_logs", kind: "table", name: "ai_usage_logs", attrs: {} },
+      ]),
+    );
+
+    expect(pol8Observability.evaluate(ctx)).toHaveLength(0);
   });
 });

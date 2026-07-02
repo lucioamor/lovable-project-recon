@@ -36,6 +36,20 @@ export const AUDIT_QUERIES: AuditQuery[] = [
           ORDER BY pg_total_relation_size(c.oid) DESC LIMIT 30`,
   },
   {
+    name: "triggers",
+    needs: "public",
+    sql: `SELECT n.nspname AS schemaname,
+                 c.relname AS table_name,
+                 t.tgname AS trigger_name,
+                 pg_get_triggerdef(t.oid) AS trigger_def,
+                 pg_get_functiondef(t.tgfoid) AS function_def
+          FROM pg_trigger t
+          JOIN pg_class c ON c.oid = t.tgrelid
+          JOIN pg_namespace n ON n.oid = c.relnamespace
+          WHERE NOT t.tgisinternal AND n.nspname = 'public'
+          ORDER BY c.relname, t.tgname`,
+  },
+  {
     name: "cron_jobs",
     needs: "cron",
     sql: `SELECT jobid, jobname, schedule, active, command FROM cron.job ORDER BY jobid`,

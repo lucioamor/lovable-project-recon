@@ -49,6 +49,7 @@ export async function collectDb(opts: CollectOptions): Promise<Collected> {
   const cronRunDetails = rowsOf(raw["cron_run_details"]);
   const httpResponses = rowsOf(raw["http_responses"]);
   const tableStats = rowsOf(raw["table_stats"]);
+  const triggers = rowsOf(raw["triggers"]);
   const policies = rowsOf(raw["rls_policies"]);
   const aiCfg = rowsOf(raw["ai_config"]);
 
@@ -158,6 +159,22 @@ export async function collectDb(opts: CollectOptions): Promise<Collected> {
       kind: "ai_config",
       name: "ai_config",
       attrs: { model: aiCfg[0]["model"], maxCostUsd: aiCfg[0]["max_cost_usd"] ?? null },
+    });
+  }
+
+  for (const t of triggers) {
+    const table = str(t["table_name"]);
+    const name = str(t["trigger_name"]);
+    if (!table || !name) continue;
+    resources.push({
+      id: `trigger:${table}.${name}`,
+      kind: "trigger",
+      name: `${table}.${name}`,
+      attrs: {
+        table,
+        triggerDef: str(t["trigger_def"]) ?? "",
+        functionDef: str(t["function_def"]) ?? "",
+      },
     });
   }
 

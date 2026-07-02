@@ -1,4 +1,6 @@
 import { spawnSync } from "node:child_process";
+import { mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -34,5 +36,17 @@ describe("CLI --fail-on", () => {
     expect(res.status).toBe(2);
     expect(res.stdout).toContain('"findings"');
     expect(res.stderr).toContain("--fail-on must be one of");
+  });
+
+  it("renders project intent context from --intent", () => {
+    const dir = mkdtempSync(join(tmpdir(), "recon-intent-"));
+    const intent = join(dir, "intent.md");
+    writeFileSync(intent, "Keep telegram disabled unless a user reconnects it.");
+
+    const res = runCli(["scan", "--mode", "demo", "--intent", intent]);
+
+    expect(res.status).toBe(0);
+    expect(res.stdout).toContain("## Project intent");
+    expect(res.stdout).toContain("Keep telegram disabled");
   });
 });

@@ -50,6 +50,12 @@ CI callers can fail a job when findings meet a severity threshold:
 recon scan --mode evidence --evidence corpus/central-genial.evidence.json --fail-on high
 ```
 
+You can attach deterministic project context without invoking any AI judgment:
+
+```bash
+recon scan --mode demo --intent ./ROADMAP.md
+```
+
 ## Scan a real project (`db` mode, read-only)
 
 ```bash

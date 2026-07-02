@@ -1,32 +1,35 @@
 import type { Finding, Rule, RuleContext } from "@nxlv-ai/lovable-core";
 
-const LEDGER_RX = /(usage_ledger|ai_usage|llm_usage|event_log|pipeline_logs|usage_logs)/i;
+const LEDGER_RX = /(usage_ledger|ai_usage|llm_usage|ai_usage_logs|event_log|pipeline_logs|usage_logs)/i;
 
-// POL-8 — Cost observability & attribution. If AI is configured but there is no usage ledger
-// table, cost cannot be attributed retroactively (the gateway 7-day log gives false zeros).
+// POL-8: Cost observability & attribution.
 export const pol8Observability: Rule = {
   id: "POL-8",
   policy: "Cost observability & attribution",
   evaluate(ctx: RuleContext): Finding[] {
     const ai = ctx.resourceById("ai_config");
-    if (!ai) return [];
+    const staticAiSites = ctx.raw<{ modelIds?: Array<{ file: string; model: string }> }>("static")?.modelIds ?? [];
+    if (!ai && staticAiSites.length === 0) return [];
+
     const hasLedger = ctx.resourcesByKind("table").some((t) => LEDGER_RX.test(t.name));
     if (hasLedger) return [];
+
+    const source = staticAiSites.length ? "rg" : "sql";
+    const detail = staticAiSites.length ? `${staticAiSites.length} AI model call-site(s) seen in source, but no usage ledger table found` : "AI configured but no usage ledger table found";
 
     return [
       {
         id: "POL-8:no-ledger",
         policy: "POL-8",
         driverCat: null,
-        title: "AI configured but no usage ledger table found",
+        title: staticAiSites.length ? "AI call sites found but no usage ledger table found" : "AI configured but no usage ledger table found",
         severity: "medium",
         confidence: "hypothesis",
-        resourceId: ai.id,
+        resourceId: ai?.id ?? "project",
         rationale:
           "Without a per-call ledger (tokens/model/provider/outcome) written by every AI/TTS/STT call site, " +
-          "spend cannot be attributed — and the AI Gateway request log has short retention, so an empty 7-day " +
-          "window is 'blind', not 'zero'.",
-        evidence: [{ source: "sql", detail: "no table matching usage_ledger/ai_usage/event_log in public schema" }],
+          "spend cannot be attributed, and the AI Gateway request log has short retention, so an empty 7-day window is blind, not zero.",
+        evidence: [{ source, detail }, ...(staticAiSites.length ? [{ source: "rg" as const, detail: `example model ${staticAiSites[0]!.model} at ${staticAiSites[0]!.file}` }] : [])],
         remediation: [
           {
             kind: "manual",
