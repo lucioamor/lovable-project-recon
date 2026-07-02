@@ -392,13 +392,13 @@
         {
           "file": "lovable-for-schools_USAGE_REPORT.md",
           "sha256": "78245752301fca09022359a9cbb58639022ca82f69f119de0c61bdc36e500031",
-          "title": "lovable-for-schools-real-time-tracker ? USAGE REPORT",
+          "title": "lovable-for-schools-real-time-tracker - USAGE REPORT",
           "lineCount": 324,
           "headingCount": 23,
           "headings": [
             {
               "level": 1,
-              "title": "lovable-for-schools-real-time-tracker ? USAGE REPORT"
+              "title": "lovable-for-schools-real-time-tracker - USAGE REPORT"
             },
             {
               "level": 2,
@@ -406,15 +406,15 @@
             },
             {
               "level": 2,
-              "title": "1. CONFIRMED EVIDENCE ? PRIMARY DRIVERS"
+              "title": "1. CONFIRMED EVIDENCE - PRIMARY DRIVERS"
             },
             {
               "level": 3,
-              "title": "1.1 `process-incremental-milestones` ? Every-Minute Cron (ACTIVE, IDLE-LOOPING)"
+              "title": "1.1 `process-incremental-milestones` - Every-Minute Cron (ACTIVE, IDLE-LOOPING)"
             },
             {
               "level": 3,
-              "title": "1.2 `run-due-targets` ? Every-5-Minute Cron (ACTIVE, DEADLINE-GATED, STILL LOGGING)"
+              "title": "1.2 `run-due-targets` - Every-5-Minute Cron (ACTIVE, DEADLINE-GATED, STILL LOGGING)"
             },
             {
               "level": 3,
@@ -422,15 +422,15 @@
             },
             {
               "level": 2,
-              "title": "2. CONFIRMED EVIDENCE ? SECONDARY ISSUES"
+              "title": "2. CONFIRMED EVIDENCE - SECONDARY ISSUES"
             },
             {
               "level": 3,
-              "title": "2.1 `cron_logs` ? Unbounded Growth, No Retention Policy"
+              "title": "2.1 `cron_logs` - Unbounded Growth, No Retention Policy"
             },
             {
               "level": 3,
-              "title": "2.2 `snapshots.source_html` ? Raw HTML Stored in Postgres"
+              "title": "2.2 `snapshots.source_html` - Raw HTML Stored in Postgres"
             },
             {
               "level": 3,
@@ -438,7 +438,7 @@
             },
             {
               "level": 2,
-              "title": "3. CONFIRMED EVIDENCE ? RLS / SECURITY ISSUES"
+              "title": "3. CONFIRMED EVIDENCE - RLS / SECURITY ISSUES"
             },
             {
               "level": 3,

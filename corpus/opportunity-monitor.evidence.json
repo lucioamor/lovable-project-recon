@@ -388,17 +388,17 @@
         {
           "file": "Opportunity_Monitor_USAGE_REPORT.md",
           "sha256": "01ffe7965cef39a3d6eda94737834c886513b7c325c7bd1942007cf6f25a8f24",
-          "title": "Opportunity Monitor ? Usage Audit Report",
+          "title": "Opportunity Monitor - Usage Audit Report",
           "lineCount": 260,
           "headingCount": 27,
           "headings": [
             {
               "level": 1,
-              "title": "Opportunity Monitor ? Usage Audit Report"
+              "title": "Opportunity Monitor - Usage Audit Report"
             },
             {
               "level": 2,
-              "title": "TL;DR ? Salient Causes"
+              "title": "TL;DR - Salient Causes"
             },
             {
               "level": 2,
@@ -434,7 +434,7 @@
             },
             {
               "level": 3,
-              "title": "2.1 Critical ? `reveal-service-key`"
+              "title": "2.1 Critical - `reveal-service-key`"
             },
             {
               "level": 3,
@@ -458,7 +458,7 @@
             },
             {
               "level": 2,
-              "title": "6. Recent Activity Window ? Contradicts \"daily burn\""
+              "title": "6. Recent Activity Window - Contradicts \"daily burn\""
             },
             {
               "level": 2,
@@ -478,7 +478,7 @@
             },
             {
               "level": 2,
-              "title": "9. Appendix ? Raw Evidence"
+              "title": "9. Appendix - Raw Evidence"
             },
             {
               "level": 3,

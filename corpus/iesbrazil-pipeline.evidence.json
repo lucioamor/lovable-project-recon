@@ -303,17 +303,17 @@
         {
           "file": "IesBrazil_Pipeline_USAGE_REPORT.md",
           "sha256": "cfa25a3f225876e9c4cd5480a5171dc373174d6c43ec928cabb26608d84a3a66",
-          "title": "IesBrazil Pipeline ? Lovable/Supabase Usage Audit Report",
+          "title": "IesBrazil Pipeline - Lovable/Supabase Usage Audit Report",
           "lineCount": 347,
           "headingCount": 23,
           "headings": [
             {
               "level": 1,
-              "title": "IesBrazil Pipeline ? Lovable/Supabase Usage Audit Report"
+              "title": "IesBrazil Pipeline - Lovable/Supabase Usage Audit Report"
             },
             {
               "level": 2,
-              "title": "1. TL;DR ? Suspected drivers of daily credit burn"
+              "title": "1. TL;DR - Suspected drivers of daily credit burn"
             },
             {
               "level": 2,
@@ -337,7 +337,7 @@
             },
             {
               "level": 3,
-              "title": "3.1 Global dock ? `BatchTrackerProvider` (mounted at `_authenticated` layout)"
+              "title": "3.1 Global dock - `BatchTrackerProvider` (mounted at `_authenticated` layout)"
             },
             {
               "level": 3,
@@ -353,11 +353,11 @@
             },
             {
               "level": 3,
-              "title": "4.1 `db_admin_log` ? unbounded"
+              "title": "4.1 `db_admin_log` - unbounded"
             },
             {
               "level": 3,
-              "title": "4.2 `firecrawl_relay_log` ? small but unbounded"
+              "title": "4.2 `firecrawl_relay_log` - small but unbounded"
             },
             {
               "level": 3,
@@ -397,7 +397,7 @@
             },
             {
               "level": 2,
-              "title": "11. Appendix ? files inspected"
+              "title": "11. Appendix - files inspected"
             }
           ]
         }

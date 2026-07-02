@@ -316,13 +316,13 @@
         {
           "file": "Lucio_Amorim_USAGE_REPORT.md",
           "sha256": "0604372fb2b3204825c45dbfe478585e6457fc007dd7fb695dc565fbdb7c435e",
-          "title": "Lucio Amorim ? Project Usage Audit",
+          "title": "Lucio Amorim - Project Usage Audit",
           "lineCount": 198,
           "headingCount": 28,
           "headings": [
             {
               "level": 1,
-              "title": "Lucio Amorim ? Project Usage Audit"
+              "title": "Lucio Amorim - Project Usage Audit"
             },
             {
               "level": 2,
@@ -370,7 +370,7 @@
             },
             {
               "level": 3,
-              "title": "2.10 Linter (Supabase advisor) ? 7 WARN"
+              "title": "2.10 Linter (Supabase advisor) - 7 WARN"
             },
             {
               "level": 3,
@@ -390,19 +390,19 @@
             },
             {
               "level": 3,
-              "title": "H1 ? Loader fan-out is the dominant Cloud-credit driver"
+              "title": "H1 - Loader fan-out is the dominant Cloud-credit driver"
             },
             {
               "level": 3,
-              "title": "H2 ? Empty `site_settings` forces theme fallback path"
+              "title": "H2 - Empty `site_settings` forces theme fallback path"
             },
             {
               "level": 3,
-              "title": "H3 ? Anon writable `email_submissions` is unrate-limited"
+              "title": "H3 - Anon writable `email_submissions` is unrate-limited"
             },
             {
               "level": 3,
-              "title": "H4 ? 73,653 rolled-back transactions"
+              "title": "H4 - 73,653 rolled-back transactions"
             },
             {
               "level": 2,

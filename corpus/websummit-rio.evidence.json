@@ -342,17 +342,17 @@
         {
           "file": "Websummit_Rio_USAGE_REPORT.md",
           "sha256": "28aac43bc37812b0343d7bcce39e8d6f487924994407a943bc3e04fa69a92dcf",
-          "title": "Websummit Rio ? Lovable/Supabase Usage Audit",
+          "title": "Websummit Rio - Lovable/Supabase Usage Audit",
           "lineCount": 318,
           "headingCount": 29,
           "headings": [
             {
               "level": 1,
-              "title": "Websummit Rio ? Lovable/Supabase Usage Audit"
+              "title": "Websummit Rio - Lovable/Supabase Usage Audit"
             },
             {
               "level": 2,
-              "title": "0. TL;DR ? Salient cost drivers (confirmed)"
+              "title": "0. TL;DR - Salient cost drivers (confirmed)"
             },
             {
               "level": 2,
@@ -376,7 +376,7 @@
             },
             {
               "level": 3,
-              "title": "2.1 `on_new_member_notify` trigger ? fan-out on every onboarding completion"
+              "title": "2.1 `on_new_member_notify` trigger - fan-out on every onboarding completion"
             },
             {
               "level": 3,

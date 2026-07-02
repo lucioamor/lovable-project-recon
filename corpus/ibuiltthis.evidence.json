@@ -431,41 +431,41 @@
         {
           "file": "ibuiltthis_USAGE_REPORT.md",
           "sha256": "0f0e9205485fa298cd8ea0e5269e0ff484f2cdcc6c27b21f613d27b81818f4b0",
-          "title": "ibuiltthis ? Usage Audit Report",
+          "title": "ibuiltthis - Usage Audit Report",
           "lineCount": 241,
           "headingCount": 16,
           "headings": [
             {
               "level": 1,
-              "title": "ibuiltthis ? Usage Audit Report"
+              "title": "ibuiltthis - Usage Audit Report"
             },
             {
               "level": 2,
-              "title": "TL;DR ? Top causes of daily burn"
+              "title": "TL;DR - Top causes of daily burn"
             },
             {
               "level": 2,
-              "title": "1. Database ? schema, sizes, hot tables"
+              "title": "1. Database - schema, sizes, hot tables"
             },
             {
               "level": 2,
-              "title": "2. pg_stat_statements ? top time consumers (confirmed)"
+              "title": "2. pg_stat_statements - top time consumers (confirmed)"
             },
             {
               "level": 2,
-              "title": "3. Realtime ? publication and decoder cost"
+              "title": "3. Realtime - publication and decoder cost"
             },
             {
               "level": 2,
-              "title": "4. Cron jobs ? confirmed schedule"
+              "title": "4. Cron jobs - confirmed schedule"
             },
             {
               "level": 2,
-              "title": "5. Edge Functions ? inventory"
+              "title": "5. Edge Functions - inventory"
             },
             {
               "level": 2,
-              "title": "6. Storage ? assets bucket breakdown"
+              "title": "6. Storage - assets bucket breakdown"
             },
             {
               "level": 2,
@@ -485,19 +485,19 @@
             },
             {
               "level": 2,
-              "title": "Appendix A ? Active cron commands (verbatim)"
+              "title": "Appendix A - Active cron commands (verbatim)"
             },
             {
               "level": 2,
-              "title": "Appendix B ? Realtime publication tables"
+              "title": "Appendix B - Realtime publication tables"
             },
             {
               "level": 2,
-              "title": "Appendix C ? Generation log activity (last 12 active days)"
+              "title": "Appendix C - Generation log activity (last 12 active days)"
             },
             {
               "level": 2,
-              "title": "Appendix D ? Methodology"
+              "title": "Appendix D - Methodology"
             }
           ]
         }

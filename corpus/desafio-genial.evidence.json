@@ -189,13 +189,13 @@
         {
           "file": "desafio-genial_USAGE_REPORT.md",
           "sha256": "7b151a1c4e4ab16eed82ceec7d35ad277fd795d386174a39727175a42f0c1385",
-          "title": "Relatorio de Auditoria de Uso ? Paginas Publicas e CTAs",
+          "title": "Relatorio de Auditoria de Uso - Paginas Publicas e CTAs",
           "lineCount": 105,
           "headingCount": 11,
           "headings": [
             {
               "level": 1,
-              "title": "Relatorio de Auditoria de Uso ? Paginas Publicas e CTAs"
+              "title": "Relatorio de Auditoria de Uso - Paginas Publicas e CTAs"
             },
             {
               "level": 2,
@@ -211,23 +211,23 @@
             },
             {
               "level": 3,
-              "title": "3.1 `/comunidade-previdenciaria` ? Comunidade ? Escritorio Genial"
+              "title": "3.1 `/comunidade-previdenciaria` - Comunidade - Escritorio Genial"
             },
             {
               "level": 3,
-              "title": "3.2 `/software-previdenciario` ? Software Previdenciario ? Migracao"
+              "title": "3.2 `/software-previdenciario` - Software Previdenciario - Migracao"
             },
             {
               "level": 3,
-              "title": "3.3 `/custo-invisivel-previdenciario` ? Custo Invisivel"
+              "title": "3.3 `/custo-invisivel-previdenciario` - Custo Invisivel"
             },
             {
               "level": 3,
-              "title": "3.4 `/previdenciarista-ficando-para-tras` ? Ficando Para Tras (VSL)"
+              "title": "3.4 `/previdenciarista-ficando-para-tras` - Ficando Para Tras (VSL)"
             },
             {
               "level": 3,
-              "title": "3.5 `/onboarding` ? Onboarding Pos-compra"
+              "title": "3.5 `/onboarding` - Onboarding Pos-compra"
             },
             {
               "level": 2,

@@ -339,35 +339,35 @@
             },
             {
               "level": 3,
-              "title": "?? R1 ? Always-on Telegram polling"
+              "title": "R1 - Always-on Telegram polling"
             },
             {
               "level": 3,
-              "title": "?? R2 ? `sync-external-sources` on idle account"
+              "title": "R2 - `sync-external-sources` on idle account"
             },
             {
               "level": 3,
-              "title": "?? R3 ? `telegram-digest` daily/weekly executive digest"
+              "title": "R3 - `telegram-digest` daily/weekly executive digest"
             },
             {
               "level": 3,
-              "title": "?? R4 ? Triple-LLM ingestion pipeline per item"
+              "title": "R4 - Triple-LLM ingestion pipeline per item"
             },
             {
               "level": 3,
-              "title": "?? R5 ? Public-internet edge function with custom API-key auth: `deal-api`"
+              "title": "R5 - Public-internet edge function with custom API-key auth: `deal-api`"
             },
             {
               "level": 3,
-              "title": "?? R6 ? Realtime subscription fanout"
+              "title": "R6 - Realtime subscription fanout"
             },
             {
               "level": 3,
-              "title": "?? R7 ? `pg_net` + `pg_cron` enabled"
+              "title": "R7 - `pg_net` + `pg_cron` enabled"
             },
             {
               "level": 3,
-              "title": "?? R8 ? `score`/`win_probability` recalculated on every event insert AND every deal update"
+              "title": "R8 - `score`/`win_probability` recalculated on every event insert AND every deal update"
             },
             {
               "level": 2,

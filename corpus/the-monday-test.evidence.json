@@ -330,17 +330,17 @@
         {
           "file": "The_Monday_Test_USAGE_REPORT.md",
           "sha256": "532c7ca871a41f03ecdf012883ffbe0158391c7a3191fa6e2cc5ef95f5a53877",
-          "title": "The Monday Test ? Usage / Credit-Burn Audit",
+          "title": "The Monday Test - Usage / Credit-Burn Audit",
           "lineCount": 193,
           "headingCount": 20,
           "headings": [
             {
               "level": 1,
-              "title": "The Monday Test ? Usage / Credit-Burn Audit"
+              "title": "The Monday Test - Usage / Credit-Burn Audit"
             },
             {
               "level": 2,
-              "title": "TL;DR ? primary suspected cause"
+              "title": "TL;DR - primary suspected cause"
             },
             {
               "level": 2,
@@ -384,23 +384,23 @@
             },
             {
               "level": 3,
-              "title": "H1 ? Re-generation loop on the broken row (high)"
+              "title": "H1 - Re-generation loop on the broken row (high)"
             },
             {
               "level": 3,
-              "title": "H2 ? `gemini-3.1-pro-preview` does not exist in the Lovable AI Gateway model registry (medium)"
+              "title": "H2 - `gemini-3.1-pro-preview` does not exist in the Lovable AI Gateway model registry (medium)"
             },
             {
               "level": 3,
-              "title": "H3 ? Anon UPDATE policy enables external wipes (medium)"
+              "title": "H3 - Anon UPDATE policy enables external wipes (medium)"
             },
             {
               "level": 3,
-              "title": "H4 ? Anon SELECT tautology (low for credits, high for data exposure)"
+              "title": "H4 - Anon SELECT tautology (low for credits, high for data exposure)"
             },
             {
               "level": 3,
-              "title": "H5 ? `report_json` merging hides cumulative growth (low)"
+              "title": "H5 - `report_json` merging hides cumulative growth (low)"
             },
             {
               "level": 2,

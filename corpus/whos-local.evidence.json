@@ -378,17 +378,17 @@
         {
           "file": "Whos_Local_USAGE_REPORT.md",
           "sha256": "a56e660fe35caa72dcffaedff79f13590714b98fbd13a6e4a7df92e172058bf7",
-          "title": "Whos Local ? Usage & Credit Burn Audit",
+          "title": "Whos Local - Usage & Credit Burn Audit",
           "lineCount": 273,
           "headingCount": 28,
           "headings": [
             {
               "level": 1,
-              "title": "Whos Local ? Usage & Credit Burn Audit"
+              "title": "Whos Local - Usage & Credit Burn Audit"
             },
             {
               "level": 2,
-              "title": "TL;DR ? Salient causes of abnormal usage"
+              "title": "TL;DR - Salient causes of abnormal usage"
             },
             {
               "level": 2,
@@ -416,7 +416,7 @@
             },
             {
               "level": 3,
-              "title": "Latent cost ? what happens the day the URL is fixed"
+              "title": "Latent cost - what happens the day the URL is fixed"
             },
             {
               "level": 2,

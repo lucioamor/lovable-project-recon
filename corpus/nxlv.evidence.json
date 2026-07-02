@@ -264,13 +264,13 @@
         {
           "file": "nxlv_USAGE_REPORT.md",
           "sha256": "c4adf05480c2878a4bbfdac52aab225eca457d79669155e76e0bdf09ef0c97db",
-          "title": "NXLV ? Lovable/Supabase Project Usage Audit",
+          "title": "NXLV - Lovable/Supabase Project Usage Audit",
           "lineCount": 195,
           "headingCount": 23,
           "headings": [
             {
               "level": 1,
-              "title": "NXLV ? Lovable/Supabase Project Usage Audit"
+              "title": "NXLV - Lovable/Supabase Project Usage Audit"
             },
             {
               "level": 2,
@@ -286,7 +286,7 @@
             },
             {
               "level": 2,
-              "title": "2. Database ? confirmed evidence"
+              "title": "2. Database - confirmed evidence"
             },
             {
               "level": 3,
@@ -322,7 +322,7 @@
             },
             {
               "level": 2,
-              "title": "3. Edge Functions ? confirmed evidence"
+              "title": "3. Edge Functions - confirmed evidence"
             },
             {
               "level": 3,
@@ -334,19 +334,19 @@
             },
             {
               "level": 2,
-              "title": "4. Storage ? confirmed evidence"
+              "title": "4. Storage - confirmed evidence"
             },
             {
               "level": 2,
-              "title": "5. Auth / Realtime ? confirmed evidence"
+              "title": "5. Auth / Realtime - confirmed evidence"
             },
             {
               "level": 2,
-              "title": "6. Client-side runtime patterns ? confirmed evidence"
+              "title": "6. Client-side runtime patterns - confirmed evidence"
             },
             {
               "level": 2,
-              "title": "7. Logs ? confirmed evidence"
+              "title": "7. Logs - confirmed evidence"
             },
             {
               "level": 2,

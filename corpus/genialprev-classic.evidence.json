@@ -281,13 +281,13 @@
         {
           "file": "GenialPrev_Classic_USAGE_REPORT.md",
           "sha256": "5bb0bb396f3281e82111165f5f27478e93ed39b3b9b32706a5d6f222579a7427",
-          "title": "GenialPrev Classic ? Usage / Credit-Burn Audit",
+          "title": "GenialPrev Classic - Usage / Credit-Burn Audit",
           "lineCount": 122,
           "headingCount": 15,
           "headings": [
             {
               "level": 1,
-              "title": "GenialPrev Classic ? Usage / Credit-Burn Audit"
+              "title": "GenialPrev Classic - Usage / Credit-Burn Audit"
             },
             {
               "level": 2,
@@ -343,7 +343,7 @@
             },
             {
               "level": 2,
-              "title": "5. Appendix ? raw counts used above"
+              "title": "5. Appendix - raw counts used above"
             }
           ]
         }

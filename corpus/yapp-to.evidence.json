@@ -352,13 +352,13 @@
         {
           "file": "yapp-to_USAGE_REPORT.md",
           "sha256": "d5332fb5c7f040f9c516d8e705efb3b5b693dd84a36f71aee33c76ccdb4cad10",
-          "title": "YAPP ? Lovable Cloud & LLM Usage Audit Report",
+          "title": "YAPP - Lovable Cloud & LLM Usage Audit Report",
           "lineCount": 207,
           "headingCount": 22,
           "headings": [
             {
               "level": 1,
-              "title": "YAPP ? Lovable Cloud & LLM Usage Audit Report"
+              "title": "YAPP - Lovable Cloud & LLM Usage Audit Report"
             },
             {
               "level": 2,
@@ -366,7 +366,7 @@
             },
             {
               "level": 2,
-              "title": "2. Live snapshot ? 2026-06-30"
+              "title": "2. Live snapshot - 2026-06-30"
             },
             {
               "level": 3,

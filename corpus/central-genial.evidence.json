@@ -224,21 +224,21 @@
         {
           "file": "central-genial_USAGE_REPORT.md",
           "sha256": "3a45b18b38345af9389a58cdb4b93cb31e27fbed7945f39fb8512560f26a3961",
-          "title": "Central Genial ? Usage Audit Report",
+          "title": "Central Genial - Usage Audit Report",
           "lineCount": 200,
           "headingCount": 24,
           "headings": [
             {
               "level": 1,
-              "title": "Central Genial ? Usage Audit Report"
+              "title": "Central Genial - Usage Audit Report"
             },
             {
               "level": 2,
-              "title": "?? PRIMARY CONFIRMED CAUSE: PERPETUAL TELEGRAM POLL CRON JOB"
+              "title": "PRIMARY CONFIRMED CAUSE: PERPETUAL TELEGRAM POLL CRON JOB"
             },
             {
               "level": 3,
-              "title": "cron.job ? 5 active jobs (confirmed)"
+              "title": "cron.job - 5 active jobs (confirmed)"
             },
             {
               "level": 3,
@@ -254,7 +254,7 @@
             },
             {
               "level": 3,
-              "title": "telegram-poll/index.ts ? confirmed long-poll design"
+              "title": "telegram-poll/index.ts - confirmed long-poll design"
             },
             {
               "level": 3,
@@ -270,7 +270,7 @@
             },
             {
               "level": 2,
-              "title": "DATABASE SCHEMA ? public tables (27 total)"
+              "title": "DATABASE SCHEMA - public tables (27 total)"
             },
             {
               "level": 3,
@@ -314,11 +314,11 @@
             },
             {
               "level": 3,
-              "title": "? CONFIRMED"
+              "title": "CONFIRMED"
             },
             {
               "level": 3,
-              "title": "?? HYPOTHESES (plausible, not directly confirmed)"
+              "title": "HYPOTHESES (plausible, not directly confirmed)"
             },
             {
               "level": 2,

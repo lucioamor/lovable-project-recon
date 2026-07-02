@@ -8,10 +8,13 @@ const corpusDir = args.corpus ?? "corpus";
 const reportsDir = args.reports ?? "usage-reports";
 const reviewedAt = args.reviewedAt ?? "2026-07-02";
 
+const checkOnly = args.check === "true";
 let reviewed = 0;
+let stale = [];
 for (const file of readdirSync(corpusDir).filter((name) => name.endsWith(".evidence.json")).sort()) {
   const path = join(corpusDir, file);
-  const evidence = JSON.parse(readFileSync(path, "utf8"));
+  const original = readFileSync(path, "utf8");
+  const evidence = JSON.parse(original);
   const reportFiles = sourceReportsFor(evidence);
   if (reportFiles.length === 0) throw new Error(`${file}: no source report recorded`);
 
@@ -25,11 +28,26 @@ for (const file of readdirSync(corpusDir).filter((name) => name.endsWith(".evide
   };
   evidence.warnings = (evidence.warnings ?? []).filter((warning) => !/pending hand review/i.test(String(warning)));
 
-  writeFileSync(path, `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
+  const next = `${JSON.stringify(evidence, null, 2)}\n`;
+  if (next === original) continue;
+
+  if (checkOnly) {
+    stale.push(file);
+    continue;
+  }
+  writeFileSync(path, next, "utf8");
   reviewed++;
 }
 
-console.log(`reviewed evidence corpus: ${reviewed} files, reports=${basename(reportsDir)}`);
+if (checkOnly) {
+  if (stale.length > 0) {
+    console.error(`corpus out of date: ${stale.join(", ")}`);
+    process.exit(1);
+  }
+  console.log(`corpus review check: up to date, reports=${basename(reportsDir)}`);
+} else {
+  console.log(`reviewed evidence corpus: ${reviewed} files changed, reports=${basename(reportsDir)}`);
+}
 
 function sourceReportsFor(evidence) {
   const raw = evidence.raw ?? {};
@@ -62,7 +80,11 @@ function ascii(value) {
   return String(value)
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^\x20-\x7E]/g, "?")
+    .replace(/[\u2010-\u2015]/g, "-")
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201c\u201d]/g, '"')
+    .replace(/\u2026/g, "...")
+    .replace(/[^\x20-\x7E]/g, "")
     .replace(/\s+/g, " ")
     .trim();
 }

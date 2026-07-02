@@ -352,21 +352,21 @@
         {
           "file": "ambassador-os_USAGE_REPORT.md",
           "sha256": "3faedf3d90a5d9cddf678dc52fcec1607ebc62d3bbd7bbaedcd60e3d58ab7db9",
-          "title": "Ambassador-OS ? Usage / Credit-Burn Audit Report",
+          "title": "Ambassador-OS - Usage / Credit-Burn Audit Report",
           "lineCount": 260,
           "headingCount": 20,
           "headings": [
             {
               "level": 1,
-              "title": "Ambassador-OS ? Usage / Credit-Burn Audit Report"
+              "title": "Ambassador-OS - Usage / Credit-Burn Audit Report"
             },
             {
               "level": 2,
-              "title": "1. TL;DR ? Most likely sources of daily credit burn"
+              "title": "1. TL;DR - Most likely sources of daily credit burn"
             },
             {
               "level": 2,
-              "title": "2. Scheduled jobs (`pg_cron`) ? confirmed"
+              "title": "2. Scheduled jobs (`pg_cron`) - confirmed"
             },
             {
               "level": 3,
@@ -418,7 +418,7 @@
             },
             {
               "level": 2,
-              "title": "10. Confirmed vs. Hypothesis ? summary matrix"
+              "title": "10. Confirmed vs. Hypothesis - summary matrix"
             },
             {
               "level": 3,
@@ -434,7 +434,7 @@
             },
             {
               "level": 2,
-              "title": "12. Appendix ? exact queries used"
+              "title": "12. Appendix - exact queries used"
             }
           ]
         }
