@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { basename } from "node:path";
 import type { DriverCat, ImportedAction, Observation, Resource } from "../model.ts";
+import type { ProjectEvidence } from "../evidence-schema.ts";
 import { looksLikeLogTable } from "../util.ts";
 import type { Collected, CollectOptions } from "./types.ts";
 
@@ -167,6 +168,45 @@ export function listIndexProjects(indexPath: string): Array<{ id: string; name: 
     if (!id) return [];
     return [{ id, name: str(p.name) ?? id }];
   });
+}
+
+export function indexCollectedToEvidence(collected: Collected, opts: { projectId?: string; indexPath: string; sourceReports?: string[] }): ProjectEvidence {
+  const projectResource = collected.resources.find((resource) => resource.id === "project");
+  const projectId = opts.projectId ?? str(projectResource?.attrs["projectId"]) ?? slug(collected.project.name);
+  const sourceReports = opts.sourceReports ?? [];
+  const evidenceSource = sourceReports[0] ?? basename(opts.indexPath);
+  const rawIndex = collected.raw["index"];
+
+  return {
+    schemaVersion: 1,
+    project: {
+      id: projectId,
+      name: collected.project.name,
+      supabaseRef: collected.project.supabaseRef,
+      stack: collected.project.stack,
+      evidenceGenerated: collected.project.evidenceGenerated ?? collected.project.scannedAt.slice(0, 10),
+      evidenceSource,
+    },
+    resources: collected.resources,
+    observations: collected.observations,
+    importedActions: collected.importedActions ?? [],
+    raw: {
+      sourceIndex: basename(opts.indexPath),
+      sourceReports,
+      conversion: "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+      index: rawIndex,
+    },
+    warnings: ["index-derived corpus seed - structured baseline, pending hand review against source usage report", ...collected.warnings],
+  };
+}
+
+function slug(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 function parseIndex(text: string): IndexFile {

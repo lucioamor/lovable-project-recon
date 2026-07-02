@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "desafio-genial",
+    "name": "desafio-genial (desafiogenial-react)",
+    "stack": "Vite + React",
+    "evidenceGenerated": "2026-06-30",
+    "evidenceSource": "desafio-genial_USAGE_REPORT.md"
+  },
+  "resources": [
+    {
+      "id": "project",
+      "kind": "project",
+      "name": "desafio-genial (desafiogenial-react)",
+      "attrs": {
+        "projectId": "desafio-genial",
+        "driverCategories": [],
+        "indexSeverity": "Low",
+        "primaryDriverConfirmed": null,
+        "policyIds": []
+      }
+    }
+  ],
+  "observations": [],
+  "importedActions": [
+    {
+      "rank": 1,
+      "action": "Validate HTTP members-area URL (genialprev.curseduca.pro)",
+      "severity": "Low",
+      "effort": "XS",
+      "status": "Confirmed",
+      "policy": "None",
+      "source": "lovable_projects_index.json"
+    }
+  ],
+  "raw": {
+    "sourceIndex": "lovable_projects_index.json",
+    "sourceReports": [
+      "desafio-genial_USAGE_REPORT.md"
+    ],
+    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "index": {
+      "sourcePath": "usage-reports/lovable_projects_index.json",
+      "generated": "2026-06-30",
+      "sourceCorpus": "20 usage audits / 18 distinct projects (Go Do It audited twice; desafio-genial is a CTA audit)",
+      "policyCatalog": [
+        {
+          "id": "POL-1",
+          "name": "Scheduled-job (cron) hygiene",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 8,
+          "priority": "P0",
+          "summary": "No sub-15-min pollers; event-driven or sentinel-gated; scheduler-level idle/paused/deadline short-circuit; prod host only; judge health from net._http_response."
+        },
+        {
+          "id": "POL-2",
+          "name": "Log & raw-payload retention",
+          "severity": "High",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "Every log/append table has TTL/partition; no raw HTML/blobs in Postgres; media in Storage with size limit + orphan sweep; snapshots keep latest+changed."
+        },
+        {
+          "id": "POL-3",
+          "name": "Client & Realtime fetch defaults",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 7,
+          "priority": "P1",
+          "summary": "staleTime>=60s, preloadStaleTime>=30s, refetchIntervalInBackground=false, pause on hidden; one auth subscriber + keyed invalidation; minimal per-row Realtime + incremental updates; HTTP cache on SSR loaders."
+        },
+        {
+          "id": "POL-4",
+          "name": "AI cost governance",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 6,
+          "priority": "P0",
+          "summary": "Per-user/day token or USD ceiling + circuit breaker before provider call; ai_config.max_cost_usd non-NULL; pin catalog model IDs; bounded fan-out; idempotent generate functions."
+        },
+        {
+          "id": "POL-5",
+          "name": "RLS & tenancy baseline",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 10,
+          "priority": "P0",
+          "summary": "No USING(true)/tautology on operational tables; no anon UPDATE of unowned rows; rate-limit anon INSERT; revoke EXECUTE from anon on SECURITY DEFINER; no PII via broad SELECT; no dangerouslySetInnerHTML on anon input."
+        },
+        {
+          "id": "POL-6",
+          "name": "Secrets & auth-surface management",
+          "severity": "Critical",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "No JWT in cron.job.command (Vault); no service-role over HTTP; delete debug/reveal fns + rotate; verify_jwt=false fns need explicit gate + rate limit; remove dead secrets."
+        },
+        {
+          "id": "POL-7",
+          "name": "Write-amplification & trigger discipline",
+          "severity": "Medium",
+          "effort": "M",
+          "affected_projects": 4,
+          "priority": "P2",
+          "summary": "Cap notification/aggregate fan-out (digest/queue); batch progress updates; upsert not delete-all+reinsert."
+        },
+        {
+          "id": "POL-8",
+          "name": "Cost observability & attribution",
+          "severity": "High",
+          "effort": "S",
+          "affected_projects": 19,
+          "priority": "P1",
+          "summary": "Per-project usage ledger written by every AI/TTS/STT call site; attribute via credits--get_credit_balance by billable_item/project; gateway 7-day log not authoritative; no NULL cost columns in UI."
+        },
+        {
+          "id": "POL-9",
+          "name": "Idle-project lifecycle",
+          "severity": "Medium",
+          "effort": "S",
+          "affected_projects": 6,
+          "priority": "P1",
+          "summary": "Auto-pause scheduled/background work when no real activity > 30 days; flag idle Cloud instances for pause/consolidation; idle in app tables != not billing."
+        }
+      ],
+      "projectSnapshot": {
+        "id": "desafio-genial",
+        "name": "desafio-genial (desafiogenial-react)",
+        "supabase_ref": null,
+        "stack": "Vite + React",
+        "db_size_mb": null,
+        "public_tables": null,
+        "pg_cron": {
+          "installed": null,
+          "active_jobs": null
+        },
+        "edge_functions": null,
+        "storage": {
+          "buckets": null,
+          "size_mb": null
+        },
+        "realtime": null,
+        "idle": null,
+        "last_activity": null,
+        "severity": "Low",
+        "driver_categories": [],
+        "primary_driver_confirmed": null,
+        "policies": [],
+        "key_metrics": {
+          "report_type": "CTA / checkout-link audit",
+          "ctas": "18 (17 OK, 1 attention)",
+          "note": "outlier - no backend metrics"
+        },
+        "top_actions": [
+          {
+            "rank": 1,
+            "action": "Validate HTTP members-area URL (genialprev.curseduca.pro)",
+            "severity": "Low",
+            "effort": "XS",
+            "status": "Confirmed",
+            "policy": "None"
+          }
+        ]
+      },
+      "keyMetrics": {
+        "report_type": "CTA / checkout-link audit",
+        "ctas": "18 (17 OK, 1 attention)",
+        "note": "outlier - no backend metrics"
+      },
+      "importedActions": [
+        {
+          "rank": 1,
+          "action": "Validate HTTP members-area URL (genialprev.curseduca.pro)",
+          "severity": "Low",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "None",
+          "source": "lovable_projects_index.json"
+        }
+      ]
+    }
+  },
+  "warnings": [
+    "index-derived corpus seed - structured baseline, pending hand review against source usage report",
+    "index: pg_cron.active_jobs is not observed for `desafio-genial` (no note)",
+    "index: storage.buckets is not observed for `desafio-genial`",
+    "index: storage.size_mb is not observed for `desafio-genial`"
+  ]
+}

@@ -65,10 +65,15 @@ Every file must be named `<project-id>.evidence.json` when stored in `corpus/`.
 ## Rules
 
 - `schemaVersion` is required and must be `1`.
-- `project.name` and `project.evidenceGenerated` are required.
-- `resources[]` must use the core `Resource` shape: `id`, `kind`, `name`, `attrs`.
+- `project.name` and `project.evidenceGenerated` are required; `evidenceGenerated` must be
+  `YYYY-MM-DD`.
+- `project.id`, when present, should match the corpus filename and is used as the stable
+  portfolio key.
+- `resources[]` must use the core `Resource` shape: `id`, known `kind`, `name`, `attrs`.
+  Resource ids must be unique.
 - `observations[]` must use the core `Observation` shape: `resourceId`, `metric`, `value`,
-  `measuredAt`.
+  `measuredAt`; `resourceId` must reference an existing resource and `measuredAt` must parse
+  as an ISO date/time.
 - `importedActions[]` are provenance from the original audit and must not be converted into
   findings.
 - Secrets must be shape-only. Never store credential values, bearer tokens, service-role keys, or
@@ -80,9 +85,10 @@ Every file must be named `<project-id>.evidence.json` when stored in `corpus/`.
 Current producers:
 
 - hand-reviewed corpus files in `corpus/*.evidence.json`
+- index-derived seed corpus files generated with `npm run corpus:seed`
 
 Planned producers:
 
-- one-time conversion from heterogeneous usage reports
+- enrichment/review of the index-derived seed corpus against heterogeneous usage reports
 - browser extension export
 - future official Lovable usage API export if available

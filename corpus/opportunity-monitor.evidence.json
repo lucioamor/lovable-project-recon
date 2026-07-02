@@ -1,0 +1,389 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "opportunity-monitor",
+    "name": "Opportunity Monitor",
+    "supabaseRef": "qjptopcdxcjtrmmxkkcn",
+    "stack": "TanStack Start",
+    "evidenceGenerated": "2026-06-30",
+    "evidenceSource": "Opportunity_Monitor_USAGE_REPORT.md"
+  },
+  "resources": [
+    {
+      "id": "cloud",
+      "kind": "cloud",
+      "name": "Lovable Cloud (Supabase)",
+      "attrs": {
+        "status": "active",
+        "ref": "qjptopcdxcjtrmmxkkcn"
+      }
+    },
+    {
+      "id": "project",
+      "kind": "project",
+      "name": "Opportunity Monitor",
+      "attrs": {
+        "projectId": "opportunity-monitor",
+        "tables": 15,
+        "edgeFns": 22,
+        "dbTotalBytes": 132120576,
+        "storageBuckets": 0,
+        "storageSizeMb": 0,
+        "idleState": "yes",
+        "lastActivity": "2026-06-18",
+        "idleDays": 12,
+        "driverCategories": [
+          "C",
+          "E",
+          "D"
+        ],
+        "indexSeverity": "Critical",
+        "primaryDriverConfirmed": true,
+        "policyIds": [
+          "POL-2",
+          "POL-4",
+          "POL-5",
+          "POL-6",
+          "POL-7"
+        ]
+      }
+    },
+    {
+      "id": "table:job_snapshots",
+      "kind": "table",
+      "name": "job_snapshots",
+      "attrs": {
+        "totalBytes": 100663296,
+        "isLog": true,
+        "retention": false,
+        "source": "index"
+      }
+    }
+  ],
+  "observations": [
+    {
+      "resourceId": "project",
+      "metric": "db_size_mb",
+      "value": 126,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "public_tables",
+      "value": 15,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "edge_functions",
+      "value": 22,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_buckets",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_size_mb",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "last_activity_days",
+      "value": 12,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "table:job_snapshots",
+      "metric": "total_bytes",
+      "value": 100663296,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    }
+  ],
+  "importedActions": [
+    {
+      "rank": 1,
+      "action": "Delete reveal-service-key; rotate SERVICE_ROLE_KEY + CRON_SECRET",
+      "severity": "Critical",
+      "effort": "XS",
+      "status": "Confirmed",
+      "policy": "POL-6",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 2,
+      "action": "Fix broken model id in 7 fns -> catalog model; redeploy",
+      "severity": "High",
+      "effort": "S",
+      "status": "Confirmed",
+      "policy": "POL-4",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 3,
+      "action": "Add retention/TTL to job_snapshots (keep latest+changed)",
+      "severity": "High",
+      "effort": "S",
+      "status": "Confirmed",
+      "policy": "POL-2",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 4,
+      "action": "Batch monitoring_runs progress; upsert job_locations",
+      "severity": "Medium",
+      "effort": "M",
+      "status": "Confirmed",
+      "policy": "POL-7",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 5,
+      "action": "Tighten job_snapshots RLS to service_role",
+      "severity": "High",
+      "effort": "S",
+      "status": "Confirmed",
+      "policy": "POL-5",
+      "source": "lovable_projects_index.json"
+    }
+  ],
+  "raw": {
+    "sourceIndex": "lovable_projects_index.json",
+    "sourceReports": [
+      "Opportunity_Monitor_USAGE_REPORT.md"
+    ],
+    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "index": {
+      "sourcePath": "usage-reports/lovable_projects_index.json",
+      "generated": "2026-06-30",
+      "sourceCorpus": "20 usage audits / 18 distinct projects (Go Do It audited twice; desafio-genial is a CTA audit)",
+      "policyCatalog": [
+        {
+          "id": "POL-1",
+          "name": "Scheduled-job (cron) hygiene",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 8,
+          "priority": "P0",
+          "summary": "No sub-15-min pollers; event-driven or sentinel-gated; scheduler-level idle/paused/deadline short-circuit; prod host only; judge health from net._http_response."
+        },
+        {
+          "id": "POL-2",
+          "name": "Log & raw-payload retention",
+          "severity": "High",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "Every log/append table has TTL/partition; no raw HTML/blobs in Postgres; media in Storage with size limit + orphan sweep; snapshots keep latest+changed."
+        },
+        {
+          "id": "POL-3",
+          "name": "Client & Realtime fetch defaults",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 7,
+          "priority": "P1",
+          "summary": "staleTime>=60s, preloadStaleTime>=30s, refetchIntervalInBackground=false, pause on hidden; one auth subscriber + keyed invalidation; minimal per-row Realtime + incremental updates; HTTP cache on SSR loaders."
+        },
+        {
+          "id": "POL-4",
+          "name": "AI cost governance",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 6,
+          "priority": "P0",
+          "summary": "Per-user/day token or USD ceiling + circuit breaker before provider call; ai_config.max_cost_usd non-NULL; pin catalog model IDs; bounded fan-out; idempotent generate functions."
+        },
+        {
+          "id": "POL-5",
+          "name": "RLS & tenancy baseline",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 10,
+          "priority": "P0",
+          "summary": "No USING(true)/tautology on operational tables; no anon UPDATE of unowned rows; rate-limit anon INSERT; revoke EXECUTE from anon on SECURITY DEFINER; no PII via broad SELECT; no dangerouslySetInnerHTML on anon input."
+        },
+        {
+          "id": "POL-6",
+          "name": "Secrets & auth-surface management",
+          "severity": "Critical",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "No JWT in cron.job.command (Vault); no service-role over HTTP; delete debug/reveal fns + rotate; verify_jwt=false fns need explicit gate + rate limit; remove dead secrets."
+        },
+        {
+          "id": "POL-7",
+          "name": "Write-amplification & trigger discipline",
+          "severity": "Medium",
+          "effort": "M",
+          "affected_projects": 4,
+          "priority": "P2",
+          "summary": "Cap notification/aggregate fan-out (digest/queue); batch progress updates; upsert not delete-all+reinsert."
+        },
+        {
+          "id": "POL-8",
+          "name": "Cost observability & attribution",
+          "severity": "High",
+          "effort": "S",
+          "affected_projects": 19,
+          "priority": "P1",
+          "summary": "Per-project usage ledger written by every AI/TTS/STT call site; attribute via credits--get_credit_balance by billable_item/project; gateway 7-day log not authoritative; no NULL cost columns in UI."
+        },
+        {
+          "id": "POL-9",
+          "name": "Idle-project lifecycle",
+          "severity": "Medium",
+          "effort": "S",
+          "affected_projects": 6,
+          "priority": "P1",
+          "summary": "Auto-pause scheduled/background work when no real activity > 30 days; flag idle Cloud instances for pause/consolidation; idle in app tables != not billing."
+        }
+      ],
+      "projectSnapshot": {
+        "id": "opportunity-monitor",
+        "name": "Opportunity Monitor",
+        "supabase_ref": "qjptopcdxcjtrmmxkkcn",
+        "stack": "TanStack Start",
+        "db_size_mb": 126,
+        "public_tables": 15,
+        "pg_cron": {
+          "installed": true,
+          "active_jobs": null,
+          "note": "cron schema unreadable from app role"
+        },
+        "edge_functions": 22,
+        "storage": {
+          "buckets": 0,
+          "size_mb": 0
+        },
+        "realtime": false,
+        "idle": "yes",
+        "last_activity": "2026-06-18",
+        "severity": "Critical",
+        "driver_categories": [
+          "C",
+          "E",
+          "D"
+        ],
+        "primary_driver_confirmed": true,
+        "policies": [
+          "POL-2",
+          "POL-4",
+          "POL-5",
+          "POL-6",
+          "POL-7"
+        ],
+        "key_metrics": {
+          "largest_table": "job_snapshots 96MB (76% of DB)",
+          "broken_model_functions": 7,
+          "index_scans_completed_vs_failed": "96/97",
+          "reveal_service_key_deployed": true
+        },
+        "top_actions": [
+          {
+            "rank": 1,
+            "action": "Delete reveal-service-key; rotate SERVICE_ROLE_KEY + CRON_SECRET",
+            "severity": "Critical",
+            "effort": "XS",
+            "status": "Confirmed",
+            "policy": "POL-6"
+          },
+          {
+            "rank": 2,
+            "action": "Fix broken model id in 7 fns -> catalog model; redeploy",
+            "severity": "High",
+            "effort": "S",
+            "status": "Confirmed",
+            "policy": "POL-4"
+          },
+          {
+            "rank": 3,
+            "action": "Add retention/TTL to job_snapshots (keep latest+changed)",
+            "severity": "High",
+            "effort": "S",
+            "status": "Confirmed",
+            "policy": "POL-2"
+          },
+          {
+            "rank": 4,
+            "action": "Batch monitoring_runs progress; upsert job_locations",
+            "severity": "Medium",
+            "effort": "M",
+            "status": "Confirmed",
+            "policy": "POL-7"
+          },
+          {
+            "rank": 5,
+            "action": "Tighten job_snapshots RLS to service_role",
+            "severity": "High",
+            "effort": "S",
+            "status": "Confirmed",
+            "policy": "POL-5"
+          }
+        ]
+      },
+      "keyMetrics": {
+        "largest_table": "job_snapshots 96MB (76% of DB)",
+        "broken_model_functions": 7,
+        "index_scans_completed_vs_failed": "96/97",
+        "reveal_service_key_deployed": true
+      },
+      "importedActions": [
+        {
+          "rank": 1,
+          "action": "Delete reveal-service-key; rotate SERVICE_ROLE_KEY + CRON_SECRET",
+          "severity": "Critical",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-6",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 2,
+          "action": "Fix broken model id in 7 fns -> catalog model; redeploy",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-4",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 3,
+          "action": "Add retention/TTL to job_snapshots (keep latest+changed)",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-2",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 4,
+          "action": "Batch monitoring_runs progress; upsert job_locations",
+          "severity": "Medium",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-7",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 5,
+          "action": "Tighten job_snapshots RLS to service_role",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-5",
+          "source": "lovable_projects_index.json"
+        }
+      ]
+    }
+  },
+  "warnings": [
+    "index-derived corpus seed - structured baseline, pending hand review against source usage report",
+    "index: pg_cron.active_jobs is not observed for `opportunity-monitor` (cron schema unreadable from app role)"
+  ]
+}

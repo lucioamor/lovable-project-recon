@@ -41,12 +41,21 @@ export function evidenceToCollected(evidence: ProjectEvidence, sourcePath: strin
       evidenceGenerated: generated,
       evidenceSource: evidence.project.evidenceSource ?? sourcePath,
     },
-    resources: evidence.resources,
+    resources: normalizeEvidenceResources(evidence),
     observations: evidence.observations,
     raw: { evidence: { sourcePath, schemaVersion: evidence.schemaVersion, ...(evidence.raw ?? {}) } },
     warnings,
     importedActions: evidence.importedActions ?? [],
   };
+}
+
+function normalizeEvidenceResources(evidence: ProjectEvidence) {
+  if (!evidence.project.id) return evidence.resources;
+  return evidence.resources.map((resource) => {
+    if (resource.id !== "project" && resource.kind !== "project") return resource;
+    if (resource.attrs["projectId"] !== undefined) return resource;
+    return { ...resource, attrs: { ...resource.attrs, projectId: evidence.project.id } };
+  });
 }
 
 function evidenceAgeDays(generated: string, scannedAt: string): number | undefined {

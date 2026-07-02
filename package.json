@@ -24,7 +24,8 @@
     "lint": "eslint packages test",
     "format": "prettier --write \"packages/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"packages/**/*.ts\" \"test/**/*.ts\"",
-    "ci": "npm run build && npm run typecheck && npm run lint && npm run format:check && npm run test"
+    "ci": "npm run build && npm run typecheck && npm run lint && npm run format:check && npm run test",
+    "corpus:seed": "node tools/seed_evidence_corpus.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

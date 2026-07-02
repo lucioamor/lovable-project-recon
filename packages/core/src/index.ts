@@ -11,7 +11,7 @@ export type { Collected, Collector, CollectOptions } from "./collect/types.ts";
 export { collectDemo } from "./collect/demo.ts";
 export { collectDb } from "./collect/db.ts";
 export { collectStatic } from "./collect/static.ts";
-export { collectIndex, listIndexProjects } from "./collect/index-json.ts";
+export { collectIndex, indexCollectedToEvidence, listIndexProjects } from "./collect/index-json.ts";
 export { collectEvidence, evidenceToCollected, listEvidenceFiles, readEvidenceFile } from "./collect/evidence.ts";
 export { collectPortfolio } from "./collect/portfolio.ts";
 export { PROJECT_EVIDENCE_SCHEMA_VERSION, validateProjectEvidence } from "./evidence-schema.ts";

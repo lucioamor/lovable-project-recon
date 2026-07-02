@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "hackathons",
+    "name": "Lovable Hackathons Brasil",
+    "stack": "React 18 + Vite 5",
+    "evidenceGenerated": "2026-06-30",
+    "evidenceSource": "hackathons_USAGE_REPORT.md"
+  },
+  "resources": [
+    {
+      "id": "project",
+      "kind": "project",
+      "name": "Lovable Hackathons Brasil",
+      "attrs": {
+        "projectId": "hackathons",
+        "storageBuckets": 5,
+        "storageSizeMb": 68,
+        "idleState": "no",
+        "lastActivity": "2026-06-20",
+        "idleDays": 10,
+        "driverCategories": [],
+        "indexSeverity": "Low",
+        "primaryDriverConfirmed": null,
+        "policyIds": [
+          "POL-4",
+          "POL-8"
+        ]
+      }
+    },
+    {
+      "id": "bucket:index-1",
+      "kind": "bucket",
+      "name": "storage-1",
+      "attrs": {
+        "source": "index",
+        "sizeMb": 68
+      }
+    },
+    {
+      "id": "bucket:index-2",
+      "kind": "bucket",
+      "name": "storage-2",
+      "attrs": {
+        "source": "index",
+        "sizeMb": 68
+      }
+    },
+    {
+      "id": "bucket:index-3",
+      "kind": "bucket",
+      "name": "storage-3",
+      "attrs": {
+        "source": "index",
+        "sizeMb": 68
+      }
+    },
+    {
+      "id": "bucket:index-4",
+      "kind": "bucket",
+      "name": "storage-4",
+      "attrs": {
+        "source": "index",
+        "sizeMb": 68
+      }
+    },
+    {
+      "id": "bucket:index-5",
+      "kind": "bucket",
+      "name": "storage-5",
+      "attrs": {
+        "source": "index",
+        "sizeMb": 68
+      }
+    }
+  ],
+  "observations": [
+    {
+      "resourceId": "project",
+      "metric": "storage_buckets",
+      "value": 5,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_size_mb",
+      "value": 68,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "last_activity_days",
+      "value": 10,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    }
+  ],
+  "importedActions": [
+    {
+      "rank": 1,
+      "action": "Monitor AI cost when batch cover-gen fires; add funnel events",
+      "severity": "Low",
+      "effort": "S",
+      "status": "Hypothesis",
+      "policy": "POL-4",
+      "source": "lovable_projects_index.json"
+    }
+  ],
+  "raw": {
+    "sourceIndex": "lovable_projects_index.json",
+    "sourceReports": [
+      "hackathons_USAGE_REPORT.md"
+    ],
+    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "index": {
+      "sourcePath": "usage-reports/lovable_projects_index.json",
+      "generated": "2026-06-30",
+      "sourceCorpus": "20 usage audits / 18 distinct projects (Go Do It audited twice; desafio-genial is a CTA audit)",
+      "policyCatalog": [
+        {
+          "id": "POL-1",
+          "name": "Scheduled-job (cron) hygiene",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 8,
+          "priority": "P0",
+          "summary": "No sub-15-min pollers; event-driven or sentinel-gated; scheduler-level idle/paused/deadline short-circuit; prod host only; judge health from net._http_response."
+        },
+        {
+          "id": "POL-2",
+          "name": "Log & raw-payload retention",
+          "severity": "High",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "Every log/append table has TTL/partition; no raw HTML/blobs in Postgres; media in Storage with size limit + orphan sweep; snapshots keep latest+changed."
+        },
+        {
+          "id": "POL-3",
+          "name": "Client & Realtime fetch defaults",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 7,
+          "priority": "P1",
+          "summary": "staleTime>=60s, preloadStaleTime>=30s, refetchIntervalInBackground=false, pause on hidden; one auth subscriber + keyed invalidation; minimal per-row Realtime + incremental updates; HTTP cache on SSR loaders."
+        },
+        {
+          "id": "POL-4",
+          "name": "AI cost governance",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 6,
+          "priority": "P0",
+          "summary": "Per-user/day token or USD ceiling + circuit breaker before provider call; ai_config.max_cost_usd non-NULL; pin catalog model IDs; bounded fan-out; idempotent generate functions."
+        },
+        {
+          "id": "POL-5",
+          "name": "RLS & tenancy baseline",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 10,
+          "priority": "P0",
+          "summary": "No USING(true)/tautology on operational tables; no anon UPDATE of unowned rows; rate-limit anon INSERT; revoke EXECUTE from anon on SECURITY DEFINER; no PII via broad SELECT; no dangerouslySetInnerHTML on anon input."
+        },
+        {
+          "id": "POL-6",
+          "name": "Secrets & auth-surface management",
+          "severity": "Critical",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "No JWT in cron.job.command (Vault); no service-role over HTTP; delete debug/reveal fns + rotate; verify_jwt=false fns need explicit gate + rate limit; remove dead secrets."
+        },
+        {
+          "id": "POL-7",
+          "name": "Write-amplification & trigger discipline",
+          "severity": "Medium",
+          "effort": "M",
+          "affected_projects": 4,
+          "priority": "P2",
+          "summary": "Cap notification/aggregate fan-out (digest/queue); batch progress updates; upsert not delete-all+reinsert."
+        },
+        {
+          "id": "POL-8",
+          "name": "Cost observability & attribution",
+          "severity": "High",
+          "effort": "S",
+          "affected_projects": 19,
+          "priority": "P1",
+          "summary": "Per-project usage ledger written by every AI/TTS/STT call site; attribute via credits--get_credit_balance by billable_item/project; gateway 7-day log not authoritative; no NULL cost columns in UI."
+        },
+        {
+          "id": "POL-9",
+          "name": "Idle-project lifecycle",
+          "severity": "Medium",
+          "effort": "S",
+          "affected_projects": 6,
+          "priority": "P1",
+          "summary": "Auto-pause scheduled/background work when no real activity > 30 days; flag idle Cloud instances for pause/consolidation; idle in app tables != not billing."
+        }
+      ],
+      "projectSnapshot": {
+        "id": "hackathons",
+        "name": "Lovable Hackathons Brasil",
+        "supabase_ref": null,
+        "stack": "React 18 + Vite 5",
+        "db_size_mb": null,
+        "public_tables": null,
+        "pg_cron": {
+          "installed": null,
+          "active_jobs": null
+        },
+        "edge_functions": null,
+        "storage": {
+          "buckets": 5,
+          "size_mb": 68,
+          "note": "multi-tenant by event_id"
+        },
+        "realtime": null,
+        "idle": "no",
+        "last_activity": "2026-06-20",
+        "severity": "Low",
+        "driver_categories": [],
+        "primary_driver_confirmed": null,
+        "policies": [
+          "POL-4",
+          "POL-8"
+        ],
+        "key_metrics": {
+          "events": 8,
+          "users": 221,
+          "submissions": 36,
+          "ai_cost_period": "US$0.00",
+          "status": "healthy / reference multi-tenant"
+        },
+        "top_actions": [
+          {
+            "rank": 1,
+            "action": "Monitor AI cost when batch cover-gen fires; add funnel events",
+            "severity": "Low",
+            "effort": "S",
+            "status": "Hypothesis",
+            "policy": "POL-4"
+          }
+        ]
+      },
+      "keyMetrics": {
+        "events": 8,
+        "users": 221,
+        "submissions": 36,
+        "ai_cost_period": "US$0.00",
+        "status": "healthy / reference multi-tenant"
+      },
+      "importedActions": [
+        {
+          "rank": 1,
+          "action": "Monitor AI cost when batch cover-gen fires; add funnel events",
+          "severity": "Low",
+          "effort": "S",
+          "status": "Hypothesis",
+          "policy": "POL-4",
+          "source": "lovable_projects_index.json"
+        }
+      ]
+    }
+  },
+  "warnings": [
+    "index-derived corpus seed - structured baseline, pending hand review against source usage report",
+    "index: pg_cron.active_jobs is not observed for `hackathons` (no note)"
+  ]
+}

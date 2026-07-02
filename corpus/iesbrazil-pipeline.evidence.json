@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "iesbrazil-pipeline",
+    "name": "IesBrazil Pipeline",
+    "stack": "TanStack Start (server fns)",
+    "evidenceGenerated": "2026-06-30",
+    "evidenceSource": "IesBrazil_Pipeline_USAGE_REPORT.md"
+  },
+  "resources": [
+    {
+      "id": "project",
+      "kind": "project",
+      "name": "IesBrazil Pipeline",
+      "attrs": {
+        "projectId": "iesbrazil-pipeline",
+        "tables": 16,
+        "edgeFns": 1,
+        "dbTotalBytes": 24117248,
+        "storageBuckets": 0,
+        "storageSizeMb": 0,
+        "idleState": "no",
+        "driverCategories": [
+          "B",
+          "C"
+        ],
+        "indexSeverity": "High",
+        "primaryDriverConfirmed": true,
+        "policyIds": [
+          "POL-3",
+          "POL-2",
+          "POL-5"
+        ]
+      }
+    }
+  ],
+  "observations": [
+    {
+      "resourceId": "project",
+      "metric": "db_size_mb",
+      "value": 23,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "public_tables",
+      "value": 16,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "edge_functions",
+      "value": 1,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_buckets",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_size_mb",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "pg_cron_active_jobs",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    }
+  ],
+  "importedActions": [
+    {
+      "rank": 1,
+      "action": "Mark cancelling terminal + 10-min janitor; refetchIntervalInBackground=false",
+      "severity": "High",
+      "effort": "S",
+      "status": "Confirmed",
+      "policy": "POL-3",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 2,
+      "action": "Retention on db_admin_log + LIMIT/pagination on log reads",
+      "severity": "High",
+      "effort": "S",
+      "status": "Confirmed",
+      "policy": "POL-2",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 3,
+      "action": "Replace USING(true) with role/tenant predicates",
+      "severity": "High",
+      "effort": "M",
+      "status": "Confirmed",
+      "policy": "POL-5",
+      "source": "lovable_projects_index.json"
+    }
+  ],
+  "raw": {
+    "sourceIndex": "lovable_projects_index.json",
+    "sourceReports": [
+      "IesBrazil_Pipeline_USAGE_REPORT.md"
+    ],
+    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "index": {
+      "sourcePath": "usage-reports/lovable_projects_index.json",
+      "generated": "2026-06-30",
+      "sourceCorpus": "20 usage audits / 18 distinct projects (Go Do It audited twice; desafio-genial is a CTA audit)",
+      "policyCatalog": [
+        {
+          "id": "POL-1",
+          "name": "Scheduled-job (cron) hygiene",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 8,
+          "priority": "P0",
+          "summary": "No sub-15-min pollers; event-driven or sentinel-gated; scheduler-level idle/paused/deadline short-circuit; prod host only; judge health from net._http_response."
+        },
+        {
+          "id": "POL-2",
+          "name": "Log & raw-payload retention",
+          "severity": "High",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "Every log/append table has TTL/partition; no raw HTML/blobs in Postgres; media in Storage with size limit + orphan sweep; snapshots keep latest+changed."
+        },
+        {
+          "id": "POL-3",
+          "name": "Client & Realtime fetch defaults",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 7,
+          "priority": "P1",
+          "summary": "staleTime>=60s, preloadStaleTime>=30s, refetchIntervalInBackground=false, pause on hidden; one auth subscriber + keyed invalidation; minimal per-row Realtime + incremental updates; HTTP cache on SSR loaders."
+        },
+        {
+          "id": "POL-4",
+          "name": "AI cost governance",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 6,
+          "priority": "P0",
+          "summary": "Per-user/day token or USD ceiling + circuit breaker before provider call; ai_config.max_cost_usd non-NULL; pin catalog model IDs; bounded fan-out; idempotent generate functions."
+        },
+        {
+          "id": "POL-5",
+          "name": "RLS & tenancy baseline",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 10,
+          "priority": "P0",
+          "summary": "No USING(true)/tautology on operational tables; no anon UPDATE of unowned rows; rate-limit anon INSERT; revoke EXECUTE from anon on SECURITY DEFINER; no PII via broad SELECT; no dangerouslySetInnerHTML on anon input."
+        },
+        {
+          "id": "POL-6",
+          "name": "Secrets & auth-surface management",
+          "severity": "Critical",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "No JWT in cron.job.command (Vault); no service-role over HTTP; delete debug/reveal fns + rotate; verify_jwt=false fns need explicit gate + rate limit; remove dead secrets."
+        },
+        {
+          "id": "POL-7",
+          "name": "Write-amplification & trigger discipline",
+          "severity": "Medium",
+          "effort": "M",
+          "affected_projects": 4,
+          "priority": "P2",
+          "summary": "Cap notification/aggregate fan-out (digest/queue); batch progress updates; upsert not delete-all+reinsert."
+        },
+        {
+          "id": "POL-8",
+          "name": "Cost observability & attribution",
+          "severity": "High",
+          "effort": "S",
+          "affected_projects": 19,
+          "priority": "P1",
+          "summary": "Per-project usage ledger written by every AI/TTS/STT call site; attribute via credits--get_credit_balance by billable_item/project; gateway 7-day log not authoritative; no NULL cost columns in UI."
+        },
+        {
+          "id": "POL-9",
+          "name": "Idle-project lifecycle",
+          "severity": "Medium",
+          "effort": "S",
+          "affected_projects": 6,
+          "priority": "P1",
+          "summary": "Auto-pause scheduled/background work when no real activity > 30 days; flag idle Cloud instances for pause/consolidation; idle in app tables != not billing."
+        }
+      ],
+      "projectSnapshot": {
+        "id": "iesbrazil-pipeline",
+        "name": "IesBrazil Pipeline",
+        "supabase_ref": null,
+        "stack": "TanStack Start (server fns)",
+        "db_size_mb": 23,
+        "public_tables": 16,
+        "pg_cron": {
+          "installed": false,
+          "active_jobs": 0,
+          "note": "no pg_cron/pg_net/pgmq; scheduling is client polling"
+        },
+        "edge_functions": 1,
+        "storage": {
+          "buckets": 0,
+          "size_mb": 0
+        },
+        "realtime": false,
+        "idle": "no",
+        "last_activity": null,
+        "severity": "High",
+        "driver_categories": [
+          "B",
+          "C"
+        ],
+        "primary_driver_confirmed": true,
+        "policies": [
+          "POL-3",
+          "POL-2",
+          "POL-5"
+        ],
+        "key_metrics": {
+          "dock_poll": "4s foreground+background",
+          "per_batch_poll": "2s",
+          "stuck_batch_polled_days": 11,
+          "db_admin_log_rows": 11584,
+          "rls": "USING(true) all operational tables"
+        },
+        "top_actions": [
+          {
+            "rank": 1,
+            "action": "Mark cancelling terminal + 10-min janitor; refetchIntervalInBackground=false",
+            "severity": "High",
+            "effort": "S",
+            "status": "Confirmed",
+            "policy": "POL-3"
+          },
+          {
+            "rank": 2,
+            "action": "Retention on db_admin_log + LIMIT/pagination on log reads",
+            "severity": "High",
+            "effort": "S",
+            "status": "Confirmed",
+            "policy": "POL-2"
+          },
+          {
+            "rank": 3,
+            "action": "Replace USING(true) with role/tenant predicates",
+            "severity": "High",
+            "effort": "M",
+            "status": "Confirmed",
+            "policy": "POL-5"
+          }
+        ]
+      },
+      "keyMetrics": {
+        "dock_poll": "4s foreground+background",
+        "per_batch_poll": "2s",
+        "stuck_batch_polled_days": 11,
+        "db_admin_log_rows": 11584,
+        "rls": "USING(true) all operational tables"
+      },
+      "importedActions": [
+        {
+          "rank": 1,
+          "action": "Mark cancelling terminal + 10-min janitor; refetchIntervalInBackground=false",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-3",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 2,
+          "action": "Retention on db_admin_log + LIMIT/pagination on log reads",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-2",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 3,
+          "action": "Replace USING(true) with role/tenant predicates",
+          "severity": "High",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-5",
+          "source": "lovable_projects_index.json"
+        }
+      ]
+    }
+  },
+  "warnings": [
+    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
+  ]
+}

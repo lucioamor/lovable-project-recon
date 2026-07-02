@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "nxlv",
+    "name": "nxlv (Lucio Amorim)",
+    "supabaseRef": "xefkdotgotpmrheboayg",
+    "stack": "TanStack Start / CF",
+    "evidenceGenerated": "2026-06-30",
+    "evidenceSource": "nxlv_USAGE_REPORT.md"
+  },
+  "resources": [
+    {
+      "id": "cloud",
+      "kind": "cloud",
+      "name": "Lovable Cloud (Supabase)",
+      "attrs": {
+        "status": "active",
+        "ref": "xefkdotgotpmrheboayg"
+      }
+    },
+    {
+      "id": "project",
+      "kind": "project",
+      "name": "nxlv (Lucio Amorim)",
+      "attrs": {
+        "projectId": "nxlv",
+        "tables": 7,
+        "edgeFns": 5,
+        "dbTotalBytes": 12582912,
+        "storageBuckets": 1,
+        "storageSizeMb": 0,
+        "idleState": "runtime-clean",
+        "driverCategories": [
+          "F"
+        ],
+        "indexSeverity": "Low",
+        "primaryDriverConfirmed": true,
+        "policyIds": [
+          "POL-8",
+          "POL-9"
+        ]
+      }
+    },
+    {
+      "id": "bucket:index-1",
+      "kind": "bucket",
+      "name": "storage-1",
+      "attrs": {
+        "source": "index",
+        "sizeMb": 0
+      }
+    }
+  ],
+  "observations": [
+    {
+      "resourceId": "project",
+      "metric": "db_size_mb",
+      "value": 12,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "public_tables",
+      "value": 7,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "edge_functions",
+      "value": 5,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_buckets",
+      "value": 1,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_size_mb",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "pg_cron_active_jobs",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    }
+  ],
+  "importedActions": [
+    {
+      "rank": 1,
+      "action": "Investigate Build-mode editor sessions (runtime confirmed clean)",
+      "severity": "Low",
+      "effort": "XS",
+      "status": "Confirmed",
+      "policy": "POL-8",
+      "source": "lovable_projects_index.json"
+    }
+  ],
+  "raw": {
+    "sourceIndex": "lovable_projects_index.json",
+    "sourceReports": [
+      "nxlv_USAGE_REPORT.md"
+    ],
+    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "index": {
+      "sourcePath": "usage-reports/lovable_projects_index.json",
+      "generated": "2026-06-30",
+      "sourceCorpus": "20 usage audits / 18 distinct projects (Go Do It audited twice; desafio-genial is a CTA audit)",
+      "policyCatalog": [
+        {
+          "id": "POL-1",
+          "name": "Scheduled-job (cron) hygiene",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 8,
+          "priority": "P0",
+          "summary": "No sub-15-min pollers; event-driven or sentinel-gated; scheduler-level idle/paused/deadline short-circuit; prod host only; judge health from net._http_response."
+        },
+        {
+          "id": "POL-2",
+          "name": "Log & raw-payload retention",
+          "severity": "High",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "Every log/append table has TTL/partition; no raw HTML/blobs in Postgres; media in Storage with size limit + orphan sweep; snapshots keep latest+changed."
+        },
+        {
+          "id": "POL-3",
+          "name": "Client & Realtime fetch defaults",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 7,
+          "priority": "P1",
+          "summary": "staleTime>=60s, preloadStaleTime>=30s, refetchIntervalInBackground=false, pause on hidden; one auth subscriber + keyed invalidation; minimal per-row Realtime + incremental updates; HTTP cache on SSR loaders."
+        },
+        {
+          "id": "POL-4",
+          "name": "AI cost governance",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 6,
+          "priority": "P0",
+          "summary": "Per-user/day token or USD ceiling + circuit breaker before provider call; ai_config.max_cost_usd non-NULL; pin catalog model IDs; bounded fan-out; idempotent generate functions."
+        },
+        {
+          "id": "POL-5",
+          "name": "RLS & tenancy baseline",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 10,
+          "priority": "P0",
+          "summary": "No USING(true)/tautology on operational tables; no anon UPDATE of unowned rows; rate-limit anon INSERT; revoke EXECUTE from anon on SECURITY DEFINER; no PII via broad SELECT; no dangerouslySetInnerHTML on anon input."
+        },
+        {
+          "id": "POL-6",
+          "name": "Secrets & auth-surface management",
+          "severity": "Critical",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "No JWT in cron.job.command (Vault); no service-role over HTTP; delete debug/reveal fns + rotate; verify_jwt=false fns need explicit gate + rate limit; remove dead secrets."
+        },
+        {
+          "id": "POL-7",
+          "name": "Write-amplification & trigger discipline",
+          "severity": "Medium",
+          "effort": "M",
+          "affected_projects": 4,
+          "priority": "P2",
+          "summary": "Cap notification/aggregate fan-out (digest/queue); batch progress updates; upsert not delete-all+reinsert."
+        },
+        {
+          "id": "POL-8",
+          "name": "Cost observability & attribution",
+          "severity": "High",
+          "effort": "S",
+          "affected_projects": 19,
+          "priority": "P1",
+          "summary": "Per-project usage ledger written by every AI/TTS/STT call site; attribute via credits--get_credit_balance by billable_item/project; gateway 7-day log not authoritative; no NULL cost columns in UI."
+        },
+        {
+          "id": "POL-9",
+          "name": "Idle-project lifecycle",
+          "severity": "Medium",
+          "effort": "S",
+          "affected_projects": 6,
+          "priority": "P1",
+          "summary": "Auto-pause scheduled/background work when no real activity > 30 days; flag idle Cloud instances for pause/consolidation; idle in app tables != not billing."
+        }
+      ],
+      "projectSnapshot": {
+        "id": "nxlv",
+        "name": "nxlv (Lucio Amorim)",
+        "supabase_ref": "xefkdotgotpmrheboayg",
+        "stack": "TanStack Start / CF",
+        "db_size_mb": 12,
+        "public_tables": 7,
+        "pg_cron": {
+          "installed": false,
+          "active_jobs": 0
+        },
+        "edge_functions": 5,
+        "storage": {
+          "buckets": 1,
+          "size_mb": 0,
+          "note": "0 objects"
+        },
+        "realtime": false,
+        "idle": "runtime-clean",
+        "last_activity": null,
+        "severity": "Low",
+        "driver_categories": [
+          "F"
+        ],
+        "primary_driver_confirmed": true,
+        "policies": [
+          "POL-8",
+          "POL-9"
+        ],
+        "key_metrics": {
+          "build_mode_share_workspace": "62.3%",
+          "project_credits_7d": 98,
+          "build_mode_of_project": "~92 of 98",
+          "runtime": "confirmed clean"
+        },
+        "top_actions": [
+          {
+            "rank": 1,
+            "action": "Investigate Build-mode editor sessions (runtime confirmed clean)",
+            "severity": "Low",
+            "effort": "XS",
+            "status": "Confirmed",
+            "policy": "POL-8"
+          }
+        ]
+      },
+      "keyMetrics": {
+        "build_mode_share_workspace": "62.3%",
+        "project_credits_7d": 98,
+        "build_mode_of_project": "~92 of 98",
+        "runtime": "confirmed clean"
+      },
+      "importedActions": [
+        {
+          "rank": 1,
+          "action": "Investigate Build-mode editor sessions (runtime confirmed clean)",
+          "severity": "Low",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-8",
+          "source": "lovable_projects_index.json"
+        }
+      ]
+    }
+  },
+  "warnings": [
+    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
+  ]
+}
