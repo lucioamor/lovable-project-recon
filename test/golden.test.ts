@@ -26,6 +26,7 @@ describe("demo report (golden file)", () => {
     const policies = result.findings.map((f) => f.policy).sort();
     expect(policies).toEqual(["POL-1", "POL-2", "POL-5", "POL-6", "POL-9"]);
     expect(result.score.wasteScore).toBe(83);
+    expect(result.importedActions).toHaveLength(4);
     expect(result.findings.filter((f) => f.severity === "critical")).toHaveLength(1);
   });
 });

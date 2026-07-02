@@ -1,7 +1,7 @@
 # central-genial — Recon Usage Report
 
 **Waste-score:** 83/100 · Clean up now — 1 critical, 3 high finding(s).  
-_ref `ezdckbupdqjrfmoetbjc` · Vite + React + Shadcn · mode `demo` · scanned <DATE>_
+_ref `ezdckbupdqjrfmoetbjc` · Vite + React + Shadcn · mode `demo` · evidence 2026-06-30 · scanned <DATE>_
 
 ---
 
@@ -52,7 +52,7 @@ A JWT embedded in `cron.job.command` is a credential-at-rest readable by anyone 
 
 🟠 High · confidence **confirmed** · driver `A` · est. saved **~1440 inv/day**
 
-This job fires ~1440×/day (finer than `*/15`) with no proven work per tick. Scheduled work that runs regardless of state is "runtime without intention" — it bills edge/Worker invocations and writes cron-history rows indefinitely, fully decoupled from real usage. Health must be judged from `net._http_response`, not `cron.job_run_details.status`.
+This job fires ~1440×/day (finer than `*/15`) with no proven work per tick, and targets an unresolvable host (DNS fails). Scheduled work that runs regardless of state is "runtime without intention" — it bills edge/Worker invocations and writes cron-history rows indefinitely, fully decoupled from real usage. Health must be judged from `net._http_response`, not `cron.job_run_details.status`.
 
 **Evidence**
 - _(sql)_ schedule `* * * * *`, active=true
@@ -61,6 +61,7 @@ This job fires ~1440×/day (finer than `*/15`) with no proven work per tick. Sch
   SELECT jobname,schedule,active FROM cron.job;
   ```
 - _(sql)_ 150747 cumulative runs recorded in cron.job_run_details
+- _(sql)_ net._http_response indicates host status dead
 
 **Remediation**
 - Unschedule (or gate) `poll-telegram-updates`  _(sql_migration, review required)_
@@ -98,10 +99,10 @@ This job fires ~1440×/day (finer than `*/15`) with no proven work per tick. Sch
 
 🟠 High · confidence **confirmed** · driver `B`
 
-Policy `analytics_events — Anyone can insert` (INSERT) uses `true` for roles `anon`. This is simultaneously a security exposure and a cost surface: broad reads return whole tables under polling; open anon INSERT is a write-amplification / spam vector. Single-tenant tolerances become unsafe the moment the app goes multi-tenant.
+Policy `analytics_events - Anyone can insert` (INSERT) uses `true` for roles `anon`. This is simultaneously a security exposure and a cost surface: broad reads return whole tables under polling; open anon INSERT is a write-amplification / spam vector. Single-tenant tolerances become unsafe the moment the app goes multi-tenant.
 
 **Evidence**
-- _(sql)_ analytics_events.analytics_events — Anyone can insert: INSERT roles=anon qual=true
+- _(sql)_ analytics_events.analytics_events - Anyone can insert: INSERT roles=anon qual=true
 
   ```
   SELECT tablename,policyname,cmd,roles,qual FROM pg_policies WHERE schemaname='public';
@@ -130,6 +131,17 @@ No real user activity for 101 days, yet 5 active cron job(s) keep consuming comp
   Add an 'idle > 30d -> auto-unschedule scheduled work' rule; consider pausing/consolidating the Cloud instance to drop the per-instance baseline.
   ```
 
+## Imported audit actions
+
+_Context from the source audit. These actions are not counted in the waste-score._
+
+| Rank | Policy | Severity | Status | Effort | Action |
+|--:|---|---|---|---|---|
+| 1 | POL-1 | High | Confirmed | XS | cron.unschedule('poll-telegram-updates') (-1440/day) |
+| 2 | POL-2 | High | Confirmed | XS | Purge cron.job_run_details (-121MB) + add retention |
+| 3 | POL-6 | Critical | Confirmed | S | Rotate anon key / Vault cron auth (60-yr expiry) |
+| 4 | POL-9 | Medium | Confirmed | S | Auto-pause scheduled work after 30 idle days |
+
 ## Waste-score breakdown
 
 | Policy | Findings | Points |
@@ -142,7 +154,7 @@ No real user activity for 101 days, yet 5 active cron job(s) keep consuming comp
 
 ## Collector warnings
 
-- demo mode — fixture from the central-genial audit; not a live scan
+- demo mode - embedded ProjectEvidence fixture from the central-genial audit; not a live scan
 
 ---
 
