@@ -24,12 +24,8 @@ export function buildContext(collected: Collected): RuleContext {
     collected,
     resourcesByKind: (kind) => collected.resources.filter((r) => r.kind === kind),
     resourceById: (id) => byId.get(id),
-    observations: (metric) =>
-      metric === undefined
-        ? collected.observations
-        : collected.observations.filter((o) => o.metric === metric),
-    observationFor: (resourceId, metric) =>
-      collected.observations.find((o) => o.resourceId === resourceId && o.metric === metric),
+    observations: (metric) => (metric === undefined ? collected.observations : collected.observations.filter((o) => o.metric === metric)),
+    observationFor: (resourceId, metric) => collected.observations.find((o) => o.resourceId === resourceId && o.metric === metric),
     raw: <T = unknown>(key: string) => collected.raw[key] as T | undefined,
   };
 }
@@ -47,7 +43,5 @@ export function runRules(rules: Rule[], collected: Collected): Finding[] {
       collected.warnings.push(`rule ${rule.id} threw: ${(err as Error).message}`);
     }
   }
-  return findings.sort(
-    (a, b) => SEVERITY_ORDER[a.severity] - SEVERITY_ORDER[b.severity],
-  );
+  return findings.sort((a, b) => SEVERITY_ORDER[a.severity] - SEVERITY_ORDER[b.severity]);
 }

@@ -10,26 +10,6 @@ import { pol8Observability } from "./policies/pol-8-observability.ts";
 import { pol9IdleLifecycle } from "./policies/pol-9-idle-lifecycle.ts";
 
 /** The cost/runtime profile — POL-1..9 from the remediation backlog. */
-export const costRules: Rule[] = [
-  pol1CronHygiene,
-  pol2LogRetention,
-  pol3FetchDefaults,
-  pol4AiCost,
-  pol5RlsTenancy,
-  pol6Secrets,
-  pol7WriteAmplification,
-  pol8Observability,
-  pol9IdleLifecycle,
-];
+export const costRules: Rule[] = [pol1CronHygiene, pol2LogRetention, pol3FetchDefaults, pol4AiCost, pol5RlsTenancy, pol6Secrets, pol7WriteAmplification, pol8Observability, pol9IdleLifecycle];
 
-export {
-  pol1CronHygiene,
-  pol2LogRetention,
-  pol3FetchDefaults,
-  pol4AiCost,
-  pol5RlsTenancy,
-  pol6Secrets,
-  pol7WriteAmplification,
-  pol8Observability,
-  pol9IdleLifecycle,
-};
+export { pol1CronHygiene, pol2LogRetention, pol3FetchDefaults, pol4AiCost, pol5RlsTenancy, pol6Secrets, pol7WriteAmplification, pol8Observability, pol9IdleLifecycle };

@@ -1,19 +1,17 @@
 import type { Finding, Rule, RuleContext } from "@nxlv-ai/lovable-core";
 
-const JWT_IN_COMMAND_RX = /Bearer\s+eyJ[A-Za-z0-9_-]+/;
+const JWT_IN_COMMAND_RX = /bearer\s+eyJ[A-Za-z0-9_-]+/i;
 
-// POL-6 — Secrets & auth-surface management. Reports the SHAPE of a leaked credential, never the value.
+// POL-6: Secrets & auth-surface management. Reports credential shapes, never values.
 export const pol6Secrets: Rule = {
   id: "POL-6",
   policy: "Secrets & auth-surface management",
   evaluate(ctx: RuleContext): Finding[] {
-    // One leaked credential per project, even when embedded in many jobs — aggregate,
-    // don't emit N identical criticals.
-    const offenders = ctx
-      .resourcesByKind("cron_job")
-      .filter((j) => JWT_IN_COMMAND_RX.test(String(j.attrs["command"] ?? "")));
+    const offenders = ctx.resourcesByKind("cron_job").filter((j) => JWT_IN_COMMAND_RX.test(String(j.attrs["command"] ?? "")));
+    const staticSignals = ctx.raw<{ secretSignals?: Array<{ file?: string; kind?: string }> }>("static")?.secretSignals ?? [];
     const first = offenders[0];
-    if (!first) return [];
+    const firstStatic = staticSignals[0];
+    if (!first && !firstStatic) return [];
 
     let maxExpiry = 0;
     for (const j of offenders) {
@@ -23,24 +21,28 @@ export const pol6Secrets: Rule = {
     const longLived = maxExpiry >= 5;
     const names = offenders.map((j) => "`" + j.name + "`").join(", ");
     const expiryNote = longLived ? " (" + maxExpiry + "-yr expiry)" : "";
+    const cronTitle = offenders.length ? "Anon JWT hard-coded in " + offenders.length + " cron command(s)" + expiryNote : "";
+    const staticTitle = staticSignals.length ? staticSignals.length + " in-source credential shape(s)" : "";
 
     return [
       {
-        id: "POL-6:cron-anon-jwt",
+        id: "POL-6:credential-shapes",
         policy: "POL-6",
         driverCat: null,
-        title: "Anon JWT hard-coded in " + offenders.length + " cron command(s)" + expiryNote,
+        title: cronTitle && staticTitle ? `${cronTitle}; ${staticTitle}` : cronTitle || staticTitle,
         severity: "critical",
         confidence: "confirmed",
-        resourceId: first.id,
+        resourceId: first?.id ?? "project",
         rationale:
-          "A JWT embedded in `cron.job.command` is a credential-at-rest readable by anyone with `cron`/DB access. " +
-          "Affected: " + names + ". " +
+          (offenders.length ? "A JWT embedded in `cron.job.command` is a credential-at-rest readable by anyone with `cron`/DB access. Affected: " + names + ". " : "") +
+          (staticSignals.length ? "Source scan found credential shapes in app code (values redacted): " + summarizeStaticSignals(staticSignals) + ". " : "") +
           (longLived ? "A " + maxExpiry + "-year expiry makes rotation urgent. " : "") +
           "Move to Vault-resolved secrets or the documented `apikey` pattern.",
         evidence: [
-          // shape only — never reproduce the token
-          { source: "sql", detail: offenders.length + " job(s) embed Authorization Bearer eyJ (redacted)", snippet: "headers := '{\"Authorization\":\"Bearer eyJ<redacted>\"}'" },
+          ...(offenders.length
+            ? [{ source: "sql" as const, detail: offenders.length + " job(s) embed Authorization Bearer eyJ (redacted)", snippet: 'headers := \'{"Authorization":"Bearer eyJ<redacted>"}\'' }]
+            : []),
+          ...(staticSignals.length ? [{ source: "rg" as const, detail: staticSignals.length + " source credential shape(s) detected: " + summarizeStaticSignals(staticSignals) }] : []),
         ],
         remediation: [
           {
@@ -54,3 +56,10 @@ export const pol6Secrets: Rule = {
     ];
   },
 };
+
+function summarizeStaticSignals(signals: Array<{ file?: string; kind?: string }>): string {
+  return signals
+    .slice(0, 5)
+    .map((s) => `${s.kind ?? "credential"} at ${s.file ?? "unknown file"}`)
+    .join(", ");
+}

@@ -11,8 +11,12 @@ export const pol4AiCost: Rule = {
     const ai = ctx.resourceById("ai_config");
     if (!ai) return findings; // no AI configured -> nothing to govern
 
+    // Static evidence sees model call-sites in source but NOT the DB's ai_config.max_cost_usd.
+    // Absence of a cap here would be an artifact of the collector, not a proven fact — so we
+    // only raise the "no ceiling" critical when the cap was actually observed (db mode).
+    const fromStatic = ai.attrs["source"] === "static";
     const maxCost = ai.attrs["maxCostUsd"];
-    if (maxCost === null || maxCost === undefined) {
+    if (!fromStatic && (maxCost === null || maxCost === undefined)) {
       findings.push({
         id: "POL-4:no-cap",
         policy: "POL-4",
@@ -46,12 +50,9 @@ export const pol4AiCost: Rule = {
         severity: "high",
         confidence: "hypothesis",
         resourceId: ai.id,
-        rationale:
-          "Preview/alias model IDs rot. A failing model call still bills — a broken ID is a live cost, not a no-op.",
+        rationale: "Preview/alias model IDs rot. A failing model call still bills — a broken ID is a live cost, not a no-op.",
         evidence: [{ source: "sql", detail: `ai_config.model = ${model}` }],
-        remediation: [
-          { kind: "manual", title: "Pin to a catalog model id", body: "Replace the preview/alias id with a stable catalog model across all call sites.", applySafe: false },
-        ],
+        remediation: [{ kind: "manual", title: "Pin to a catalog model id", body: "Replace the preview/alias id with a stable catalog model across all call sites.", applySafe: false }],
       });
     }
     return findings;

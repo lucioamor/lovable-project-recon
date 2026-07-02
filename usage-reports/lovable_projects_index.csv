@@ -1,0 +1,20 @@
+id,name,supabase_ref,stack,db_size_mb,public_tables,pg_cron_active_jobs,edge_functions,storage_mb,realtime,idle,last_activity,severity,driver_categories,primary_driver_confirmed,policies,top_action
+opportunity-monitor,Opportunity Monitor,qjptopcdxcjtrmmxkkcn,TanStack Start,126,15,unknown,22,0,False,yes,2026-06-18,Critical,C;E;D,True,POL-2;POL-4;POL-5;POL-6;POL-7,Delete reveal-service-key; rotate SERVICE_ROLE_KEY + CRON_SECRET
+the-monday-test,The Monday Test,vqbgnsmqhslovstmimoc,TanStack Start / CF,,1,0,1,0,False,no,,High,E;B,True,POL-4;POL-5;POL-3,Stop regeneration: treat any non-empty report_json (incl. error) as hard stop + Retry
+lovable-for-schools,Lovable for Schools - Real-time Tracker,qltdmdkamnyymqjjbtlw,React + Vite,687,11,2,10,0,False,yes,2026-02-01,High,A;C,True,POL-1;POL-2;POL-5;POL-6,"cron.unschedule both jobs (-1728 EF, -3456 DB writes/day)"
+central-genial,Central Genial,ezdckbupdqjrfmoetbjc,Vite + React + Shadcn,,27,5,25,,,yes,2026-03-21,High,A;C,True,POL-1;POL-2;POL-6;POL-9,cron.unschedule('poll-telegram-updates') (-1440/day)
+go-do-it,Go Do It / godoit,omvmvhhyaikegkktlrct,TanStack Start / CF Worker,3,30,9,0,0,False,partial,,High,A;E,True,POL-1;POL-4,Daily token ceiling + circuit breaker in runReconciliation (kills ~85% waste)
+ambassador-os,Ambassador-OS,qnpkncoumgqipianvxdn,React,22,21,2,10,,,yes,2026-04-08,High,A,True,POL-1;POL-4;POL-5;POL-6,Set ai_config.max_cost_usd ceiling
+websummit-rio,Websummit Rio (Gente Legal),,React,,20,0,,16,True,no,2026-06-29,High,D;B;C,True,POL-7;POL-3;POL-2,Digest/disable on_new_member_notify (200 rows/onboarding)
+ibuiltthis,ibuiltthis,ewbssctgqysiokropuos,Vite + React,132,30,6,64,581,True,yes,2026-03-21,High,B;A;C,True,POL-3;POL-1;POL-2;POL-8,Drop batch_operations+generation_logs from publication (poll instead)
+iesbrazil-pipeline,IesBrazil Pipeline,,TanStack Start (server fns),23,16,0,1,0,False,no,,High,B;C,True,POL-3;POL-2;POL-5,Mark cancelling terminal + 10-min janitor; refetchIntervalInBackground=false
+whos-local,Whos Local,auivdtjkovyfoseuczkx,TanStack Start,18,12,3,1,1.3,False,no,,High,B;A;D,True,POL-1;POL-3;POL-6;POL-7,Guard signup_completed (fire once on real signup)
+lovable-cup,Lovable Cup,17d9ac09-1017-488c-b8f4-d072e398dac6,TanStack Start / CF Worker,13.7,13,1,1,0,False,no,,High,B;D,True,POL-3;POL-1;POL-5;POL-7,Global staleTime:60s + defaultPreloadStaleTime>=30s
+smart-deals,Smart Deals,6d5c7cdc-8513-42b5-9d27-cc879a9d1afd,React,,13,unknown,16,,True,yes,2026-04-10,High,A;E,False,POL-1;POL-8;POL-5;POL-9,Pull cron.job HQ-side; auto-pause scheduled fns (idle 81d)
+yapp-to,YAPP (yapp-to),7184605c-3941-4251-b518-6b29610bd5c8,React,88,25,2,18,35,,no,,High,E;C,True,POL-8;POL-4;POL-2;POL-5;POL-6,Instrument every LLM/TTS/STT call site (ai_usage_logs 0 rows)
+lucio-amorim,Lucio Amorim (lucio.nxlv.ai),vrglpslgfxakkpzzkjvl,TanStack Start / CF,12,10,0,0,0,False,partial,,Medium,B,True,POL-3;POL-5;POL-8,Cache-Control: s-maxage=300 on getHomeBundle (~50x fewer hits)
+genialprev-classic,GenialPrev Classic,gqcjalnzfboqibbzlbdr,Vite + React,95.4,18,0,9,0,False,runtime-clean,,Low,F;B,True,POL-8;POL-3,Confirm burn via credits--get_credit_balance by billable_item
+nxlv,nxlv (Lucio Amorim),xefkdotgotpmrheboayg,TanStack Start / CF,12,7,0,5,0,False,runtime-clean,,Low,F,True,POL-8;POL-9,Investigate Build-mode editor sessions (runtime confirmed clean)
+buildable,buildable,,,,,,,,,no,2026-06-20,Low,,,POL-8,Populate estimated_cost_usd or drop the dead column
+hackathons,Lovable Hackathons Brasil,,React 18 + Vite 5,,,,,68,,no,2026-06-20,Low,,,POL-4;POL-8,Monitor AI cost when batch cover-gen fires; add funnel events
+desafio-genial,desafio-genial (desafiogenial-react),,Vite + React,,,,,,,,,Low,,,,Validate HTTP members-area URL (genialprev.curseduca.pro)

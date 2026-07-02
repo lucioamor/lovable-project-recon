@@ -6,6 +6,7 @@
   "description": "Recon — cost/runtime/waste recon + cleanup for Lovable Cloud portfolios. Sibling of lovable-audit (security).",
   "workspaces": [
     "packages/core",
+    "packages/benchmarks",
     "packages/profile-cost",
     "packages/recon"
   ],
@@ -15,10 +16,22 @@
   "scripts": {
     "recon": "node packages/recon/src/cli.ts",
     "demo": "node packages/recon/src/cli.ts scan --mode demo --out ./central-genial_USAGE_REPORT.md",
-    "typecheck": "tsc -p tsconfig.base.json --noEmit"
+    "typecheck": "tsc -p tsconfig.base.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint packages test",
+    "format": "prettier --write \"packages/**/*.ts\" \"test/**/*.ts\"",
+    "format:check": "prettier --check \"packages/**/*.ts\" \"test/**/*.ts\"",
+    "ci": "npm run typecheck && npm run lint && npm run format:check && npm run test"
   },
   "devDependencies": {
+    "@eslint/js": "^9.13.0",
     "@types/node": "^22.7.0",
-    "typescript": "^5.6.3"
+    "@types/pg": "^8.11.10",
+    "eslint": "^9.13.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.11.0",
+    "vitest": "^2.1.4"
   }
 }

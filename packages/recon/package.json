@@ -6,6 +6,7 @@
     "recon": "./src/cli.ts"
   },
   "dependencies": {
+    "@nxlv-ai/lovable-benchmarks": "*",
     "@nxlv-ai/lovable-core": "*",
     "@nxlv-ai/lovable-profile-cost": "*"
   }

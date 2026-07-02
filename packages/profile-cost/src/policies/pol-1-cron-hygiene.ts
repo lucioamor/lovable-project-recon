@@ -14,10 +14,18 @@ export const pol1CronHygiene: Rule = {
 
       const runsPerDay = typeof a["runsPerDay"] === "number" ? (a["runsPerDay"] as number) : NaN;
       const usefulWork = a["usefulWork"] === true;
-      const deadCause =
-        a["deadlinePassed"] ? "is past a hard-coded deadline" :
-        a["host"] === "preview" ? "targets a preview host, not production" :
-        a["host"] === "dead" ? "targets an unresolvable host (DNS fails)" : null;
+      const hostStatus = String(a["hostStatus"] ?? a["host"] ?? "");
+      const deadCause = a["deadlinePassed"]
+        ? "is past a hard-coded deadline"
+        : a["host"] === "preview"
+          ? "targets a preview host, not production"
+          : hostStatus === "dead"
+            ? "targets an unresolvable host (DNS fails)"
+            : hostStatus === "401"
+              ? "receives auth failures from net._http_response"
+              : hostStatus === "5xx"
+                ? "receives server errors from net._http_response"
+                : null;
 
       const tooFrequent = Number.isFinite(runsPerDay) && runsPerDay > MAX_SAFE_RUNS_PER_DAY && !usefulWork;
       if (!tooFrequent && !deadCause) continue;
@@ -27,13 +35,16 @@ export const pol1CronHygiene: Rule = {
       if (deadCause) reasons.push(deadCause);
 
       const heavy = tooFrequent && runsPerDay >= 1000;
+      // Frequency alone is a hypothesis: without an explicit "no useful work per tick" signal
+      // (only demo/static provide it) or a dead-host cause, a fast cron is suspicious, not proven.
+      const confidence: "confirmed" | "hypothesis" = deadCause || a["usefulWork"] === false ? "confirmed" : "hypothesis";
       findings.push({
         id: `POL-1:${job.name}`,
         policy: "POL-1",
         driverCat: "A",
         title: `Perpetual cron \`${job.name}\``,
         severity: heavy ? "high" : "medium",
-        confidence: "confirmed",
+        confidence,
         resourceId: job.id,
         rationale:
           `This job ${reasons.join(", and ")}. Scheduled work that runs regardless of state is ` +
@@ -62,11 +73,13 @@ export const pol1CronHygiene: Rule = {
 
 function cronEvidence(job: { attrs: Record<string, unknown> }): Evidence[] {
   const a = job.attrs;
-  const ev: Evidence[] = [
-    { source: "sql", detail: `schedule \`${a["schedule"]}\`, active=${a["active"] !== false}`, snippet: "SELECT jobname,schedule,active FROM cron.job;" },
-  ];
+  const ev: Evidence[] = [{ source: "sql", detail: `schedule \`${a["schedule"]}\`, active=${a["active"] !== false}`, snippet: "SELECT jobname,schedule,active FROM cron.job;" }];
   if (typeof a["totalRuns"] === "number") {
     ev.push({ source: "sql", detail: `${a["totalRuns"]} cumulative runs recorded in cron.job_run_details` });
+  }
+  if (a["hostStatus"]) {
+    const codes = Array.isArray(a["httpStatusCodes"]) && a["httpStatusCodes"].length ? `; status codes ${a["httpStatusCodes"].join(", ")}` : "";
+    ev.push({ source: "sql", detail: `net._http_response indicates host status ${a["hostStatus"]}${codes}` });
   }
   return ev;
 }

@@ -1,0 +1,1373 @@
+{
+  "meta": {
+    "title": "Lovable Apps — Structured Project Index",
+    "generated": "2026-06-30",
+    "source_corpus": "20 usage audits / 18 distinct projects (Go Do It audited twice; desafio-genial is a CTA audit)",
+    "companion_docs": [
+      "LOVABLE_TECHNICAL_LANDSCAPE.md",
+      "LOVABLE_ENV_CONFIG_REFERENCE.md",
+      "LOVABLE_REMEDIATION_POLICY_BACKLOG.md"
+    ],
+    "enforcement_rule": "Write a mandatory policy (MUST) only from status=Confirmed evidence; Hypothesis -> SHOULD verify.",
+    "conventions": {
+      "severity": [
+        "Critical",
+        "High",
+        "Medium",
+        "Low"
+      ],
+      "effort": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "status": [
+        "Confirmed",
+        "Hypothesis"
+      ],
+      "idle": [
+        "yes",
+        "no",
+        "partial",
+        "runtime-clean"
+      ],
+      "driver_categories": {
+        "A": "Perpetual scheduled work (cron)",
+        "B": "Client & Realtime request amplification",
+        "C": "Unbounded log / raw-payload tables",
+        "D": "Trigger / write fan-out",
+        "E": "Uncapped AI fan-out",
+        "F": "Build-mode / agent editor"
+      }
+    }
+  },
+  "policies": [
+    {
+      "id": "POL-1",
+      "name": "Scheduled-job (cron) hygiene",
+      "severity": "High",
+      "effort": "S-M",
+      "affected_projects": 8,
+      "priority": "P0",
+      "summary": "No sub-15-min pollers; event-driven or sentinel-gated; scheduler-level idle/paused/deadline short-circuit; prod host only; judge health from net._http_response."
+    },
+    {
+      "id": "POL-2",
+      "name": "Log & raw-payload retention",
+      "severity": "High",
+      "effort": "XS-S",
+      "affected_projects": 7,
+      "priority": "P0",
+      "summary": "Every log/append table has TTL/partition; no raw HTML/blobs in Postgres; media in Storage with size limit + orphan sweep; snapshots keep latest+changed."
+    },
+    {
+      "id": "POL-3",
+      "name": "Client & Realtime fetch defaults",
+      "severity": "High",
+      "effort": "S-M",
+      "affected_projects": 7,
+      "priority": "P1",
+      "summary": "staleTime>=60s, preloadStaleTime>=30s, refetchIntervalInBackground=false, pause on hidden; one auth subscriber + keyed invalidation; minimal per-row Realtime + incremental updates; HTTP cache on SSR loaders."
+    },
+    {
+      "id": "POL-4",
+      "name": "AI cost governance",
+      "severity": "Critical",
+      "effort": "S-M",
+      "affected_projects": 6,
+      "priority": "P0",
+      "summary": "Per-user/day token or USD ceiling + circuit breaker before provider call; ai_config.max_cost_usd non-NULL; pin catalog model IDs; bounded fan-out; idempotent generate functions."
+    },
+    {
+      "id": "POL-5",
+      "name": "RLS & tenancy baseline",
+      "severity": "Critical",
+      "effort": "S-M",
+      "affected_projects": 10,
+      "priority": "P0",
+      "summary": "No USING(true)/tautology on operational tables; no anon UPDATE of unowned rows; rate-limit anon INSERT; revoke EXECUTE from anon on SECURITY DEFINER; no PII via broad SELECT; no dangerouslySetInnerHTML on anon input."
+    },
+    {
+      "id": "POL-6",
+      "name": "Secrets & auth-surface management",
+      "severity": "Critical",
+      "effort": "XS-S",
+      "affected_projects": 7,
+      "priority": "P0",
+      "summary": "No JWT in cron.job.command (Vault); no service-role over HTTP; delete debug/reveal fns + rotate; verify_jwt=false fns need explicit gate + rate limit; remove dead secrets."
+    },
+    {
+      "id": "POL-7",
+      "name": "Write-amplification & trigger discipline",
+      "severity": "Medium",
+      "effort": "M",
+      "affected_projects": 4,
+      "priority": "P2",
+      "summary": "Cap notification/aggregate fan-out (digest/queue); batch progress updates; upsert not delete-all+reinsert."
+    },
+    {
+      "id": "POL-8",
+      "name": "Cost observability & attribution",
+      "severity": "High",
+      "effort": "S",
+      "affected_projects": 19,
+      "priority": "P1",
+      "summary": "Per-project usage ledger written by every AI/TTS/STT call site; attribute via credits--get_credit_balance by billable_item/project; gateway 7-day log not authoritative; no NULL cost columns in UI."
+    },
+    {
+      "id": "POL-9",
+      "name": "Idle-project lifecycle",
+      "severity": "Medium",
+      "effort": "S",
+      "affected_projects": 6,
+      "priority": "P1",
+      "summary": "Auto-pause scheduled/background work when no real activity > 30 days; flag idle Cloud instances for pause/consolidation; idle in app tables != not billing."
+    }
+  ],
+  "projects": [
+    {
+      "id": "opportunity-monitor",
+      "name": "Opportunity Monitor",
+      "supabase_ref": "qjptopcdxcjtrmmxkkcn",
+      "stack": "TanStack Start",
+      "db_size_mb": 126,
+      "public_tables": 15,
+      "pg_cron": {
+        "installed": true,
+        "active_jobs": null,
+        "note": "cron schema unreadable from app role"
+      },
+      "edge_functions": 22,
+      "storage": {
+        "buckets": 0,
+        "size_mb": 0
+      },
+      "realtime": false,
+      "idle": "yes",
+      "last_activity": "2026-06-18",
+      "severity": "Critical",
+      "driver_categories": [
+        "C",
+        "E",
+        "D"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-2",
+        "POL-4",
+        "POL-5",
+        "POL-6",
+        "POL-7"
+      ],
+      "key_metrics": {
+        "largest_table": "job_snapshots 96MB (76% of DB)",
+        "broken_model_functions": 7,
+        "index_scans_completed_vs_failed": "96/97",
+        "reveal_service_key_deployed": true
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Delete reveal-service-key; rotate SERVICE_ROLE_KEY + CRON_SECRET",
+          "severity": "Critical",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-6"
+        },
+        {
+          "rank": 2,
+          "action": "Fix broken model id in 7 fns -> catalog model; redeploy",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-4"
+        },
+        {
+          "rank": 3,
+          "action": "Add retention/TTL to job_snapshots (keep latest+changed)",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-2"
+        },
+        {
+          "rank": 4,
+          "action": "Batch monitoring_runs progress; upsert job_locations",
+          "severity": "Medium",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-7"
+        },
+        {
+          "rank": 5,
+          "action": "Tighten job_snapshots RLS to service_role",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-5"
+        }
+      ]
+    },
+    {
+      "id": "the-monday-test",
+      "name": "The Monday Test",
+      "supabase_ref": "vqbgnsmqhslovstmimoc",
+      "stack": "TanStack Start / CF",
+      "db_size_mb": null,
+      "public_tables": 1,
+      "pg_cron": {
+        "installed": false,
+        "active_jobs": 0,
+        "note": "cron.job relation does not exist"
+      },
+      "edge_functions": 1,
+      "storage": {
+        "buckets": 0,
+        "size_mb": 0
+      },
+      "realtime": false,
+      "idle": "no",
+      "last_activity": null,
+      "severity": "High",
+      "severity_note": "Critical for data exposure (anon PII via tautology RLS)",
+      "driver_categories": [
+        "E",
+        "B"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-4",
+        "POL-5",
+        "POL-3"
+      ],
+      "key_metrics": {
+        "tables": "diagnostics only (5 rows)",
+        "error_state_rows": "1 of 5",
+        "model_chain": "gemini-3.1-pro-preview -> gemini-2.5-pro"
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Stop regeneration: treat any non-empty report_json (incl. error) as hard stop + Retry",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-4"
+        },
+        {
+          "rank": 2,
+          "action": "Idempotency/lock in generate-report edge fn",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-4"
+        },
+        {
+          "rank": 3,
+          "action": "Drop anon tautology SELECT (id=id) + anon UPDATE policies (PII)",
+          "severity": "Critical",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-5"
+        },
+        {
+          "rank": 4,
+          "action": "Pin model; remove gemini-3.1-pro-preview",
+          "severity": "Medium",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-4"
+        }
+      ]
+    },
+    {
+      "id": "lovable-for-schools",
+      "name": "Lovable for Schools - Real-time Tracker",
+      "supabase_ref": "qltdmdkamnyymqjjbtlw",
+      "stack": "React + Vite",
+      "db_size_mb": 687,
+      "public_tables": 11,
+      "pg_cron": {
+        "installed": true,
+        "active_jobs": 2,
+        "note": "one * * * * *, one */5; both idle"
+      },
+      "edge_functions": 10,
+      "storage": {
+        "buckets": 0,
+        "size_mb": 0,
+        "note": "raw HTML in Postgres snapshots.source_html ~23MB"
+      },
+      "realtime": false,
+      "idle": "yes",
+      "last_activity": "2026-02-01",
+      "severity": "High",
+      "driver_categories": [
+        "A",
+        "C"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-1",
+        "POL-2",
+        "POL-5",
+        "POL-6"
+      ],
+      "key_metrics": {
+        "cumulative_invocations": 246763,
+        "cron_logs": "74MB / 246763 rows",
+        "daily_edge_calls": 1728,
+        "deadline_past_days": 149
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "cron.unschedule both jobs (-1728 EF, -3456 DB writes/day)",
+          "severity": "High",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-1"
+        },
+        {
+          "rank": 2,
+          "action": "Truncate/partition cron_logs (-74MB)",
+          "severity": "High",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-2"
+        },
+        {
+          "rank": 3,
+          "action": "Move snapshots.source_html to Storage",
+          "severity": "Medium",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-2"
+        },
+        {
+          "rank": 4,
+          "action": "Lock system_config/cron_logs RLS to {authenticated}",
+          "severity": "Critical",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-5"
+        },
+        {
+          "rank": 5,
+          "action": "Vault the anon JWT in cron",
+          "severity": "High",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-6"
+        }
+      ]
+    },
+    {
+      "id": "central-genial",
+      "name": "Central Genial",
+      "supabase_ref": "ezdckbupdqjrfmoetbjc",
+      "stack": "Vite + React + Shadcn",
+      "db_size_mb": null,
+      "public_tables": 27,
+      "pg_cron": {
+        "installed": true,
+        "active_jobs": 5,
+        "note": "poll-telegram-updates every minute"
+      },
+      "edge_functions": 25,
+      "storage": {
+        "buckets": null,
+        "size_mb": null
+      },
+      "realtime": null,
+      "idle": "yes",
+      "last_activity": "2026-03-21",
+      "severity": "High",
+      "driver_categories": [
+        "A",
+        "C"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-1",
+        "POL-2",
+        "POL-6",
+        "POL-9"
+      ],
+      "key_metrics": {
+        "telegram_poll_runs": 150747,
+        "daily_edge_calls": 1440,
+        "cron_job_run_details": "121MB",
+        "anon_jwt_expiry": "2086 (60-year)",
+        "idle_days": 101
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "cron.unschedule('poll-telegram-updates') (-1440/day)",
+          "severity": "High",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-1"
+        },
+        {
+          "rank": 2,
+          "action": "Purge cron.job_run_details (-121MB) + add retention",
+          "severity": "High",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-2"
+        },
+        {
+          "rank": 3,
+          "action": "Rotate anon key / Vault cron auth (60-yr expiry)",
+          "severity": "Critical",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-6"
+        },
+        {
+          "rank": 4,
+          "action": "Pause daily jobs until PRO users exist",
+          "severity": "Medium",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-9"
+        }
+      ]
+    },
+    {
+      "id": "go-do-it",
+      "name": "Go Do It / godoit",
+      "supabase_ref": "omvmvhhyaikegkktlrct",
+      "stack": "TanStack Start / CF Worker",
+      "db_size_mb": 3,
+      "public_tables": 30,
+      "pg_cron": {
+        "installed": true,
+        "active_jobs": 9,
+        "note": "embed-queue */2, reconcile */15, ops-alerts */15"
+      },
+      "edge_functions": 0,
+      "storage": {
+        "buckets": 0,
+        "size_mb": 0,
+        "note": "logic in /api/public/*-cron server routes"
+      },
+      "realtime": false,
+      "idle": "partial",
+      "last_activity": null,
+      "severity": "High",
+      "driver_categories": [
+        "A",
+        "E"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-1",
+        "POL-4"
+      ],
+      "key_metrics": {
+        "embed_queue_daily": 720,
+        "reconcile_spike_2026_06_26": "458231 tokens / 96 calls vs 0 other days",
+        "circuit_breaker": false
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Daily token ceiling + circuit breaker in runReconciliation (kills ~85% waste)",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-4"
+        },
+        {
+          "rank": 2,
+          "action": "embed-queue-2min -> */15 or event-driven (-660/day)",
+          "severity": "High",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-1"
+        },
+        {
+          "rank": 3,
+          "action": "Window-guard ops-alerts-push; unit-test bypass logic",
+          "severity": "Medium",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-1"
+        },
+        {
+          "rank": 4,
+          "action": "Delete dead NVIDIA_API_KEY",
+          "severity": "Low",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-6"
+        }
+      ]
+    },
+    {
+      "id": "ambassador-os",
+      "name": "Ambassador-OS",
+      "supabase_ref": "qnpkncoumgqipianvxdn",
+      "stack": "React",
+      "db_size_mb": 22,
+      "public_tables": 21,
+      "pg_cron": {
+        "installed": true,
+        "active_jobs": 2,
+        "note": "hourly-signal-extraction, hourly-churn-update"
+      },
+      "edge_functions": 10,
+      "storage": {
+        "buckets": null,
+        "size_mb": null,
+        "note": "not used by inspected paths"
+      },
+      "realtime": null,
+      "idle": "yes",
+      "last_activity": "2026-04-08",
+      "severity": "High",
+      "driver_categories": [
+        "A"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-1",
+        "POL-4",
+        "POL-5",
+        "POL-6"
+      ],
+      "key_metrics": {
+        "daily_edge_calls": 48,
+        "ai_config_max_cost_usd": null,
+        "zombie_ingestion_jobs": 5,
+        "pending_messages": 724,
+        "historical_tokens": 715757
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Set ai_config.max_cost_usd ceiling",
+          "severity": "Critical",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-4"
+        },
+        {
+          "rank": 2,
+          "action": "Throttle/condition hourly-signal-extraction (sentinel)",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-1"
+        },
+        {
+          "rank": 3,
+          "action": "Add WITH CHECK to 'Admins can insert...' + gate anon hub_analytics",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-5"
+        },
+        {
+          "rank": 4,
+          "action": "Vault cron JWT; watchdog for zombie ingestion_jobs",
+          "severity": "Medium",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-6"
+        }
+      ]
+    },
+    {
+      "id": "websummit-rio",
+      "name": "Websummit Rio (Gente Legal)",
+      "supabase_ref": null,
+      "stack": "React",
+      "db_size_mb": null,
+      "public_tables": 20,
+      "pg_cron": {
+        "installed": false,
+        "active_jobs": 0,
+        "note": "pg_cron/pg_net absent"
+      },
+      "edge_functions": null,
+      "storage": {
+        "buckets": 1,
+        "size_mb": 16,
+        "note": "avatars"
+      },
+      "realtime": true,
+      "idle": "no",
+      "last_activity": "2026-06-29",
+      "severity": "High",
+      "driver_categories": [
+        "D",
+        "B",
+        "C"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-7",
+        "POL-3",
+        "POL-2"
+      ],
+      "key_metrics": {
+        "notifs_per_onboarding": 200,
+        "notifications_rows": 4234,
+        "realtime_publication_tables": 7,
+        "wildcard_subscriptions": 11
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Digest/disable on_new_member_notify (200 rows/onboarding)",
+          "severity": "High",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-7"
+        },
+        {
+          "rank": 2,
+          "action": "Narrow supabase_realtime to per-user notifications; drop profiles",
+          "severity": "High",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-3"
+        },
+        {
+          "rank": 3,
+          "action": "Payload-driven incremental updates (kill wildcard load())",
+          "severity": "High",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-3"
+        },
+        {
+          "rank": 4,
+          "action": "Notifications retention job",
+          "severity": "Medium",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-2"
+        }
+      ]
+    },
+    {
+      "id": "ibuiltthis",
+      "name": "ibuiltthis",
+      "supabase_ref": "ewbssctgqysiokropuos",
+      "stack": "Vite + React",
+      "db_size_mb": 132,
+      "public_tables": 30,
+      "pg_cron": {
+        "installed": true,
+        "active_jobs": 6,
+        "note": "process-consent-replies */5"
+      },
+      "edge_functions": 64,
+      "storage": {
+        "buckets": 2,
+        "size_mb": 581,
+        "note": "share-cards 344MB (59%)"
+      },
+      "realtime": true,
+      "idle": "yes",
+      "last_activity": "2026-03-21",
+      "severity": "High",
+      "driver_categories": [
+        "B",
+        "A",
+        "C"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-3",
+        "POL-1",
+        "POL-2",
+        "POL-8"
+      ],
+      "key_metrics": {
+        "realtime_list_changes": "1717705 calls / 7914412 ms (#1, ~6x)",
+        "net_http_post_calls": 43729,
+        "llm_usage_logs_rows": 0,
+        "stuck_batch_operations": 18
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Drop batch_operations+generation_logs from publication (poll instead)",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-3"
+        },
+        {
+          "rank": 2,
+          "action": "process-consent-replies */5 -> */30 or Slack webhook",
+          "severity": "Medium",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-1"
+        },
+        {
+          "rank": 3,
+          "action": "PNG->WebP + file_size_limit on assets; orphan sweep",
+          "severity": "Medium",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-2"
+        },
+        {
+          "rank": 4,
+          "action": "Fix logLlmUsage instrumentation (0 rows)",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-8"
+        }
+      ]
+    },
+    {
+      "id": "iesbrazil-pipeline",
+      "name": "IesBrazil Pipeline",
+      "supabase_ref": null,
+      "stack": "TanStack Start (server fns)",
+      "db_size_mb": 23,
+      "public_tables": 16,
+      "pg_cron": {
+        "installed": false,
+        "active_jobs": 0,
+        "note": "no pg_cron/pg_net/pgmq; scheduling is client polling"
+      },
+      "edge_functions": 1,
+      "storage": {
+        "buckets": 0,
+        "size_mb": 0
+      },
+      "realtime": false,
+      "idle": "no",
+      "last_activity": null,
+      "severity": "High",
+      "driver_categories": [
+        "B",
+        "C"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-3",
+        "POL-2",
+        "POL-5"
+      ],
+      "key_metrics": {
+        "dock_poll": "4s foreground+background",
+        "per_batch_poll": "2s",
+        "stuck_batch_polled_days": 11,
+        "db_admin_log_rows": 11584,
+        "rls": "USING(true) all operational tables"
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Mark cancelling terminal + 10-min janitor; refetchIntervalInBackground=false",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-3"
+        },
+        {
+          "rank": 2,
+          "action": "Retention on db_admin_log + LIMIT/pagination on log reads",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-2"
+        },
+        {
+          "rank": 3,
+          "action": "Replace USING(true) with role/tenant predicates",
+          "severity": "High",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-5"
+        }
+      ]
+    },
+    {
+      "id": "whos-local",
+      "name": "Whos Local",
+      "supabase_ref": "auivdtjkovyfoseuczkx",
+      "stack": "TanStack Start",
+      "db_size_mb": 18,
+      "public_tables": 12,
+      "pg_cron": {
+        "installed": true,
+        "active_jobs": 3,
+        "note": "2 point to dead host *.lovable-project.com"
+      },
+      "edge_functions": 1,
+      "storage": {
+        "buckets": 1,
+        "size_mb": 1.3,
+        "note": "avatars"
+      },
+      "realtime": false,
+      "idle": "no",
+      "last_activity": null,
+      "severity": "High",
+      "driver_categories": [
+        "B",
+        "A",
+        "D"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-1",
+        "POL-3",
+        "POL-6",
+        "POL-7"
+      ],
+      "key_metrics": {
+        "signup_completed_rows_vs_users": "369 vs 32",
+        "top_user_signup_events": 263,
+        "stale_ambassador_404_calls": 2055,
+        "latent_writes_per_day": "15000-22000"
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Guard signup_completed (fire once on real signup)",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-3"
+        },
+        {
+          "rank": 2,
+          "action": "Fix cron host AND dedup sync-events in one patch",
+          "severity": "High",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-1"
+        },
+        {
+          "rank": 3,
+          "action": "Retire stale ambassadors* clients (2055 wasted 404s)",
+          "severity": "Medium",
+          "effort": "S",
+          "status": "Hypothesis",
+          "policy": "POL-3"
+        },
+        {
+          "rank": 4,
+          "action": "Vault cron tokens; tighten activity_log/avatars",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-5"
+        }
+      ]
+    },
+    {
+      "id": "lovable-cup",
+      "name": "Lovable Cup",
+      "supabase_ref": "17d9ac09-1017-488c-b8f4-d072e398dac6",
+      "stack": "TanStack Start / CF Worker",
+      "db_size_mb": 13.7,
+      "public_tables": 13,
+      "pg_cron": {
+        "installed": true,
+        "active_jobs": 1,
+        "note": "points at preview host"
+      },
+      "edge_functions": 1,
+      "storage": {
+        "buckets": 2,
+        "size_mb": 0,
+        "note": "0 objects"
+      },
+      "realtime": false,
+      "idle": "no",
+      "last_activity": null,
+      "severity": "High",
+      "driver_categories": [
+        "B",
+        "D"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-3",
+        "POL-1",
+        "POL-5",
+        "POL-7"
+      ],
+      "key_metrics": {
+        "wal_mb": 96,
+        "demo_seed_share": "99.5% submissions / 99% profiles",
+        "sticker_bg_calls": 2694,
+        "submeter_poll": "8s = 10800/tab/day",
+        "auth_subscribers": 4,
+        "linter_warnings": 11
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Global staleTime:60s + defaultPreloadStaleTime>=30s",
+          "severity": "High",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-3"
+        },
+        {
+          "rank": 2,
+          "action": "Replace 8s /submeter poll with Realtime/button (-10800/day)",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-3"
+        },
+        {
+          "rank": 3,
+          "action": "One auth subscriber + keyed invalidation; repoint cron off preview",
+          "severity": "Medium",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-3"
+        },
+        {
+          "rank": 4,
+          "action": "Filter is_demo=false; audit 6 exposed SECURITY DEFINER fns",
+          "severity": "Medium",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-5"
+        }
+      ]
+    },
+    {
+      "id": "smart-deals",
+      "name": "Smart Deals",
+      "supabase_ref": "6d5c7cdc-8513-42b5-9d27-cc879a9d1afd",
+      "stack": "React",
+      "db_size_mb": null,
+      "public_tables": 13,
+      "pg_cron": {
+        "installed": true,
+        "active_jobs": null,
+        "note": "pg_cron+pg_net present; schedule RLS-blocked from app"
+      },
+      "edge_functions": 16,
+      "storage": {
+        "buckets": null,
+        "size_mb": null
+      },
+      "realtime": true,
+      "idle": "yes",
+      "last_activity": "2026-04-10",
+      "severity": "High",
+      "driver_categories": [
+        "A",
+        "E"
+      ],
+      "primary_driver_confirmed": false,
+      "policies": [
+        "POL-1",
+        "POL-8",
+        "POL-5",
+        "POL-9"
+      ],
+      "key_metrics": {
+        "idle_days": 81,
+        "credits_used": 140,
+        "gateway_logged_requests": 0,
+        "llm_calls_min_from_db": 130,
+        "pipeline": "triple-LLM pass0/1/2"
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Pull cron.job HQ-side; auto-pause scheduled fns (idle 81d)",
+          "severity": "High",
+          "effort": "S",
+          "status": "Hypothesis",
+          "policy": "POL-1"
+        },
+        {
+          "rank": 2,
+          "action": "Reconcile 140 credits vs 0 gateway logs; build ledger",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-8"
+        },
+        {
+          "rank": 3,
+          "action": "Rate-limit deal-api (verify_jwt=false)",
+          "severity": "Medium",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-6"
+        }
+      ]
+    },
+    {
+      "id": "yapp-to",
+      "name": "YAPP (yapp-to)",
+      "supabase_ref": "7184605c-3941-4251-b518-6b29610bd5c8",
+      "stack": "React",
+      "db_size_mb": 88,
+      "public_tables": 25,
+      "pg_cron": {
+        "installed": true,
+        "active_jobs": 2,
+        "note": "process-scheduled-messages, purge-orphan-uploads"
+      },
+      "edge_functions": 18,
+      "storage": {
+        "buckets": 2,
+        "size_mb": 35,
+        "note": "both public, no size limit"
+      },
+      "realtime": null,
+      "idle": "no",
+      "last_activity": null,
+      "severity": "High",
+      "driver_categories": [
+        "E",
+        "C"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-8",
+        "POL-4",
+        "POL-2",
+        "POL-5",
+        "POL-6"
+      ],
+      "key_metrics": {
+        "ai_usage_logs_rows": 0,
+        "instrumented_fns": "3 of ~6",
+        "tts_metered": false,
+        "buckets_public_no_limit": true
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Instrument every LLM/TTS/STT call site (ai_usage_logs 0 rows)",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-8"
+        },
+        {
+          "rank": 2,
+          "action": "file_size_limit + ownership checks on both public buckets",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-2"
+        },
+        {
+          "rank": 3,
+          "action": "Fix form_links PII policy; remove dangerouslySetInnerHTML",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-5"
+        }
+      ]
+    },
+    {
+      "id": "lucio-amorim",
+      "name": "Lucio Amorim (lucio.nxlv.ai)",
+      "supabase_ref": "vrglpslgfxakkpzzkjvl",
+      "stack": "TanStack Start / CF",
+      "db_size_mb": 12,
+      "public_tables": 10,
+      "pg_cron": {
+        "installed": false,
+        "active_jobs": 0
+      },
+      "edge_functions": 0,
+      "storage": {
+        "buckets": 1,
+        "size_mb": 0,
+        "note": "0 objects"
+      },
+      "realtime": false,
+      "idle": "partial",
+      "last_activity": null,
+      "severity": "Medium",
+      "driver_categories": [
+        "B"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-3",
+        "POL-5",
+        "POL-8"
+      ],
+      "key_metrics": {
+        "loader_selects": "~8400 (6-query home bundle)",
+        "rolled_back_txns": 73653,
+        "auth_subscribers": 4
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Cache-Control: s-maxage=300 on getHomeBundle (~50x fewer hits)",
+          "severity": "Medium",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-3"
+        },
+        {
+          "rank": 2,
+          "action": "Raise defaultPreloadStaleTime; dedup 4 auth listeners",
+          "severity": "Medium",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-3"
+        },
+        {
+          "rank": 3,
+          "action": "Rate-limit email_submissions; revoke EXECUTE on 2 fns",
+          "severity": "Medium",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-5"
+        }
+      ]
+    },
+    {
+      "id": "genialprev-classic",
+      "name": "GenialPrev Classic",
+      "supabase_ref": "gqcjalnzfboqibbzlbdr",
+      "stack": "Vite + React",
+      "db_size_mb": 95.4,
+      "public_tables": 18,
+      "pg_cron": {
+        "installed": true,
+        "active_jobs": 0,
+        "note": "installed but unused"
+      },
+      "edge_functions": 9,
+      "storage": {
+        "buckets": 0,
+        "size_mb": 0
+      },
+      "realtime": false,
+      "idle": "runtime-clean",
+      "last_activity": null,
+      "severity": "Low",
+      "driver_categories": [
+        "F",
+        "B"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-8",
+        "POL-3"
+      ],
+      "key_metrics": {
+        "burn_source": "Build/agent (Remotion video pipeline, plan-mode)",
+        "admin_mount_count_queries": 13,
+        "runtime": "idle & healthy"
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Confirm burn via credits--get_credit_balance by billable_item",
+          "severity": "Low",
+          "effort": "XS",
+          "status": "Hypothesis",
+          "policy": "POL-8"
+        },
+        {
+          "rank": 2,
+          "action": "Collapse 13-count admin mount into one RPC + staleTime",
+          "severity": "Low",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-3"
+        }
+      ]
+    },
+    {
+      "id": "nxlv",
+      "name": "nxlv (Lucio Amorim)",
+      "supabase_ref": "xefkdotgotpmrheboayg",
+      "stack": "TanStack Start / CF",
+      "db_size_mb": 12,
+      "public_tables": 7,
+      "pg_cron": {
+        "installed": false,
+        "active_jobs": 0
+      },
+      "edge_functions": 5,
+      "storage": {
+        "buckets": 1,
+        "size_mb": 0,
+        "note": "0 objects"
+      },
+      "realtime": false,
+      "idle": "runtime-clean",
+      "last_activity": null,
+      "severity": "Low",
+      "driver_categories": [
+        "F"
+      ],
+      "primary_driver_confirmed": true,
+      "policies": [
+        "POL-8",
+        "POL-9"
+      ],
+      "key_metrics": {
+        "build_mode_share_workspace": "62.3%",
+        "project_credits_7d": 98,
+        "build_mode_of_project": "~92 of 98",
+        "runtime": "confirmed clean"
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Investigate Build-mode editor sessions (runtime confirmed clean)",
+          "severity": "Low",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-8"
+        }
+      ]
+    },
+    {
+      "id": "buildable",
+      "name": "buildable",
+      "supabase_ref": null,
+      "stack": null,
+      "db_size_mb": null,
+      "public_tables": null,
+      "pg_cron": {
+        "installed": null,
+        "active_jobs": null
+      },
+      "edge_functions": null,
+      "storage": {
+        "buckets": null,
+        "size_mb": null
+      },
+      "realtime": null,
+      "idle": "no",
+      "last_activity": "2026-06-20",
+      "severity": "Low",
+      "driver_categories": [],
+      "primary_driver_confirmed": null,
+      "policies": [
+        "POL-8"
+      ],
+      "key_metrics": {
+        "ledger_rows": 158,
+        "total_tokens": 1529370,
+        "single_model": "google/gemini-3-flash-preview",
+        "two_batch_days_share": "88%",
+        "estimated_cost_usd": "NULL all rows"
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Populate estimated_cost_usd or drop the dead column",
+          "severity": "Low",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-8"
+        }
+      ]
+    },
+    {
+      "id": "hackathons",
+      "name": "Lovable Hackathons Brasil",
+      "supabase_ref": null,
+      "stack": "React 18 + Vite 5",
+      "db_size_mb": null,
+      "public_tables": null,
+      "pg_cron": {
+        "installed": null,
+        "active_jobs": null
+      },
+      "edge_functions": null,
+      "storage": {
+        "buckets": 5,
+        "size_mb": 68,
+        "note": "multi-tenant by event_id"
+      },
+      "realtime": null,
+      "idle": "no",
+      "last_activity": "2026-06-20",
+      "severity": "Low",
+      "driver_categories": [],
+      "primary_driver_confirmed": null,
+      "policies": [
+        "POL-4",
+        "POL-8"
+      ],
+      "key_metrics": {
+        "events": 8,
+        "users": 221,
+        "submissions": 36,
+        "ai_cost_period": "US$0.00",
+        "status": "healthy / reference multi-tenant"
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Monitor AI cost when batch cover-gen fires; add funnel events",
+          "severity": "Low",
+          "effort": "S",
+          "status": "Hypothesis",
+          "policy": "POL-4"
+        }
+      ]
+    },
+    {
+      "id": "desafio-genial",
+      "name": "desafio-genial (desafiogenial-react)",
+      "supabase_ref": null,
+      "stack": "Vite + React",
+      "db_size_mb": null,
+      "public_tables": null,
+      "pg_cron": {
+        "installed": null,
+        "active_jobs": null
+      },
+      "edge_functions": null,
+      "storage": {
+        "buckets": null,
+        "size_mb": null
+      },
+      "realtime": null,
+      "idle": null,
+      "last_activity": null,
+      "severity": "Low",
+      "driver_categories": [],
+      "primary_driver_confirmed": null,
+      "policies": [],
+      "key_metrics": {
+        "report_type": "CTA / checkout-link audit",
+        "ctas": "18 (17 OK, 1 attention)",
+        "note": "outlier - no backend metrics"
+      },
+      "top_actions": [
+        {
+          "rank": 1,
+          "action": "Validate HTTP members-area URL (genialprev.curseduca.pro)",
+          "severity": "Low",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "None"
+        }
+      ]
+    }
+  ]
+}

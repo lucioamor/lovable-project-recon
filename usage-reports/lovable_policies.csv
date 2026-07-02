@@ -1,0 +1,10 @@
+id,name,severity,effort,affected_projects,priority,summary
+POL-1,Scheduled-job (cron) hygiene,High,S-M,8,P0,No sub-15-min pollers; event-driven or sentinel-gated; scheduler-level idle/paused/deadline short-circuit; prod host only; judge health from net._http_response.
+POL-2,Log & raw-payload retention,High,XS-S,7,P0,Every log/append table has TTL/partition; no raw HTML/blobs in Postgres; media in Storage with size limit + orphan sweep; snapshots keep latest+changed.
+POL-3,Client & Realtime fetch defaults,High,S-M,7,P1,"staleTime>=60s, preloadStaleTime>=30s, refetchIntervalInBackground=false, pause on hidden; one auth subscriber + keyed invalidation; minimal per-row Realtime + incremental updates; HTTP cache on SSR loaders."
+POL-4,AI cost governance,Critical,S-M,6,P0,Per-user/day token or USD ceiling + circuit breaker before provider call; ai_config.max_cost_usd non-NULL; pin catalog model IDs; bounded fan-out; idempotent generate functions.
+POL-5,RLS & tenancy baseline,Critical,S-M,10,P0,No USING(true)/tautology on operational tables; no anon UPDATE of unowned rows; rate-limit anon INSERT; revoke EXECUTE from anon on SECURITY DEFINER; no PII via broad SELECT; no dangerouslySetInnerHTML on anon input.
+POL-6,Secrets & auth-surface management,Critical,XS-S,7,P0,No JWT in cron.job.command (Vault); no service-role over HTTP; delete debug/reveal fns + rotate; verify_jwt=false fns need explicit gate + rate limit; remove dead secrets.
+POL-7,Write-amplification & trigger discipline,Medium,M,4,P2,Cap notification/aggregate fan-out (digest/queue); batch progress updates; upsert not delete-all+reinsert.
+POL-8,Cost observability & attribution,High,S,19,P1,Per-project usage ledger written by every AI/TTS/STT call site; attribute via credits--get_credit_balance by billable_item/project; gateway 7-day log not authoritative; no NULL cost columns in UI.
+POL-9,Idle-project lifecycle,Medium,S,6,P1,Auto-pause scheduled/background work when no real activity > 30 days; flag idle Cloud instances for pause/consolidation; idle in app tables != not billing.

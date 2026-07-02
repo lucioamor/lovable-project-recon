@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "central-genial",
+    "name": "central-genial",
+    "supabaseRef": "ezdckbupdqjrfmoetbjc",
+    "stack": "Vite + React + Shadcn",
+    "evidenceGenerated": "2026-06-30",
+    "evidenceSource": "central-genial_USAGE_REPORT.md"
+  },
+  "resources": [
+    {
+      "id": "project",
+      "kind": "project",
+      "name": "central-genial",
+      "attrs": {
+        "authUsers": 1,
+        "idleDays": 101,
+        "tables": 27,
+        "edgeFns": 25,
+        "idleSince": "2026-03-21",
+        "dbTotalBytes": 162529280
+      }
+    },
+    {
+      "id": "cloud",
+      "kind": "cloud",
+      "name": "Lovable Cloud (Supabase)",
+      "attrs": {
+        "status": "active",
+        "ref": "ezdckbupdqjrfmoetbjc"
+      }
+    },
+    {
+      "id": "cron_job:poll-telegram-updates",
+      "kind": "cron_job",
+      "name": "poll-telegram-updates",
+      "attrs": {
+        "schedule": "* * * * *",
+        "active": true,
+        "runsPerDay": 1440,
+        "usefulWork": false,
+        "totalRuns": 150747,
+        "hostStatus": "dead",
+        "command": "SELECT net.http_post(url := 'https://ezdckbupdqjrfmoetbjc.supabase.co/functions/v1/telegram-poll', headers := '{\"Authorization\":\"Bearer eyJredacted\",\"Content-Type\":\"application/json\"}');",
+        "jwtExpiryYears": 60,
+        "longPollMs": 55000
+      }
+    },
+    {
+      "id": "cron_job:monthly-social-kit-generation",
+      "kind": "cron_job",
+      "name": "monthly-social-kit-generation",
+      "attrs": {
+        "schedule": "0 8 1 * *",
+        "active": true,
+        "runsPerDay": 0.03,
+        "usefulWork": true,
+        "command": "SELECT net.http_post(headers := '{\"Authorization\":\"Bearer eyJredacted\"}');",
+        "jwtExpiryYears": 60
+      }
+    },
+    {
+      "id": "cron_job:morning-summary-daily",
+      "kind": "cron_job",
+      "name": "morning-summary-daily",
+      "attrs": {
+        "schedule": "0 11 * * *",
+        "active": true,
+        "runsPerDay": 1,
+        "usefulWork": true,
+        "command": "SELECT net.http_post(headers := '{\"Authorization\":\"Bearer eyJredacted\"}');",
+        "jwtExpiryYears": 60,
+        "returnsEarly": true
+      }
+    },
+    {
+      "id": "cron_job:stale-lead-alert-daily",
+      "kind": "cron_job",
+      "name": "stale-lead-alert-daily",
+      "attrs": {
+        "schedule": "0 12 * * *",
+        "active": true,
+        "runsPerDay": 1,
+        "usefulWork": true,
+        "command": "SELECT net.http_post(headers := '{\"Authorization\":\"Bearer eyJredacted\"}');",
+        "jwtExpiryYears": 60,
+        "returnsEarly": true
+      }
+    },
+    {
+      "id": "cron_job:update-reminder-daily",
+      "kind": "cron_job",
+      "name": "update-reminder-daily",
+      "attrs": {
+        "schedule": "0 13 * * *",
+        "active": true,
+        "runsPerDay": 1,
+        "usefulWork": true,
+        "command": "SELECT net.http_post(headers := '{\"Authorization\":\"Bearer eyJredacted\"}');",
+        "jwtExpiryYears": 60,
+        "returnsEarly": true
+      }
+    },
+    {
+      "id": "table:cron.job_run_details",
+      "kind": "table",
+      "name": "cron.job_run_details",
+      "attrs": {
+        "totalBytes": 126877696,
+        "isLog": true,
+        "retention": false,
+        "rows": 150747,
+        "nTupIns": 150747,
+        "nTupUpd": 0,
+        "nTupDel": 0
+      }
+    },
+    {
+      "id": "rls_policy:analytics_events.anon_insert",
+      "kind": "rls_policy",
+      "name": "analytics_events - Anyone can insert",
+      "attrs": {
+        "table": "analytics_events",
+        "cmd": "INSERT",
+        "roles": ["anon"],
+        "qual": "true"
+      }
+    }
+  ],
+  "observations": [
+    {
+      "resourceId": "project",
+      "metric": "last_activity_days",
+      "value": 101,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "public_tables",
+      "value": 27,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "edge_functions",
+      "value": 25,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "pg_cron_active_jobs",
+      "value": 5,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "db_size_mb",
+      "value": 155,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "cron_job:poll-telegram-updates",
+      "metric": "runs_per_day",
+      "value": 1440,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "table:cron.job_run_details",
+      "metric": "total_bytes",
+      "value": 126877696,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "table:cron.job_run_details",
+      "metric": "n_tup_ins",
+      "value": 150747,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    }
+  ],
+  "importedActions": [
+    {
+      "rank": 1,
+      "policy": "POL-1",
+      "severity": "High",
+      "status": "Confirmed",
+      "effort": "XS",
+      "action": "cron.unschedule('poll-telegram-updates') (-1440/day)"
+    },
+    {
+      "rank": 2,
+      "policy": "POL-2",
+      "severity": "High",
+      "status": "Confirmed",
+      "effort": "XS",
+      "action": "Purge cron.job_run_details (-121MB) + add retention"
+    },
+    {
+      "rank": 3,
+      "policy": "POL-6",
+      "severity": "Critical",
+      "status": "Confirmed",
+      "effort": "S",
+      "action": "Rotate anon key / Vault cron auth (60-yr expiry)"
+    },
+    {
+      "rank": 4,
+      "policy": "POL-9",
+      "severity": "Medium",
+      "status": "Confirmed",
+      "effort": "S",
+      "action": "Auto-pause scheduled work after 30 idle days"
+    }
+  ],
+  "raw": {
+    "sourceReport": "central-genial_USAGE_REPORT.md",
+    "conversion": "manual seed fixture derived from demo collector and structured index"
+  },
+  "warnings": ["corpus seed fixture - hand-reviewed baseline, not a fresh live scan"]
+}

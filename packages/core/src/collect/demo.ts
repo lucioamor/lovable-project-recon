@@ -14,7 +14,7 @@ export async function collectDemo(_opts: CollectOptions): Promise<Collected> {
     id: "project",
     kind: "project",
     name: "central-genial",
-    attrs: { authUsers: 1, idleDays: 101, tables: 27, edgeFns: 25, idleSince: "2026-03-21" },
+    attrs: { authUsers: 1, idleDays: 101, tables: 27, edgeFns: 25, idleSince: "2026-03-21", dbTotalBytes: 155 * MB },
   });
   resources.push({
     id: "cloud",
@@ -86,8 +86,6 @@ export async function collectDemo(_opts: CollectOptions): Promise<Collected> {
     resources,
     observations,
     raw: {},
-    warnings: [
-      "demo mode — fixture from the central-genial audit; not a live scan",
-    ],
+    warnings: ["demo mode — fixture from the central-genial audit; not a live scan"],
   };
 }

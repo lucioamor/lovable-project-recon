@@ -17,11 +17,7 @@ export const pol5RlsTenancy: Rule = {
       const anonWrite = /anon|public/.test(roles) && /INSERT|UPDATE|DELETE/.test(cmd);
       if (!tautology && !anonWrite) continue;
 
-      const kind = tautology && /SELECT/.test(cmd)
-        ? "open read (whole table on every poll)"
-        : anonWrite
-          ? "unrate-limited anon write surface"
-          : "tautology policy";
+      const kind = tautology && /SELECT/.test(cmd) ? "open read (whole table on every poll)" : anonWrite ? "unrate-limited anon write surface" : "tautology policy";
 
       findings.push({
         id: `POL-5:${p.name}`,
@@ -52,5 +48,7 @@ export const pol5RlsTenancy: Rule = {
 
 function normalize(v: unknown): string {
   if (Array.isArray(v)) return v.join(",").toLowerCase();
-  return String(v ?? "").toLowerCase().trim();
+  return String(v ?? "")
+    .toLowerCase()
+    .trim();
 }

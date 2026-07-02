@@ -1,4 +1,4 @@
-import type { Mode, Observation, ProjectMeta, Resource } from "../model.ts";
+import type { ImportedAction, Mode, Observation, ProjectMeta, Resource } from "../model.ts";
 
 export interface Collected {
   project: ProjectMeta;
@@ -7,6 +7,9 @@ export interface Collected {
   /** raw query/scan results by name, for rules that want the unmapped payload */
   raw: Record<string, unknown>;
   warnings: string[];
+  importedActions?: ImportedAction[];
+  /** false when the collector is a stub / did not really evaluate the project (e.g. static M1). */
+  assessed?: boolean;
 }
 
 export interface CollectOptions {
@@ -14,6 +17,10 @@ export interface CollectOptions {
   dbUrl?: string;
   repoPath?: string;
   token?: string;
+  indexPath?: string;
+  evidencePath?: string;
+  projectId?: string;
+  dir?: string;
 }
 
 export interface Collector {

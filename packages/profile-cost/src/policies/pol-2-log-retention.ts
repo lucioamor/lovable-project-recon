@@ -11,10 +11,12 @@ export const pol2LogRetention: Rule = {
     const tables = ctx.resourcesByKind("table");
 
     // Rank by size so we can call out "one table dominates the DB".
-    const sized = tables
-      .map((t) => ({ t, bytes: typeof t.attrs["totalBytes"] === "number" ? (t.attrs["totalBytes"] as number) : 0 }))
-      .sort((a, b) => b.bytes - a.bytes);
-    const totalBytes = sized.reduce((s, x) => s + x.bytes, 0) || 1;
+    const sized = tables.map((t) => ({ t, bytes: typeof t.attrs["totalBytes"] === "number" ? (t.attrs["totalBytes"] as number) : 0 })).sort((a, b) => b.bytes - a.bytes);
+    const sumBytes = sized.reduce((s, x) => s + x.bytes, 0);
+    const project = ctx.resourceById("project");
+    const dbTotal = typeof project?.attrs["dbTotalBytes"] === "number" ? (project.attrs["dbTotalBytes"] as number) : 0;
+    // Prefer a real DB total so "% of DB" is honest even when only a few tables are modeled.
+    const totalBytes = Math.max(dbTotal, sumBytes) || 1;
 
     for (const { t, bytes } of sized) {
       const isLog = t.attrs["isLog"] === true;
@@ -36,9 +38,7 @@ export const pol2LogRetention: Rule = {
           `\`${t.name}\` is an append-only log/raw table with no retention policy. Growth here is never ` +
           `healthy data-model growth — it is storage + backup bloat and per-insert index overhead. ` +
           `Almost every larger Lovable DB is dominated by exactly one table like this.`,
-        evidence: [
-          { source: "sql", detail: `${mb} MB, ${share}% of public schema`, snippet: "SELECT relname, pg_total_relation_size(c.oid) FROM pg_class c ... ORDER BY 2 DESC;" },
-        ],
+        evidence: [{ source: "sql", detail: `${mb} MB, ${share}% of public schema`, snippet: "SELECT relname, pg_total_relation_size(c.oid) FROM pg_class c ... ORDER BY 2 DESC;" }],
         remediation: [
           {
             kind: "sql_migration",

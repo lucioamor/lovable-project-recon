@@ -1,7 +1,7 @@
 // Normalized evidence model — do not conflate resource, measured fact, finding, and fix.
 // (Matches LOVABLE_CLEANUP_ARCHITECTURE.md §5.)
 
-export type Mode = "db" | "static" | "portfolio" | "demo";
+export type Mode = "db" | "static" | "portfolio" | "demo" | "index" | "evidence" | "corpus";
 
 export type Severity = "critical" | "high" | "medium" | "low";
 
@@ -10,18 +10,7 @@ export type DriverCat = "A" | "B" | "C" | "D" | "E" | "F";
 
 export type Confidence = "confirmed" | "hypothesis";
 
-export type ResourceKind =
-  | "project"
-  | "cloud"
-  | "db"
-  | "table"
-  | "cron_job"
-  | "edge_fn"
-  | "bucket"
-  | "realtime"
-  | "ai_config"
-  | "rls_policy"
-  | "secret";
+export type ResourceKind = "project" | "cloud" | "db" | "table" | "cron_job" | "edge_fn" | "bucket" | "realtime" | "ai_config" | "rls_policy" | "secret";
 
 /** Something that exists in the project. */
 export interface Resource {
@@ -42,7 +31,7 @@ export interface Observation {
 }
 
 export interface Evidence {
-  source: "sql" | "rg" | "api" | "demo";
+  source: "sql" | "rg" | "api" | "demo" | "index" | "evidence";
   detail: string;
   snippet?: string;
 }
@@ -84,6 +73,18 @@ export interface ProjectMeta {
   stack?: string;
   mode: Mode;
   scannedAt: string; // ISO
+  evidenceGenerated?: string; // ISO date when offline evidence was captured
+  evidenceSource?: string;
+}
+
+export interface ImportedAction {
+  rank?: number;
+  action: string;
+  severity?: string;
+  effort?: string;
+  status?: string;
+  policy?: string;
+  source?: string;
 }
 
 export interface ReconResult {
@@ -93,4 +94,7 @@ export interface ReconResult {
   findings: Finding[];
   score: RiskScore;
   warnings: string[];
+  importedActions: ImportedAction[];
+  /** false when collection was a stub and no real assessment happened. */
+  assessed: boolean;
 }
