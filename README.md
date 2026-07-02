@@ -65,6 +65,12 @@ runtime anti-patterns are usually small _per project_. So recon does not promise
 savings — it finds **spikes, orphan crons, and the idle-project baseline**, and gives
 portfolio-level consolidation advice. That is where the surprise actually lives.
 
+## Authorship and maintenance
+
+This project was created by [Lucio Amorim](https://linkedin.com/in/lucioamorim), Lovable Ambassador.
+
+When reusing, redistributing, or citing this work, keep the attribution credits and include a link to this repository.
+
 ## License
 
 UNLICENSED · © nxlv.ai
