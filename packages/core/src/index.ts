@@ -27,8 +27,8 @@ import { scoreFindings } from "./score.ts";
 import { collectDemo } from "./collect/demo.ts";
 import { collectDb } from "./collect/db.ts";
 import { collectStatic } from "./collect/static.ts";
-import { collectIndex } from "./collect/index-json.ts";
-import { collectEvidence } from "./collect/evidence.ts";
+import { collectIndex, listIndexProjects } from "./collect/index-json.ts";
+import { collectEvidence, listEvidenceFiles } from "./collect/evidence.ts";
 import { collectPortfolio } from "./collect/portfolio.ts";
 
 const COLLECTORS: Record<Mode, (o: CollectOptions) => Promise<Collected>> = {
@@ -60,6 +60,18 @@ export async function runRecon(mode: Mode, opts: CollectOptions, rules: Rule[]):
     intent: collected.intent ?? opts.intent,
     assessed,
   };
+}
+
+export interface PortfolioRunOptions {
+  intent?: CollectOptions["intent"];
+}
+
+export async function runIndexPortfolio(indexPath: string, rules: Rule[], opts: PortfolioRunOptions = {}): Promise<ReconResult[]> {
+  return Promise.all(listIndexProjects(indexPath).map((project) => runRecon("index", { indexPath, projectId: project.id, intent: opts.intent }, rules)));
+}
+
+export async function runEvidencePortfolio(dir: string, rules: Rule[], opts: PortfolioRunOptions = {}): Promise<ReconResult[]> {
+  return Promise.all(listEvidenceFiles(dir).map((evidencePath) => runRecon("evidence", { evidencePath, intent: opts.intent }, rules)));
 }
 
 function collectUnsupported(mode: Mode): (o: CollectOptions) => Promise<Collected> {

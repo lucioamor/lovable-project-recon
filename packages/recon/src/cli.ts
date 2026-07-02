@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync } from "node:fs";
 import { renderPortfolioReport } from "@nxlv-ai/lovable-benchmarks";
-import { buildCleanPlan, listEvidenceFiles, listIndexProjects, runRecon, renderCleanPlan, renderReport, redactSecrets, type Mode } from "@nxlv-ai/lovable-core";
+import { buildCleanPlan, runEvidencePortfolio, runIndexPortfolio, runRecon, renderCleanPlan, renderReport, redactSecrets, type Mode } from "@nxlv-ai/lovable-core";
 import { costRules } from "@nxlv-ai/lovable-profile-cost";
 
 const VALID_MODES: Mode[] = ["demo", "db", "static", "index", "evidence", "corpus", "portfolio"];
@@ -159,7 +159,7 @@ async function main() {
     return;
   }
   if (mode === "index" && typeof args["index"] === "string" && !args["project"]) {
-    const results = await Promise.all(listIndexProjects(args["index"]).map((p) => runRecon("index", { indexPath: args["index"] as string, projectId: p.id, intent }, costRules)));
+    const results = await runIndexPortfolio(args["index"], costRules, { intent });
     if (args["json"]) {
       const json = redactSecrets(JSON.stringify(results, null, 2));
       if (typeof args["out"] === "string") writeFileSync(args["out"], json);
@@ -188,7 +188,7 @@ async function main() {
       console.error(`${mode} mode requires --dir <corpus-directory>`);
       process.exit(1);
     }
-    const results = await Promise.all(listEvidenceFiles(args["dir"]).map((path) => runRecon("evidence", { evidencePath: path, intent }, costRules)));
+    const results = await runEvidencePortfolio(args["dir"], costRules, { intent });
     if (args["json"]) {
       const json = redactSecrets(JSON.stringify(results, null, 2));
       if (typeof args["out"] === "string") writeFileSync(args["out"], json);
