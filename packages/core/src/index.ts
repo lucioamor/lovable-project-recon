@@ -4,6 +4,8 @@ export * from "./model.ts";
 export * from "./engine.ts";
 export { scoreFindings } from "./score.ts";
 export { renderReport } from "./report.ts";
+export { buildCleanPlan, renderCleanPlan } from "./clean.ts";
+export type { CleanPlan, CleanPlanAction } from "./clean.ts";
 export { AUDIT_QUERIES } from "./queries.ts";
 export type { AuditQuery } from "./queries.ts";
 export { cronRunsPerDay, looksLikeLogTable, humanBytes, redactSecrets } from "./util.ts";

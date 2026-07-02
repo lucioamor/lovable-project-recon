@@ -94,6 +94,15 @@ node packages/recon/src/cli.ts scan --mode index --index usage-reports/lovable_p
 Imported audit actions from the index are shown in a separate report section and are not counted
 in the waste-score.
 
+## Clean plans
+
+```bash
+recon clean --mode demo
+recon clean --mode evidence --evidence corpus/central-genial.evidence.json --json
+```
+
+`clean` never uses imported audit actions as executable input. Hypotheses are skipped, review-required remediations are listed but not applied, and corpus/portfolio fan-out is intentionally refused for cleanup.
+
 ## Modes
 
 | Mode | Source | Status |
@@ -112,11 +121,10 @@ in the waste-score.
 packages/core           @nxlv-ai/lovable-core           evidence model, engine, score, report, query library, collectors
 packages/profile-cost   @nxlv-ai/lovable-profile-cost   POL-1..9 as rules
 packages/benchmarks     @nxlv-ai/lovable-benchmarks     portfolio ranking, percentiles, cross-project report
-packages/recon          @nxlv-ai/lovable-recon          CLI: recon scan -> later recon clean
+packages/recon          @nxlv-ai/lovable-recon          CLI: recon scan + dry-run recon clean
 ```
 
-Pipeline: `collect -> detect -> score -> evaluate -> report` (read-only). The `clean` verb
-(remediation apply) is a later milestone and is review-gated by design.
+Pipeline: `collect -> detect -> score -> evaluate -> report` (read-only). `recon clean` is dry-run by default: it builds an auditable plan from confirmed findings only. `--apply` is gated by `RemediationAction.applySafe`; current remediations are review-required and therefore not auto-applied.
 
 ## What recon is honest about
 

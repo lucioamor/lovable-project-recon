@@ -54,6 +54,10 @@ describe("packaged CLI e2e", () => {
     expect(failOn.status).toBe(1);
     expect(failOn.stdout).toContain('"findings"');
 
+    const clean = run(process.execPath, [bin, "clean", "--mode", "demo", "--json"], appDir);
+    expect(clean.status, clean.stderr).toBe(0);
+    expect(clean.stdout).toContain('"dryRun": true');
+
     const indexPath = join(process.cwd(), "usage-reports", "lovable_projects_index.json");
     const index = run(process.execPath, [bin, "scan", "--mode", "index", "--index", indexPath, "--project", "opportunity-monitor", "--json"], appDir);
     expect(index.status, index.stderr).toBe(0);

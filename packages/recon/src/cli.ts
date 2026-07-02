@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync } from "node:fs";
 import { renderPortfolioReport } from "@nxlv-ai/lovable-benchmarks";
-import { listEvidenceFiles, listIndexProjects, runRecon, renderReport, redactSecrets, type Mode } from "@nxlv-ai/lovable-core";
+import { buildCleanPlan, listEvidenceFiles, listIndexProjects, runRecon, renderCleanPlan, renderReport, redactSecrets, type Mode } from "@nxlv-ai/lovable-core";
 import { costRules } from "@nxlv-ai/lovable-profile-cost";
 
 const VALID_MODES: Mode[] = ["demo", "db", "static", "index", "evidence", "corpus", "portfolio"];
@@ -28,6 +28,7 @@ const HELP = `recon — runtime-waste recon for Lovable Cloud portfolios
 
 Usage:
   recon scan [options]
+  recon clean [options]
 
 Options:
   --mode <demo|db|static|index|evidence|corpus|portfolio>   evidence source (default: demo)
@@ -39,8 +40,10 @@ Options:
   --project <name|id>                 project label or index project id
   --intent <file>                     project intent / roadmap context to attach to the result
   --fail-on <critical|high|medium|low> exit 1 when findings meet or exceed severity
+  --apply                             request clean apply; refused unless actions are auto-applicable
+  --dry-run                           force planning only (default for clean)
   --out <file>                        write the Markdown report to a file
-  --json                              print raw ReconResult as JSON instead of a report
+  --json                              print raw result/plan as JSON instead of Markdown
   --help                              show this help
 
 Examples:
@@ -52,6 +55,8 @@ Examples:
   recon scan --mode evidence --evidence corpus/central-genial.evidence.json
   recon scan --mode corpus --dir corpus --out ./CORPUS_REPORT.md
   recon scan --mode portfolio --dir corpus --out ./PORTFOLIO_REPORT.md
+  recon clean --mode demo
+  recon clean --mode evidence --evidence corpus/central-genial.evidence.json
 `;
 
 async function main() {
@@ -60,16 +65,23 @@ async function main() {
     console.log(HELP);
     process.exit(command ? 0 : 1);
   }
-  if (command !== "scan") {
+  if (command !== "scan" && command !== "clean") {
     console.error(`unknown command: ${command}\n`);
     console.log(HELP);
     process.exit(1);
   }
 
   const args = parseArgs(rest);
-  const KNOWN = new Set(["mode", "db", "project", "out", "json", "repo", "index", "evidence", "dir", "intent", "fail-on", "help"]);
+  const KNOWN = new Set(["mode", "db", "project", "out", "json", "repo", "index", "evidence", "dir", "intent", "fail-on", "apply", "dry-run", "help"]);
   for (const k of Object.keys(args)) {
-    if (!KNOWN.has(k)) console.error(`warning: unknown flag --${k} (ignored)`);
+    if (!KNOWN.has(k)) {
+      const msg = `unknown flag --${k}`;
+      if (command === "clean") {
+        console.error(msg);
+        process.exit(2);
+      }
+      console.error(`warning: ${msg} (ignored)`);
+    }
   }
   if (args["out"] === true) {
     console.error("--out requires a file path");
@@ -103,6 +115,48 @@ async function main() {
   if ((mode === "corpus" || mode === "portfolio") && args["dir"] === true) {
     console.error("--dir requires a directory path");
     process.exit(1);
+  }
+  if (args["apply"] && args["dry-run"]) {
+    console.error("--apply cannot be combined with --dry-run");
+    process.exit(2);
+  }
+
+  const opts = {
+    projectName: args["project"] as string | undefined,
+    projectId: args["project"] as string | undefined,
+    dbUrl,
+    repoPath: args["repo"] as string | undefined,
+    indexPath: args["index"] as string | undefined,
+    evidencePath: args["evidence"] as string | undefined,
+    intent,
+    token: process.env["LOVABLE_TOKEN"],
+  };
+
+  if (command === "clean") {
+    if (mode === "corpus" || mode === "portfolio") {
+      console.error("clean does not support corpus/portfolio fan-out; run clean against one project evidence source at a time");
+      process.exit(1);
+    }
+    if (mode === "index" && typeof args["index"] === "string" && !args["project"]) {
+      console.error("clean index mode requires --project <id>");
+      process.exit(1);
+    }
+
+    const result = await runRecon(mode, opts, costRules);
+    const plan = buildCleanPlan(result, { apply: args["apply"] === true });
+    const output = args["json"] ? redactSecrets(JSON.stringify(plan, null, 2)) : renderCleanPlan(plan);
+    if (typeof args["out"] === "string") writeFileSync(args["out"], output);
+    else console.log(output);
+
+    if (args["apply"] === true) {
+      if (plan.eligibleActions.length === 0) {
+        console.error("clean --apply refused: no confirmed remediation is marked auto-applicable");
+        process.exit(2);
+      }
+      console.error("clean --apply refused: apply executor is not implemented yet; use the dry-run plan for review");
+      process.exit(2);
+    }
+    return;
   }
   if (mode === "index" && typeof args["index"] === "string" && !args["project"]) {
     const results = await Promise.all(listIndexProjects(args["index"]).map((p) => runRecon("index", { indexPath: args["index"] as string, projectId: p.id, intent }, costRules)));
@@ -158,17 +212,6 @@ async function main() {
     );
     return;
   }
-  const opts = {
-    projectName: args["project"] as string | undefined,
-    projectId: args["project"] as string | undefined,
-    dbUrl,
-    repoPath: args["repo"] as string | undefined,
-    indexPath: args["index"] as string | undefined,
-    evidencePath: args["evidence"] as string | undefined,
-    intent,
-    token: process.env["LOVABLE_TOKEN"],
-  };
-
   const result = await runRecon(mode, opts, costRules);
 
   if (args["json"]) {
