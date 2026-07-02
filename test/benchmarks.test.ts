@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
@@ -7,6 +8,7 @@ import { costRules } from "@nxlv-ai/lovable-profile-cost";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const INDEX = join(HERE, "..", "usage-reports", "lovable_projects_index.json");
+const PORTFOLIO_GOLDEN = join(HERE, "__golden__", "portfolio-report.md");
 
 async function loadPortfolio() {
   return runIndexPortfolio(INDEX, costRules);
@@ -26,11 +28,13 @@ describe("portfolio benchmarks", () => {
     const ranked = rankPortfolio(results);
     const md = renderPortfolioReport(results);
 
+    const top = ranked[0]!;
+    const expected = readFileSync(PORTFOLIO_GOLDEN, "utf8").replace(/\r\n/g, "\n");
+
     expect(ranked).toHaveLength(19);
+    expect(top.rankScore).toBeCloseTo((top.estimatedCreditsSaved * top.confidence) / top.effort, 1);
     expect(ranked[0]!.rankScore).toBeGreaterThanOrEqual(ranked[1]!.rankScore);
-    expect(md).toContain("**Projects:** 19");
-    expect(md).toContain("## Policy clusters");
-    expect(md).toContain("## Idle / baseline candidates");
+    expect(md).toBe(expected);
   });
   it("runs evidence corpus through the reusable portfolio runner", async () => {
     const corpus = join(HERE, "..", "corpus");

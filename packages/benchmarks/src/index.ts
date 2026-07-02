@@ -10,7 +10,9 @@ export interface RankedProject {
   projectId: string;
   name: string;
   wasteScore: number;
-  importedPriority: number;
+  estimatedCreditsSaved: number;
+  confidence: number;
+  effort: number;
   rankScore: number;
   findings: number;
   topAction?: string;
@@ -35,13 +37,17 @@ export function compareProject(project: ReconResult, corpus: ReconResult[]): Met
 export function rankPortfolio(results: ReconResult[]): RankedProject[] {
   return results
     .map((result) => {
-      const importedPriority = result.importedActions.reduce((sum, action) => sum + actionWeight(action), 0);
+      const estimatedCreditsSaved = estimateCreditsSaved(result);
+      const confidence = confidenceMultiplier(result);
+      const effort = effortDivisor(result);
       return {
         projectId: String(projectAttr(result, "projectId") ?? result.project.name),
         name: result.project.name,
         wasteScore: result.score.wasteScore,
-        importedPriority,
-        rankScore: result.score.wasteScore + importedPriority,
+        estimatedCreditsSaved,
+        confidence,
+        effort,
+        rankScore: Math.round((estimatedCreditsSaved * confidence * 10) / effort) / 10,
         findings: result.findings.length,
         topAction: result.importedActions[0]?.action,
       };
@@ -61,10 +67,12 @@ export function renderPortfolioReport(results: ReconResult[], opts: { sourceMode
   L.push("");
   L.push("## Ranked projects");
   L.push("");
-  L.push("| Rank | Project | Waste-score | Findings | Imported priority | Top action |");
-  L.push("|--:|---|--:|--:|--:|---|");
+  L.push("| Rank | Project | Waste-score | Findings | Est. saved | Confidence | Effort | Rank score | Top action |");
+  L.push("|--:|---|--:|--:|--:|--:|--:|--:|---|");
   ranked.forEach((p, i) => {
-    L.push(`| ${i + 1} | ${p.name} | ${p.wasteScore} | ${p.findings} | ${p.importedPriority} | ${escapeCell(p.topAction ?? "")} |`);
+    L.push(
+      `| ${i + 1} | ${p.name} | ${p.wasteScore} | ${p.findings} | ${p.estimatedCreditsSaved} | ${formatMultiplier(p.confidence)} | ${formatMultiplier(p.effort)} | ${formatMultiplier(p.rankScore)} | ${escapeCell(p.topAction ?? "")} |`,
+    );
   });
   L.push("");
 
@@ -127,11 +135,57 @@ function policyClusters(results: ReconResult[]): Array<{ policy: string; project
     .sort((a, b) => b.projects - a.projects || a.policy.localeCompare(b.policy));
 }
 
-function actionWeight(action: { severity?: string; status?: string; effort?: string }): number {
-  const severity = { Critical: 40, High: 25, Medium: 12, Low: 4 }[action.severity ?? ""] ?? 0;
-  const status = action.status === "Confirmed" ? 1 : 0.5;
-  const effort = { XS: 1.25, S: 1, M: 0.75, L: 0.5 }[action.effort ?? ""] ?? 0.75;
-  return Math.round(severity * status * effort);
+function estimateCreditsSaved(result: ReconResult): number {
+  const explicit = [
+    ...result.importedActions.map((a) => explicitCreditSignal(a.action)),
+    ...result.findings.flatMap((f) => [explicitCreditSignal(f.estCreditsSaved), ...f.remediation.map((r) => explicitCreditSignal(r.estCreditsSaved))]),
+  ].filter((v): v is number => v !== undefined);
+  const explicitTotal = explicit.reduce((sum, value) => sum + value, 0);
+  const severityProxy = result.importedActions.reduce((sum, action) => sum + severityCredits(action.severity), 0);
+  const findingProxy = result.findings.reduce((sum, finding) => sum + severityCredits(finding.severity), 0);
+  const idleBonus = (metricValue(result, "last_activity_days") ?? 0) > 30 ? 15 : 0;
+  return Math.max(1, Math.round(explicitTotal + severityProxy + findingProxy + idleBonus));
+}
+
+function confidenceMultiplier(result: ReconResult): number {
+  const imported = result.importedActions.map((a) => statusConfidence(a.status));
+  const findings = result.findings.map((f) => (f.confidence === "confirmed" ? 1 : 0.5));
+  const values = [...imported, ...findings];
+  if (values.length === 0) return 0.5;
+  return Math.round((values.reduce((sum, value) => sum + value, 0) / values.length) * 100) / 100;
+}
+
+function effortDivisor(result: ReconResult): number {
+  const values = [...result.importedActions.map((a) => effortPoints(a.effort)), ...result.findings.flatMap((f) => f.remediation.map((r) => effortFromText(r.body)))].filter((v): v is number => v !== undefined);
+  if (values.length === 0) return 3;
+  return Math.round((values.reduce((sum, value) => sum + value, 0) / values.length) * 10) / 10;
+}
+
+function explicitCreditSignal(value: string | undefined): number | undefined {
+  if (!value) return undefined;
+  const credit = /(\d+(?:\.\d+)?)\s*credits?\b/i.exec(value);
+  if (credit) return Number(credit[1]);
+  const invocations = /[-~]\s*(\d+(?:\.\d+)?)\s*(?:invocations?|inv|edge calls|ef)?\s*\/\s*day\b/i.exec(value);
+  if (invocations) return Math.round(Number(invocations[1]) / 100);
+  return undefined;
+}
+
+function severityCredits(severity: string | undefined): number {
+  return { critical: 40, high: 25, medium: 12, low: 4 }[severity?.toLowerCase() ?? ""] ?? 0;
+}
+
+function statusConfidence(status: string | undefined): number {
+  return status === "Confirmed" ? 1 : status === "Hypothesis" ? 0.5 : 0.75;
+}
+
+function effortPoints(effort: string | undefined): number | undefined {
+  return { XS: 1, S: 2, M: 4, L: 8 }[effort ?? ""];
+}
+
+function effortFromText(value: string): number | undefined {
+  if (/\bmanual\b|\breview\b/i.test(value)) return 4;
+  if (/\bupdate\b|\bset\b|\bdelete\b|\bdrop\b/i.test(value)) return 2;
+  return undefined;
 }
 
 function metricValue(result: ReconResult, metric: string): number | undefined {
@@ -147,6 +201,10 @@ function projectAttr(result: ReconResult, key: string): unknown {
 
 function formatNum(value: number | undefined): string {
   return value === undefined ? "" : Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
+function formatMultiplier(value: number): string {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
 }
 
 function escapeCell(value: string): string {
