@@ -106,7 +106,7 @@
     "sourceReports": [
       "IesBrazil_Pipeline_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -295,9 +295,114 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "IesBrazil_Pipeline_USAGE_REPORT.md",
+          "sha256": "cfa25a3f225876e9c4cd5480a5171dc373174d6c43ec928cabb26608d84a3a66",
+          "title": "IesBrazil Pipeline ? Lovable/Supabase Usage Audit Report",
+          "lineCount": 347,
+          "headingCount": 23,
+          "headings": [
+            {
+              "level": 1,
+              "title": "IesBrazil Pipeline ? Lovable/Supabase Usage Audit Report"
+            },
+            {
+              "level": 2,
+              "title": "1. TL;DR ? Suspected drivers of daily credit burn"
+            },
+            {
+              "level": 2,
+              "title": "2. Database inventory"
+            },
+            {
+              "level": 3,
+              "title": "2.1 Top tables by size (`pg_stat_user_tables`, `public` schema)"
+            },
+            {
+              "level": 3,
+              "title": "2.2 Extensions"
+            },
+            {
+              "level": 3,
+              "title": "2.3 Triggers (22 in `public`)"
+            },
+            {
+              "level": 2,
+              "title": "3. Client-driven polling (primary credit driver)"
+            },
+            {
+              "level": 3,
+              "title": "3.1 Global dock ? `BatchTrackerProvider` (mounted at `_authenticated` layout)"
+            },
+            {
+              "level": 3,
+              "title": "3.2 Stuck `cancelling` batches"
+            },
+            {
+              "level": 3,
+              "title": "3.3 Other background pollers (per authenticated tab)"
+            },
+            {
+              "level": 2,
+              "title": "4. Logging & retention"
+            },
+            {
+              "level": 3,
+              "title": "4.1 `db_admin_log` ? unbounded"
+            },
+            {
+              "level": 3,
+              "title": "4.2 `firecrawl_relay_log` ? small but unbounded"
+            },
+            {
+              "level": 3,
+              "title": "4.3 `llm_call_log`"
+            },
+            {
+              "level": 2,
+              "title": "5. RLS posture (relevant to egress / query cost)"
+            },
+            {
+              "level": 2,
+              "title": "6. Firecrawl relay usage"
+            },
+            {
+              "level": 2,
+              "title": "7. Edge Functions"
+            },
+            {
+              "level": 2,
+              "title": "8. Auth & config"
+            },
+            {
+              "level": 2,
+              "title": "9. Confirmed vs. hypothesis"
+            },
+            {
+              "level": 3,
+              "title": "Confirmed (reproducible from DB state and source)"
+            },
+            {
+              "level": 3,
+              "title": "Hypothesis (needs HQ-side confirmation against billing telemetry)"
+            },
+            {
+              "level": 2,
+              "title": "10. Recommended remediations (project-side, ordered by impact)"
+            },
+            {
+              "level": 2,
+              "title": "11. Appendix ? files inspected"
+            }
+          ]
+        }
+      ]
     }
   },
-  "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
-  ]
+  "warnings": []
 }

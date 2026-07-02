@@ -123,7 +123,9 @@
       "attrs": {
         "table": "analytics_events",
         "cmd": "INSERT",
-        "roles": ["anon"],
+        "roles": [
+          "anon"
+        ],
         "qual": "true"
       }
     }
@@ -214,7 +216,120 @@
   ],
   "raw": {
     "sourceReport": "central-genial_USAGE_REPORT.md",
-    "conversion": "manual seed fixture derived from demo collector and structured index"
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "central-genial_USAGE_REPORT.md",
+          "sha256": "3a45b18b38345af9389a58cdb4b93cb31e27fbed7945f39fb8512560f26a3961",
+          "title": "Central Genial ? Usage Audit Report",
+          "lineCount": 200,
+          "headingCount": 24,
+          "headings": [
+            {
+              "level": 1,
+              "title": "Central Genial ? Usage Audit Report"
+            },
+            {
+              "level": 2,
+              "title": "?? PRIMARY CONFIRMED CAUSE: PERPETUAL TELEGRAM POLL CRON JOB"
+            },
+            {
+              "level": 3,
+              "title": "cron.job ? 5 active jobs (confirmed)"
+            },
+            {
+              "level": 3,
+              "title": "cron.job_run_details table size"
+            },
+            {
+              "level": 3,
+              "title": "SECURITY: Anon JWT hardcoded in cron.job commands"
+            },
+            {
+              "level": 2,
+              "title": "EDGE FUNCTION ANALYSIS"
+            },
+            {
+              "level": 3,
+              "title": "telegram-poll/index.ts ? confirmed long-poll design"
+            },
+            {
+              "level": 3,
+              "title": "25 Edge Functions deployed (vs ~7-8 in original spec)"
+            },
+            {
+              "level": 3,
+              "title": "morning-summary (job 3, daily)"
+            },
+            {
+              "level": 2,
+              "title": "net._http_response"
+            },
+            {
+              "level": 2,
+              "title": "DATABASE SCHEMA ? public tables (27 total)"
+            },
+            {
+              "level": 3,
+              "title": "Spec vs actual tables"
+            },
+            {
+              "level": 3,
+              "title": "Row counts (confirmed via pg_stat_user_tables)"
+            },
+            {
+              "level": 3,
+              "title": "Table sizes (largest, confirmed)"
+            },
+            {
+              "level": 2,
+              "title": "RLS POLICIES"
+            },
+            {
+              "level": 3,
+              "title": "Helper functions called on every row eval"
+            },
+            {
+              "level": 3,
+              "title": "Notable policy issues"
+            },
+            {
+              "level": 2,
+              "title": "TRIGGERS"
+            },
+            {
+              "level": 2,
+              "title": "AUTH CONFIG"
+            },
+            {
+              "level": 2,
+              "title": "ANALYTICS EVENTS"
+            },
+            {
+              "level": 2,
+              "title": "CONFIRMED CAUSES vs HYPOTHESES"
+            },
+            {
+              "level": 3,
+              "title": "? CONFIRMED"
+            },
+            {
+              "level": 3,
+              "title": "?? HYPOTHESES (plausible, not directly confirmed)"
+            },
+            {
+              "level": 2,
+              "title": "IMMEDIATE REMEDIATION"
+            }
+          ]
+        }
+      ]
+    }
   },
-  "warnings": ["corpus seed fixture - hand-reviewed baseline, not a fresh live scan"]
+  "warnings": [
+    "corpus seed fixture - hand-reviewed baseline, not a fresh live scan"
+  ]
 }

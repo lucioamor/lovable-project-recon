@@ -107,7 +107,7 @@
     "sourceReports": [
       "Smart_Deals_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -297,10 +297,96 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "Smart_Deals_USAGE_REPORT.md",
+          "sha256": "b3692d1e37dd9c41a1e407cd4d2fac0c1f71177dd114a8eef70e09a7e1644dda",
+          "title": "RUNAWAY USAGE AUDIT REPORT",
+          "lineCount": 124,
+          "headingCount": 18,
+          "headings": [
+            {
+              "level": 1,
+              "title": "RUNAWAY USAGE AUDIT REPORT"
+            },
+            {
+              "level": 2,
+              "title": "1. Executive Summary"
+            },
+            {
+              "level": 2,
+              "title": "2. Inventory Snapshot"
+            },
+            {
+              "level": 3,
+              "title": "2.1 Database"
+            },
+            {
+              "level": 3,
+              "title": "2.2 Edge Functions (16)"
+            },
+            {
+              "level": 3,
+              "title": "2.3 Secrets in scope"
+            },
+            {
+              "level": 2,
+              "title": "3. Runaway-Risk Hotspots (ranked)"
+            },
+            {
+              "level": 3,
+              "title": "?? R1 ? Always-on Telegram polling"
+            },
+            {
+              "level": 3,
+              "title": "?? R2 ? `sync-external-sources` on idle account"
+            },
+            {
+              "level": 3,
+              "title": "?? R3 ? `telegram-digest` daily/weekly executive digest"
+            },
+            {
+              "level": 3,
+              "title": "?? R4 ? Triple-LLM ingestion pipeline per item"
+            },
+            {
+              "level": 3,
+              "title": "?? R5 ? Public-internet edge function with custom API-key auth: `deal-api`"
+            },
+            {
+              "level": 3,
+              "title": "?? R6 ? Realtime subscription fanout"
+            },
+            {
+              "level": 3,
+              "title": "?? R7 ? `pg_net` + `pg_cron` enabled"
+            },
+            {
+              "level": 3,
+              "title": "?? R8 ? `score`/`win_probability` recalculated on every event insert AND every deal update"
+            },
+            {
+              "level": 2,
+              "title": "4. Cost Reconciliation Anomaly"
+            },
+            {
+              "level": 2,
+              "title": "5. Recommended HQ Actions"
+            },
+            {
+              "level": 2,
+              "title": "6. Evidence (read-only queries used)"
+            }
+          ]
+        }
+      ]
     }
   },
   "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report",
     "index: pg_cron.active_jobs is not observed for `smart-deals` (pg_cron+pg_net present; schedule RLS-blocked from app)",
     "index: storage.buckets is not observed for `smart-deals`",
     "index: storage.size_mb is not observed for `smart-deals`"

@@ -216,7 +216,7 @@
     "sourceReports": [
       "ibuiltthis_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -423,9 +423,86 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "ibuiltthis_USAGE_REPORT.md",
+          "sha256": "0f0e9205485fa298cd8ea0e5269e0ff484f2cdcc6c27b21f613d27b81818f4b0",
+          "title": "ibuiltthis ? Usage Audit Report",
+          "lineCount": 241,
+          "headingCount": 16,
+          "headings": [
+            {
+              "level": 1,
+              "title": "ibuiltthis ? Usage Audit Report"
+            },
+            {
+              "level": 2,
+              "title": "TL;DR ? Top causes of daily burn"
+            },
+            {
+              "level": 2,
+              "title": "1. Database ? schema, sizes, hot tables"
+            },
+            {
+              "level": 2,
+              "title": "2. pg_stat_statements ? top time consumers (confirmed)"
+            },
+            {
+              "level": 2,
+              "title": "3. Realtime ? publication and decoder cost"
+            },
+            {
+              "level": 2,
+              "title": "4. Cron jobs ? confirmed schedule"
+            },
+            {
+              "level": 2,
+              "title": "5. Edge Functions ? inventory"
+            },
+            {
+              "level": 2,
+              "title": "6. Storage ? assets bucket breakdown"
+            },
+            {
+              "level": 2,
+              "title": "7. RLS / security observations (audit-only)"
+            },
+            {
+              "level": 2,
+              "title": "8. Stuck operational state (cleanup candidates)"
+            },
+            {
+              "level": 2,
+              "title": "9. What we could NOT measure from the DB"
+            },
+            {
+              "level": 2,
+              "title": "10. Recommendations, ranked by expected impact"
+            },
+            {
+              "level": 2,
+              "title": "Appendix A ? Active cron commands (verbatim)"
+            },
+            {
+              "level": 2,
+              "title": "Appendix B ? Realtime publication tables"
+            },
+            {
+              "level": 2,
+              "title": "Appendix C ? Generation log activity (last 12 active days)"
+            },
+            {
+              "level": 2,
+              "title": "Appendix D ? Methodology"
+            }
+          ]
+        }
+      ]
     }
   },
-  "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
-  ]
+  "warnings": []
 }

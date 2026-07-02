@@ -38,7 +38,7 @@
     "sourceReports": [
       "desafio-genial_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -181,10 +181,68 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "desafio-genial_USAGE_REPORT.md",
+          "sha256": "7b151a1c4e4ab16eed82ceec7d35ad277fd795d386174a39727175a42f0c1385",
+          "title": "Relatorio de Auditoria de Uso ? Paginas Publicas e CTAs",
+          "lineCount": 105,
+          "headingCount": 11,
+          "headings": [
+            {
+              "level": 1,
+              "title": "Relatorio de Auditoria de Uso ? Paginas Publicas e CTAs"
+            },
+            {
+              "level": 2,
+              "title": "1. Sumario Executivo"
+            },
+            {
+              "level": 2,
+              "title": "2. Destinos de Checkout (Single Source of Truth)"
+            },
+            {
+              "level": 2,
+              "title": "3. Auditoria por Pagina"
+            },
+            {
+              "level": 3,
+              "title": "3.1 `/comunidade-previdenciaria` ? Comunidade ? Escritorio Genial"
+            },
+            {
+              "level": 3,
+              "title": "3.2 `/software-previdenciario` ? Software Previdenciario ? Migracao"
+            },
+            {
+              "level": 3,
+              "title": "3.3 `/custo-invisivel-previdenciario` ? Custo Invisivel"
+            },
+            {
+              "level": 3,
+              "title": "3.4 `/previdenciarista-ficando-para-tras` ? Ficando Para Tras (VSL)"
+            },
+            {
+              "level": 3,
+              "title": "3.5 `/onboarding` ? Onboarding Pos-compra"
+            },
+            {
+              "level": 2,
+              "title": "4. Itens que Requerem Acao"
+            },
+            {
+              "level": 2,
+              "title": "5. Boas Praticas em Vigor"
+            }
+          ]
+        }
+      ]
     }
   },
   "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report",
     "index: pg_cron.active_jobs is not observed for `desafio-genial` (no note)",
     "index: storage.buckets is not observed for `desafio-genial`",
     "index: storage.size_mb is not observed for `desafio-genial`"

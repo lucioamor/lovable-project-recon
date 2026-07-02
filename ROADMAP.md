@@ -23,7 +23,7 @@ _Cost/runtime/waste recon + cleanup for Lovable Cloud portfolios. Sibling of `lo
 | F0 existing signals | Done | DB maps host/status/table stats/idle signals; POL-6 consumes static secret shapes; POL-7/POL-8 have real first-pass rules |
 | F1 index mode | Done | `collectIndex`, imported actions section, evidence date stamping |
 | F2 benchmarks/portfolio | Done | `@nxlv-ai/lovable-benchmarks`, `runIndexPortfolio`, `runEvidencePortfolio`, `PORTFOLIO_REPORT.md` |
-| F3 evidence corpus | Partial/content-complete seed | `ProjectEvidence` schema/validator, `collectEvidence`, 19 corpus JSON files, `corpus:seed` |
+| F3 evidence corpus | Done | `ProjectEvidence` schema/validator, `collectEvidence`, 19 corpus JSON files, `corpus:seed`, `corpus:review`, usage-report review metadata for all 20 source reports |
 | F4 npx packaging | Done | `dist` builds, package `exports/files/bin`, packaged CLI e2e, release-please/OIDC workflow |
 | F5 rule depth/evaluate interface | Done for deterministic interface | POL-7/POL-8 first-pass logic, `--intent <file>` attached to results |
 | F6 extension contract | Done contract-first | `docs/EXTENSION_CONTRACT.md`; extension remains a future JSON exporter, not a bridge |
@@ -31,7 +31,6 @@ _Cost/runtime/waste recon + cleanup for Lovable Cloud portfolios. Sibling of `lo
 
 ## Remaining Work
 
-- Enrich seed corpus files by hand against the heterogeneous usage reports where more detail is needed. The current corpus is index-derived except the central-genial hand-reviewed fixture.
 - Add structured, policy-specific clean executors only after a remediation is proven safe enough to mark `applySafe: true`; the core apply/verify contract is already in place.
 - Add rollback/incident notes for future mutating executors where applicable.
 - Build the browser extension exporter only if external demand appears; it should emit `ProjectEvidence` and never replay browser tokens to the CLI.

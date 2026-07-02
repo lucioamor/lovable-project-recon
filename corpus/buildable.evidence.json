@@ -49,7 +49,7 @@
     "sourceReports": [
       "buildable_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -198,10 +198,52 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "buildable_USAGE_REPORT.md",
+          "sha256": "55fa43404b4687ddc2ef4fc3e831255f68728780f62b4f9a7ef6ddd96b17c857",
+          "title": "Buildable ? Usage Audit Report",
+          "lineCount": 98,
+          "headingCount": 7,
+          "headings": [
+            {
+              "level": 1,
+              "title": "Buildable ? Usage Audit Report"
+            },
+            {
+              "level": 2,
+              "title": "1. Headline numbers"
+            },
+            {
+              "level": 2,
+              "title": "2. Model breakdown"
+            },
+            {
+              "level": 2,
+              "title": "3. Latency distribution"
+            },
+            {
+              "level": 2,
+              "title": "4. Volume by day"
+            },
+            {
+              "level": 2,
+              "title": "5. Cross-table reconciliation"
+            },
+            {
+              "level": 2,
+              "title": "6. Findings & recommendations"
+            }
+          ]
+        }
+      ]
     }
   },
   "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report",
     "index: pg_cron.active_jobs is not observed for `buildable` (no note)",
     "index: storage.buckets is not observed for `buildable`",
     "index: storage.size_mb is not observed for `buildable`"

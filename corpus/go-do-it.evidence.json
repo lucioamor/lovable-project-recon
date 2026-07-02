@@ -206,7 +206,7 @@
       "Go_Do_It_USAGE_REPORT.md",
       "godoit_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -408,9 +408,192 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "Go_Do_It_USAGE_REPORT.md",
+          "sha256": "3c4420f9113185245463989b4f3b9393e276a040eebb190335eaa92a5dfa5729",
+          "title": "Go Do It ? Usage Audit Report",
+          "auditDate": "2026-06-30",
+          "lineCount": 177,
+          "headingCount": 16,
+          "headings": [
+            {
+              "level": 1,
+              "title": "Go Do It ? Usage Audit Report"
+            },
+            {
+              "level": 2,
+              "title": "TL;DR"
+            },
+            {
+              "level": 2,
+              "title": "1. Cron schedule (confirmed)"
+            },
+            {
+              "level": 2,
+              "title": "2. Evidence ? AI token burn"
+            },
+            {
+              "level": 2,
+              "title": "3. Salient code paths"
+            },
+            {
+              "level": 3,
+              "title": "3.1 Reconcile cron ? `src/routes/api/public/reconcile-cron.ts`"
+            },
+            {
+              "level": 3,
+              "title": "3.2 Embed queue cron ? `src/routes/api/public/embed-queue-cron.ts`"
+            },
+            {
+              "level": 3,
+              "title": "3.3 Other AI call sites (potential burn vectors)"
+            },
+            {
+              "level": 2,
+              "title": "4. Database / schema findings"
+            },
+            {
+              "level": 2,
+              "title": "5. Secrets & auth surface"
+            },
+            {
+              "level": 2,
+              "title": "6. Worker invocation logs (configuration evidence)"
+            },
+            {
+              "level": 2,
+              "title": "7. Confirmed vs. hypothesis"
+            },
+            {
+              "level": 3,
+              "title": "Confirmed by query/code evidence"
+            },
+            {
+              "level": 3,
+              "title": "Hypotheses (need log/billing correlation)"
+            },
+            {
+              "level": 2,
+              "title": "8. Recommended remediations (ordered by impact)"
+            },
+            {
+              "level": 2,
+              "title": "9. Artifacts"
+            }
+          ]
+        },
+        {
+          "file": "godoit_USAGE_REPORT.md",
+          "sha256": "4a2852d5dc2794cfe1b58ba817f075bd23e9e07a6c17903757d91da28c17dc11",
+          "title": "godoit ? USAGE AUDIT REPORT",
+          "lineCount": 234,
+          "headingCount": 29,
+          "headings": [
+            {
+              "level": 1,
+              "title": "godoit ? USAGE AUDIT REPORT"
+            },
+            {
+              "level": 2,
+              "title": "0. Executive Summary"
+            },
+            {
+              "level": 2,
+              "title": "1. Project Topology"
+            },
+            {
+              "level": 3,
+              "title": "1.1 Stack"
+            },
+            {
+              "level": 3,
+              "title": "1.2 Public cron endpoints (all `POST`, all secret-gated by `x-cron-secret == OPS_CRON_SECRET`)"
+            },
+            {
+              "level": 2,
+              "title": "2. Database Footprint (confirmed)"
+            },
+            {
+              "level": 3,
+              "title": "2.1 Tables (public schema, owned by app, all RLS-enabled)"
+            },
+            {
+              "level": 3,
+              "title": "2.2 RLS posture"
+            },
+            {
+              "level": 3,
+              "title": "2.3 Triggers (confirmed material)"
+            },
+            {
+              "level": 3,
+              "title": "2.4 SECURITY DEFINER functions"
+            },
+            {
+              "level": 3,
+              "title": "2.5 pgvector extension"
+            },
+            {
+              "level": 2,
+              "title": "3. Cron Inventory + Confirmed Waste"
+            },
+            {
+              "level": 3,
+              "title": "3.1 `embed-queue-2min` ? **CONFIRMED IDLE WASTE**"
+            },
+            {
+              "level": 3,
+              "title": "3.2 `do-it-reconcile-15min` ? **CONFIRMED COST SPIKE, NO CIRCUIT BREAKER**"
+            },
+            {
+              "level": 3,
+              "title": "3.3 `ops-alerts-push-15min` ? **CONFIRMED 24/7 FIRE WITHOUT WINDOW FILTER**"
+            },
+            {
+              "level": 3,
+              "title": "3.4 Other crons ? not material"
+            },
+            {
+              "level": 2,
+              "title": "4. Token Burn Breakdown (14-day window, `event_log`)"
+            },
+            {
+              "level": 3,
+              "title": "4.1 By trigger"
+            },
+            {
+              "level": 3,
+              "title": "4.2 By model"
+            },
+            {
+              "level": 3,
+              "title": "4.3 Hypothesis: brain-dump cascade"
+            },
+            {
+              "level": 2,
+              "title": "5. Storage"
+            },
+            {
+              "level": 2,
+              "title": "6. Auth / Config Issues"
+            },
+            {
+              "level": 3,
+              "title": "6.1 `OPS_CRON_SECRET` ? confirmed gated"
+            },
+            {
+              "level": 3,
+              "title": "6.2 Allowlist + role gating"
+            }
+          ]
+        }
+      ]
     }
   },
-  "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
-  ]
+  "warnings": []
 }

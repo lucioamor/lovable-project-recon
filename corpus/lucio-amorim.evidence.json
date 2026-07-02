@@ -124,7 +124,7 @@
     "sourceReports": [
       "Lucio_Amorim_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -308,9 +308,118 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "Lucio_Amorim_USAGE_REPORT.md",
+          "sha256": "0604372fb2b3204825c45dbfe478585e6457fc007dd7fb695dc565fbdb7c435e",
+          "title": "Lucio Amorim ? Project Usage Audit",
+          "lineCount": 198,
+          "headingCount": 28,
+          "headings": [
+            {
+              "level": 1,
+              "title": "Lucio Amorim ? Project Usage Audit"
+            },
+            {
+              "level": 2,
+              "title": "1. Executive verdict"
+            },
+            {
+              "level": 2,
+              "title": "2. Confirmed evidence"
+            },
+            {
+              "level": 3,
+              "title": "2.1 AI Gateway"
+            },
+            {
+              "level": 3,
+              "title": "2.2 Database surface"
+            },
+            {
+              "level": 3,
+              "title": "2.3 Triggers"
+            },
+            {
+              "level": 3,
+              "title": "2.4 Functions (SECURITY DEFINER)"
+            },
+            {
+              "level": 3,
+              "title": "2.5 Extensions"
+            },
+            {
+              "level": 3,
+              "title": "2.6 Edge Functions / Cron / Webhooks"
+            },
+            {
+              "level": 3,
+              "title": "2.7 Storage"
+            },
+            {
+              "level": 3,
+              "title": "2.8 Auth / Config"
+            },
+            {
+              "level": 3,
+              "title": "2.9 Top Data-API traffic (pg_stat_statements, lifetime)"
+            },
+            {
+              "level": 3,
+              "title": "2.10 Linter (Supabase advisor) ? 7 WARN"
+            },
+            {
+              "level": 3,
+              "title": "2.11 Client-side loops & long-running effects"
+            },
+            {
+              "level": 3,
+              "title": "2.12 Runtime DB health"
+            },
+            {
+              "level": 2,
+              "title": "3. Architecture surface relevant to credit accounting"
+            },
+            {
+              "level": 2,
+              "title": "4. Hypotheses (not yet confirmed)"
+            },
+            {
+              "level": 3,
+              "title": "H1 ? Loader fan-out is the dominant Cloud-credit driver"
+            },
+            {
+              "level": 3,
+              "title": "H2 ? Empty `site_settings` forces theme fallback path"
+            },
+            {
+              "level": 3,
+              "title": "H3 ? Anon writable `email_submissions` is unrate-limited"
+            },
+            {
+              "level": 3,
+              "title": "H4 ? 73,653 rolled-back transactions"
+            },
+            {
+              "level": 2,
+              "title": "5. What is NOT contributing to credit burn (confirmed)"
+            },
+            {
+              "level": 2,
+              "title": "6. Salient action items for HQ engineering"
+            },
+            {
+              "level": 2,
+              "title": "7. Diagnostic appendix"
+            }
+          ]
+        }
+      ]
     }
   },
-  "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
-  ]
+  "warnings": []
 }

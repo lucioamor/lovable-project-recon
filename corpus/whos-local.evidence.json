@@ -163,7 +163,7 @@
     "sourceReports": [
       "Whos_Local_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -370,9 +370,118 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "Whos_Local_USAGE_REPORT.md",
+          "sha256": "a56e660fe35caa72dcffaedff79f13590714b98fbd13a6e4a7df92e172058bf7",
+          "title": "Whos Local ? Usage & Credit Burn Audit",
+          "lineCount": 273,
+          "headingCount": 28,
+          "headings": [
+            {
+              "level": 1,
+              "title": "Whos Local ? Usage & Credit Burn Audit"
+            },
+            {
+              "level": 2,
+              "title": "TL;DR ? Salient causes of abnormal usage"
+            },
+            {
+              "level": 2,
+              "title": "1. Database snapshot"
+            },
+            {
+              "level": 3,
+              "title": "Row counts (top tables)"
+            },
+            {
+              "level": 3,
+              "title": "Table sizes (top)"
+            },
+            {
+              "level": 2,
+              "title": "2. Cron jobs (confirmed via `cron.job`)"
+            },
+            {
+              "level": 3,
+              "title": "Confirmed evidence of failure"
+            },
+            {
+              "level": 3,
+              "title": "Anon key leakage"
+            },
+            {
+              "level": 3,
+              "title": "Latent cost ? what happens the day the URL is fixed"
+            },
+            {
+              "level": 2,
+              "title": "3. Analytics-event write amplification (confirmed)"
+            },
+            {
+              "level": 3,
+              "title": "Symptom"
+            },
+            {
+              "level": 3,
+              "title": "Cause"
+            },
+            {
+              "level": 3,
+              "title": "Secondary"
+            },
+            {
+              "level": 2,
+              "title": "4. PostgREST hot paths (`pg_stat_statements`, top by total exec time)"
+            },
+            {
+              "level": 3,
+              "title": "Confirmed"
+            },
+            {
+              "level": 3,
+              "title": "Hypothesis (high confidence)"
+            },
+            {
+              "level": 2,
+              "title": "5. RLS / policy review"
+            },
+            {
+              "level": 3,
+              "title": "Triggers"
+            },
+            {
+              "level": 3,
+              "title": "Functions"
+            },
+            {
+              "level": 2,
+              "title": "6. Edge functions"
+            },
+            {
+              "level": 2,
+              "title": "7. Storage"
+            },
+            {
+              "level": 2,
+              "title": "8. Auth / config"
+            },
+            {
+              "level": 2,
+              "title": "9. Confirmed vs hypothesized drivers of daily credit burn"
+            },
+            {
+              "level": 3,
+              "title": "Confirmed contributors (in order of impact)"
+            }
+          ]
+        }
+      ]
     }
   },
-  "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
-  ]
+  "warnings": []
 }

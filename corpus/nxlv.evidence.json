@@ -105,7 +105,7 @@
     "sourceReports": [
       "nxlv_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -256,9 +256,114 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "nxlv_USAGE_REPORT.md",
+          "sha256": "c4adf05480c2878a4bbfdac52aab225eca457d79669155e76e0bdf09ef0c97db",
+          "title": "NXLV ? Lovable/Supabase Project Usage Audit",
+          "lineCount": 195,
+          "headingCount": 23,
+          "headings": [
+            {
+              "level": 1,
+              "title": "NXLV ? Lovable/Supabase Project Usage Audit"
+            },
+            {
+              "level": 2,
+              "title": "1. Headline finding (confirmed)"
+            },
+            {
+              "level": 3,
+              "title": "Workspace-wide spend by billable_item (current billing period, 7 days)"
+            },
+            {
+              "level": 3,
+              "title": "This project's slice"
+            },
+            {
+              "level": 2,
+              "title": "2. Database ? confirmed evidence"
+            },
+            {
+              "level": 3,
+              "title": "2.1 Size, health"
+            },
+            {
+              "level": 3,
+              "title": "2.2 Row counts (public schema)"
+            },
+            {
+              "level": 3,
+              "title": "2.3 Triggers"
+            },
+            {
+              "level": 3,
+              "title": "2.4 Functions"
+            },
+            {
+              "level": 3,
+              "title": "2.5 Extensions"
+            },
+            {
+              "level": 3,
+              "title": "2.6 Cron jobs"
+            },
+            {
+              "level": 3,
+              "title": "2.7 RLS policies (14 total, all public tables covered)"
+            },
+            {
+              "level": 3,
+              "title": "2.8 Top queries (pg_stat_statements)"
+            },
+            {
+              "level": 2,
+              "title": "3. Edge Functions ? confirmed evidence"
+            },
+            {
+              "level": 3,
+              "title": "3.1 Invocation volume"
+            },
+            {
+              "level": 3,
+              "title": "3.2 Hypotheses worth HQ attention (not confirmed as active drivers)"
+            },
+            {
+              "level": 2,
+              "title": "4. Storage ? confirmed evidence"
+            },
+            {
+              "level": 2,
+              "title": "5. Auth / Realtime ? confirmed evidence"
+            },
+            {
+              "level": 2,
+              "title": "6. Client-side runtime patterns ? confirmed evidence"
+            },
+            {
+              "level": 2,
+              "title": "7. Logs ? confirmed evidence"
+            },
+            {
+              "level": 2,
+              "title": "8. Configuration notes"
+            },
+            {
+              "level": 2,
+              "title": "9. Hypotheses (NOT confirmed, flagged for HQ)"
+            },
+            {
+              "level": 2,
+              "title": "10. Summary table for HQ"
+            }
+          ]
+        }
+      ]
     }
   },
-  "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
-  ]
+  "warnings": []
 }

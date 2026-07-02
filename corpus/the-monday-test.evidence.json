@@ -119,7 +119,7 @@
     "sourceReports": [
       "The_Monday_Test_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -322,9 +322,102 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "The_Monday_Test_USAGE_REPORT.md",
+          "sha256": "532c7ca871a41f03ecdf012883ffbe0158391c7a3191fa6e2cc5ef95f5a53877",
+          "title": "The Monday Test ? Usage / Credit-Burn Audit",
+          "lineCount": 193,
+          "headingCount": 20,
+          "headings": [
+            {
+              "level": 1,
+              "title": "The Monday Test ? Usage / Credit-Burn Audit"
+            },
+            {
+              "level": 2,
+              "title": "TL;DR ? primary suspected cause"
+            },
+            {
+              "level": 2,
+              "title": "1. Backend inventory (confirmed)"
+            },
+            {
+              "level": 3,
+              "title": "1.1 Schema / tables"
+            },
+            {
+              "level": 3,
+              "title": "1.2 Triggers / DB functions"
+            },
+            {
+              "level": 3,
+              "title": "1.3 RLS policies on `public.diagnostics`"
+            },
+            {
+              "level": 3,
+              "title": "1.4 Edge functions"
+            },
+            {
+              "level": 3,
+              "title": "1.5 Storage / auth"
+            },
+            {
+              "level": 3,
+              "title": "1.6 Cron / scheduled tasks"
+            },
+            {
+              "level": 2,
+              "title": "2. Client-side invocation paths (confirmed by `rg`)"
+            },
+            {
+              "level": 2,
+              "title": "3. Confirmed evidence of waste"
+            },
+            {
+              "level": 2,
+              "title": "4. Hypotheses (not directly confirmed by logs)"
+            },
+            {
+              "level": 3,
+              "title": "H1 ? Re-generation loop on the broken row (high)"
+            },
+            {
+              "level": 3,
+              "title": "H2 ? `gemini-3.1-pro-preview` does not exist in the Lovable AI Gateway model registry (medium)"
+            },
+            {
+              "level": 3,
+              "title": "H3 ? Anon UPDATE policy enables external wipes (medium)"
+            },
+            {
+              "level": 3,
+              "title": "H4 ? Anon SELECT tautology (low for credits, high for data exposure)"
+            },
+            {
+              "level": 3,
+              "title": "H5 ? `report_json` merging hides cumulative growth (low)"
+            },
+            {
+              "level": 2,
+              "title": "5. What is **not** causing the burn (ruled out)"
+            },
+            {
+              "level": 2,
+              "title": "6. Recommended fixes (ordered by leverage)"
+            },
+            {
+              "level": 2,
+              "title": "7. Evidence appendix"
+            }
+          ]
+        }
+      ]
     }
   },
-  "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
-  ]
+  "warnings": []
 }

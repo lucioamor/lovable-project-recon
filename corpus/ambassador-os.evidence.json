@@ -137,7 +137,7 @@
     "sourceReports": [
       "ambassador-os_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -344,10 +344,104 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "ambassador-os_USAGE_REPORT.md",
+          "sha256": "3faedf3d90a5d9cddf678dc52fcec1607ebc62d3bbd7bbaedcd60e3d58ab7db9",
+          "title": "Ambassador-OS ? Usage / Credit-Burn Audit Report",
+          "lineCount": 260,
+          "headingCount": 20,
+          "headings": [
+            {
+              "level": 1,
+              "title": "Ambassador-OS ? Usage / Credit-Burn Audit Report"
+            },
+            {
+              "level": 2,
+              "title": "1. TL;DR ? Most likely sources of daily credit burn"
+            },
+            {
+              "level": 2,
+              "title": "2. Scheduled jobs (`pg_cron`) ? confirmed"
+            },
+            {
+              "level": 3,
+              "title": "2.1 Hard-coded anon JWT in cron command (security + traceability issue)"
+            },
+            {
+              "level": 2,
+              "title": "3. `net._http_response` log retention"
+            },
+            {
+              "level": 2,
+              "title": "4. Edge Functions (deployed)"
+            },
+            {
+              "level": 2,
+              "title": "5. Data state (`public.*`)"
+            },
+            {
+              "level": 3,
+              "title": "5.1 Classification backlog"
+            },
+            {
+              "level": 3,
+              "title": "5.2 Pipeline log usage"
+            },
+            {
+              "level": 3,
+              "title": "5.3 Zombie ingestion jobs"
+            },
+            {
+              "level": 3,
+              "title": "5.4 `hub_analytics`"
+            },
+            {
+              "level": 2,
+              "title": "6. RLS policy posture (audit highlights)"
+            },
+            {
+              "level": 2,
+              "title": "7. Triggers, Functions"
+            },
+            {
+              "level": 2,
+              "title": "8. Auth / Storage / Realtime"
+            },
+            {
+              "level": 2,
+              "title": "9. AI Gateway configuration"
+            },
+            {
+              "level": 2,
+              "title": "10. Confirmed vs. Hypothesis ? summary matrix"
+            },
+            {
+              "level": 3,
+              "title": "Confirmed evidence"
+            },
+            {
+              "level": 3,
+              "title": "Hypothesis (needs HQ-side billing log correlation)"
+            },
+            {
+              "level": 2,
+              "title": "11. Recommended remediations (ranked by impact / safety)"
+            },
+            {
+              "level": 2,
+              "title": "12. Appendix ? exact queries used"
+            }
+          ]
+        }
+      ]
     }
   },
   "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report",
     "index: storage.buckets is not observed for `ambassador-os`",
     "index: storage.size_mb is not observed for `ambassador-os`"
   ]

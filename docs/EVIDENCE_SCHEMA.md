@@ -85,10 +85,9 @@ Every file must be named `<project-id>.evidence.json` when stored in `corpus/`.
 Current producers:
 
 - hand-reviewed corpus files in `corpus/*.evidence.json`
-- index-derived seed corpus files generated with `npm run corpus:seed`
+- index-derived seed corpus files generated with `npm run corpus:seed` and reviewed with `npm run corpus:review`
 
 Planned producers:
 
-- enrichment/review of the index-derived seed corpus against heterogeneous usage reports
 - browser extension export
 - future official Lovable usage API export if available

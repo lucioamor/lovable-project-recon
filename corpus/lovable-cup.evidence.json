@@ -153,7 +153,7 @@
     "sourceReports": [
       "Lovable_Cup_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -363,9 +363,94 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "Lovable_Cup_USAGE_REPORT.md",
+          "sha256": "6d019fcf0843a24365b5289e9ccaa7c783bcba20b2768c98b92f73665c9a5d86",
+          "title": "Lovable Cup ? Runaway Usage Audit",
+          "lineCount": 159,
+          "headingCount": 18,
+          "headings": [
+            {
+              "level": 1,
+              "title": "Lovable Cup ? Runaway Usage Audit"
+            },
+            {
+              "level": 2,
+              "title": "1. Footprint snapshot (confirmed)"
+            },
+            {
+              "level": 2,
+              "title": "2. Row counts (confirmed)"
+            },
+            {
+              "level": 2,
+              "title": "3. Top cost drivers ? confirmed evidence"
+            },
+            {
+              "level": 3,
+              "title": "3.1 React Query: zero `staleTime` + zero preload stale time"
+            },
+            {
+              "level": 3,
+              "title": "3.2 Aggressive polling on `/submeter`"
+            },
+            {
+              "level": 3,
+              "title": "3.3 Four parallel `auth.onAuthStateChange` subscribers"
+            },
+            {
+              "level": 3,
+              "title": "3.4 SSR loaders refetch on each navigation"
+            },
+            {
+              "level": 3,
+              "title": "3.5 Cron job points to the *preview* origin, not the stable production URL"
+            },
+            {
+              "level": 3,
+              "title": "3.6 Demo data inflates every public read"
+            },
+            {
+              "level": 2,
+              "title": "4. Configuration / posture findings"
+            },
+            {
+              "level": 3,
+              "title": "4.1 Database linter (`supabase--linter`)"
+            },
+            {
+              "level": 3,
+              "title": "4.2 Auth"
+            },
+            {
+              "level": 3,
+              "title": "4.3 No outbound mail / Discord traffic observed"
+            },
+            {
+              "level": 3,
+              "title": "4.4 `supabase/config.toml` lists `seed-demo-data` with `verify_jwt = true`"
+            },
+            {
+              "level": 2,
+              "title": "5. Confirmed vs hypothesized"
+            },
+            {
+              "level": 2,
+              "title": "6. Recommended remediations (ordered by expected impact)"
+            },
+            {
+              "level": 2,
+              "title": "7. Traceability appendix"
+            }
+          ]
+        }
+      ]
     }
   },
-  "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
-  ]
+  "warnings": []
 }

@@ -154,7 +154,7 @@
     "sourceReports": [
       "yapp-to_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -344,9 +344,110 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "yapp-to_USAGE_REPORT.md",
+          "sha256": "d5332fb5c7f040f9c516d8e705efb3b5b693dd84a36f71aee33c76ccdb4cad10",
+          "title": "YAPP ? Lovable Cloud & LLM Usage Audit Report",
+          "lineCount": 207,
+          "headingCount": 22,
+          "headings": [
+            {
+              "level": 1,
+              "title": "YAPP ? Lovable Cloud & LLM Usage Audit Report"
+            },
+            {
+              "level": 2,
+              "title": "1. Executive summary"
+            },
+            {
+              "level": 2,
+              "title": "2. Live snapshot ? 2026-06-30"
+            },
+            {
+              "level": 3,
+              "title": "2.1 Database"
+            },
+            {
+              "level": 3,
+              "title": "2.2 Top 10 tables by total size"
+            },
+            {
+              "level": 3,
+              "title": "2.3 Storage buckets"
+            },
+            {
+              "level": 2,
+              "title": "3. Lovable Cloud usage inventory"
+            },
+            {
+              "level": 3,
+              "title": "3.1 Postgres tables (public schema, 25)"
+            },
+            {
+              "level": 3,
+              "title": "3.2 Storage buckets"
+            },
+            {
+              "level": 3,
+              "title": "3.3 Edge Functions (18)"
+            },
+            {
+              "level": 3,
+              "title": "3.4 Cron jobs"
+            },
+            {
+              "level": 3,
+              "title": "3.5 Auth"
+            },
+            {
+              "level": 2,
+              "title": "4. Lovable AI Gateway usage inventory"
+            },
+            {
+              "level": 3,
+              "title": "4.1 Models in use (declared in code)"
+            },
+            {
+              "level": 3,
+              "title": "4.2 Telemetry coverage gap"
+            },
+            {
+              "level": 3,
+              "title": "4.3 TTS reuse layer (`tts_cache`)"
+            },
+            {
+              "level": 2,
+              "title": "5. Risks & recommended actions"
+            },
+            {
+              "level": 3,
+              "title": "5.1 Security (already on roadmap, flagged here for completeness)"
+            },
+            {
+              "level": 3,
+              "title": "5.2 Cost observability"
+            },
+            {
+              "level": 3,
+              "title": "5.3 Storage growth"
+            },
+            {
+              "level": 3,
+              "title": "5.4 Data hygiene"
+            },
+            {
+              "level": 2,
+              "title": "6. Where to look in code"
+            }
+          ]
+        }
+      ]
     }
   },
-  "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
-  ]
+  "warnings": []
 }

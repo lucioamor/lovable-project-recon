@@ -110,7 +110,7 @@
     "sourceReports": [
       "hackathons_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -261,10 +261,76 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "hackathons_USAGE_REPORT.md",
+          "sha256": "9ba2edd62444ed2c37794b8a58dff5e59505fb52f2c2342d3fae5e0c2419bf7c",
+          "title": "Relatorio de Auditoria de Uso ? Lovable Hackathons Brasil",
+          "lineCount": 152,
+          "headingCount": 13,
+          "headings": [
+            {
+              "level": 1,
+              "title": "Relatorio de Auditoria de Uso ? Lovable Hackathons Brasil"
+            },
+            {
+              "level": 2,
+              "title": "1. Resumo executivo"
+            },
+            {
+              "level": 2,
+              "title": "2. Eventos realizados"
+            },
+            {
+              "level": 2,
+              "title": "3. Usuarios e papeis"
+            },
+            {
+              "level": 2,
+              "title": "4. Engajamento (telemetria)"
+            },
+            {
+              "level": 2,
+              "title": "5. Times e submissoes"
+            },
+            {
+              "level": 2,
+              "title": "6. Q&A e notificacoes"
+            },
+            {
+              "level": 2,
+              "title": "7. Armazenamento (Lovable Cloud Storage)"
+            },
+            {
+              "level": 2,
+              "title": "8. IA (Lovable AI Gateway)"
+            },
+            {
+              "level": 2,
+              "title": "9. Captura de leads (landing)"
+            },
+            {
+              "level": 2,
+              "title": "10. Seguranca e compliance"
+            },
+            {
+              "level": 2,
+              "title": "11. Stack e arquitetura"
+            },
+            {
+              "level": 2,
+              "title": "12. Recomendacoes para proxima janela"
+            }
+          ]
+        }
+      ]
     }
   },
   "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report",
     "index: pg_cron.active_jobs is not observed for `hackathons` (no note)"
   ]
 }

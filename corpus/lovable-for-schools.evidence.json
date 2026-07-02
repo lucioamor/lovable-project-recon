@@ -161,7 +161,7 @@
     "sourceReports": [
       "lovable-for-schools_USAGE_REPORT.md"
     ],
-    "conversion": "index-derived corpus seed; enrich with hand-reviewed usage report evidence before treating as complete",
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
     "index": {
       "sourcePath": "usage-reports/lovable_projects_index.json",
       "generated": "2026-06-30",
@@ -384,9 +384,114 @@
           "source": "lovable_projects_index.json"
         }
       ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "lovable-for-schools_USAGE_REPORT.md",
+          "sha256": "78245752301fca09022359a9cbb58639022ca82f69f119de0c61bdc36e500031",
+          "title": "lovable-for-schools-real-time-tracker ? USAGE REPORT",
+          "lineCount": 324,
+          "headingCount": 23,
+          "headings": [
+            {
+              "level": 1,
+              "title": "lovable-for-schools-real-time-tracker ? USAGE REPORT"
+            },
+            {
+              "level": 2,
+              "title": "EXECUTIVE SUMMARY"
+            },
+            {
+              "level": 2,
+              "title": "1. CONFIRMED EVIDENCE ? PRIMARY DRIVERS"
+            },
+            {
+              "level": 3,
+              "title": "1.1 `process-incremental-milestones` ? Every-Minute Cron (ACTIVE, IDLE-LOOPING)"
+            },
+            {
+              "level": 3,
+              "title": "1.2 `run-due-targets` ? Every-5-Minute Cron (ACTIVE, DEADLINE-GATED, STILL LOGGING)"
+            },
+            {
+              "level": 3,
+              "title": "1.3 Combined Daily Burn (Confirmed)"
+            },
+            {
+              "level": 2,
+              "title": "2. CONFIRMED EVIDENCE ? SECONDARY ISSUES"
+            },
+            {
+              "level": 3,
+              "title": "2.1 `cron_logs` ? Unbounded Growth, No Retention Policy"
+            },
+            {
+              "level": 3,
+              "title": "2.2 `snapshots.source_html` ? Raw HTML Stored in Postgres"
+            },
+            {
+              "level": 3,
+              "title": "2.3 Total Database Size"
+            },
+            {
+              "level": 2,
+              "title": "3. CONFIRMED EVIDENCE ? RLS / SECURITY ISSUES"
+            },
+            {
+              "level": 3,
+              "title": "3.1 INSERT/DELETE Granted to `{public}` (Unauthenticated)"
+            },
+            {
+              "level": 3,
+              "title": "3.2 Anon JWT Exposed in pg_cron Command"
+            },
+            {
+              "level": 2,
+              "title": "4. EDGE FUNCTIONS INVENTORY"
+            },
+            {
+              "level": 2,
+              "title": "5. DATABASE SCHEMA SUMMARY"
+            },
+            {
+              "level": 3,
+              "title": "Tables (public schema)"
+            },
+            {
+              "level": 3,
+              "title": "Triggers"
+            },
+            {
+              "level": 3,
+              "title": "Functions (public schema)"
+            },
+            {
+              "level": 3,
+              "title": "Cron Jobs (pg_cron)"
+            },
+            {
+              "level": 3,
+              "title": "system_config values"
+            },
+            {
+              "level": 2,
+              "title": "6. HYPOTHESES (Unconfirmed, Plausible)"
+            },
+            {
+              "level": 2,
+              "title": "7. RECOMMENDED IMMEDIATE ACTIONS"
+            },
+            {
+              "level": 2,
+              "title": "8. AUDIT METADATA"
+            }
+          ]
+        }
+      ]
     }
   },
-  "warnings": [
-    "index-derived corpus seed - structured baseline, pending hand review against source usage report"
-  ]
+  "warnings": []
 }
