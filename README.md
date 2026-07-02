@@ -27,6 +27,29 @@ node packages/recon/src/cli.ts scan --mode demo --out ./central-genial_USAGE_REP
 This reproduces a real audit (central-genial) end-to-end: collect -> detect -> score -> report.
 Open the generated `central-genial_USAGE_REPORT.md`.
 
+## Packaged CLI
+
+For local development:
+
+```bash
+npm install
+npm run build
+node packages/recon/dist/cli.js scan --mode index --index usage-reports/lovable_projects_index.json --project opportunity-monitor
+```
+
+The published package exposes `bin.recon` from `dist/cli.js`, so consumers do not need Node's
+TypeScript loader:
+
+```bash
+npx @nxlv-ai/lovable-recon scan --mode index --index usage-reports/lovable_projects_index.json --project opportunity-monitor
+```
+
+CI callers can fail a job when findings meet a severity threshold:
+
+```bash
+recon scan --mode evidence --evidence corpus/central-genial.evidence.json --fail-on high
+```
+
 ## Scan a real project (`db` mode, read-only)
 
 ```bash

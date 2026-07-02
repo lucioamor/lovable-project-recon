@@ -1,10 +1,25 @@
 {
   "name": "@nxlv-ai/lovable-core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
+  "description": "Core evidence model, collectors, rule engine, scoring, and reporting for Lovable Recon.",
   "exports": {
-    ".": "./src/index.ts",
-    "./model": "./src/model.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./model": {
+      "types": "./dist/model.d.ts",
+      "import": "./dist/model.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
   },
   "optionalDependencies": {
     "pg": "^8.13.0"

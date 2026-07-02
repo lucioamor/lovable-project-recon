@@ -1,7 +1,7 @@
 {
   "name": "lovable-recon-monorepo",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "description": "Recon — cost/runtime/waste recon + cleanup for Lovable Cloud portfolios. Sibling of lovable-audit (security).",
   "workspaces": [
@@ -16,13 +16,15 @@
   "scripts": {
     "recon": "node packages/recon/src/cli.ts",
     "demo": "node packages/recon/src/cli.ts scan --mode demo --out ./central-genial_USAGE_REPORT.md",
+    "clean": "node -e \"const fs=require('fs'); for (const p of ['packages/core/dist','packages/profile-cost/dist','packages/benchmarks/dist','packages/recon/dist']) fs.rmSync(p,{recursive:true,force:true})\"",
+    "build": "npm run clean && npm run build -w @nxlv-ai/lovable-core && npm run build -w @nxlv-ai/lovable-profile-cost && npm run build -w @nxlv-ai/lovable-benchmarks && npm run build -w @nxlv-ai/lovable-recon",
     "typecheck": "tsc -p tsconfig.base.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint packages test",
     "format": "prettier --write \"packages/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --check \"packages/**/*.ts\" \"test/**/*.ts\"",
-    "ci": "npm run typecheck && npm run lint && npm run format:check && npm run test"
+    "ci": "npm run build && npm run typecheck && npm run lint && npm run format:check && npm run test"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

@@ -37,6 +37,7 @@ Options:
   --evidence <file>                   ProjectEvidence JSON (required by --mode evidence)
   --dir <dir>                         directory of *.evidence.json files (required by --mode corpus)
   --project <name|id>                 project label or index project id
+  --fail-on <critical|high|medium|low> exit 1 when findings meet or exceed severity
   --out <file>                        write the Markdown report to a file
   --json                              print raw ReconResult as JSON instead of a report
   --help                              show this help
@@ -64,7 +65,7 @@ async function main() {
   }
 
   const args = parseArgs(rest);
-  const KNOWN = new Set(["mode", "db", "project", "out", "json", "repo", "index", "evidence", "dir", "help"]);
+  const KNOWN = new Set(["mode", "db", "project", "out", "json", "repo", "index", "evidence", "dir", "fail-on", "help"]);
   for (const k of Object.keys(args)) {
     if (!KNOWN.has(k)) console.error(`warning: unknown flag --${k} (ignored)`);
   }
@@ -102,6 +103,10 @@ async function main() {
       const json = redactSecrets(JSON.stringify(results, null, 2));
       if (typeof args["out"] === "string") writeFileSync(args["out"], json);
       else console.log(json);
+      exitForFailOn(
+        results.flatMap((r) => r.findings),
+        args["fail-on"],
+      );
       return;
     }
     const md = renderPortfolioReport(results, { sourceMode: "index" });
@@ -111,6 +116,10 @@ async function main() {
     } else {
       console.log(md);
     }
+    exitForFailOn(
+      results.flatMap((r) => r.findings),
+      args["fail-on"],
+    );
     return;
   }
   if (mode === "corpus") {
@@ -123,6 +132,10 @@ async function main() {
       const json = redactSecrets(JSON.stringify(results, null, 2));
       if (typeof args["out"] === "string") writeFileSync(args["out"], json);
       else console.log(json);
+      exitForFailOn(
+        results.flatMap((r) => r.findings),
+        args["fail-on"],
+      );
       return;
     }
     const md = renderPortfolioReport(results, { sourceMode: "corpus" });
@@ -132,6 +145,10 @@ async function main() {
     } else {
       console.log(md);
     }
+    exitForFailOn(
+      results.flatMap((r) => r.findings),
+      args["fail-on"],
+    );
     return;
   }
   const opts = {
@@ -150,6 +167,7 @@ async function main() {
     const json = redactSecrets(JSON.stringify(result, null, 2));
     if (typeof args["out"] === "string") writeFileSync(args["out"], json);
     else console.log(json);
+    exitForFailOn(result.findings, args["fail-on"]);
     return;
   }
 
@@ -160,6 +178,7 @@ async function main() {
   } else {
     console.log(md);
   }
+  exitForFailOn(result.findings, args["fail-on"]);
 }
 
 function printSummary(result: Awaited<ReturnType<typeof runRecon>>, outFile: string) {
@@ -178,6 +197,20 @@ function printPortfolioSummary(results: Array<Awaited<ReturnType<typeof runRecon
   console.log(`\n  recon portfolio - ${results.length} projects`);
   console.log(`  findings: ${findings}  imported actions: ${actions}`);
   console.log(`  report -> ${outFile}\n`);
+}
+
+type FindingLike = Awaited<ReturnType<typeof runRecon>>["findings"][number];
+
+const FAIL_ON_ORDER = { critical: 0, high: 1, medium: 2, low: 3 } as const;
+
+function exitForFailOn(findings: FindingLike[], failOn: string | boolean | undefined): void {
+  if (failOn === undefined || failOn === false) return;
+  if (failOn === true || !(failOn in FAIL_ON_ORDER)) {
+    console.error(`--fail-on must be one of: ${Object.keys(FAIL_ON_ORDER).join(", ")}`);
+    process.exit(2);
+  }
+  const threshold = FAIL_ON_ORDER[failOn as keyof typeof FAIL_ON_ORDER];
+  if (findings.some((finding) => FAIL_ON_ORDER[finding.severity] <= threshold)) process.exit(1);
 }
 
 main().catch((err) => {
