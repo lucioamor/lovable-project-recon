@@ -80,6 +80,13 @@ Every file must be named `<project-id>.evidence.json` when stored in `corpus/`.
   full headers.
 - Evidence older than 30 days is still ingested, but the collector emits a staleness warning.
 
+## Corpus-to-report mapping
+
+`corpus/` holds 19 evidence files against 20 files in `usage-reports/`: `go-do-it.evidence.json`
+aggregates two source reports (`Go_Do_It_USAGE_REPORT.md` and `godoit_USAGE_REPORT.md`, same
+project under two report names) via `raw.usageReportReview.sourceReports`. A 19-vs-20 count is
+expected, not a coverage gap.
+
 ## Producers
 
 Current producers:

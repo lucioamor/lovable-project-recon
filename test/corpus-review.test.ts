@@ -20,6 +20,7 @@ describe("reviewed evidence corpus", () => {
       expect(review?.reviewedAt, file).toBe("2026-07-02");
       expect(review?.sourceReports?.length, file).toBeGreaterThan(0);
       expect(evidence.raw?.conversion, file).toContain("hand-reviewed corpus fixture");
+      expect(evidence.raw?.conversion ?? "", `${file} conversion string`).not.toMatch(/seed|pending/i);
       expect((evidence.warnings ?? []).join(" "), file).not.toMatch(/pending hand review/i);
 
       for (const source of review?.sourceReports ?? []) {

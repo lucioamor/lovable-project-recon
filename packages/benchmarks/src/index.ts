@@ -34,6 +34,11 @@ export function compareProject(project: ReconResult, corpus: ReconResult[]): Met
   return METRICS.map((metric) => ({ metric, value: metricValue(project, metric), p90: percentile(metric, corpus, 90) }));
 }
 
+// Rounds to 1 decimal place: Math.round(n * 10) / 10.
+function round1(n: number): number {
+  return Math.round(n * 10) / 10;
+}
+
 export function rankPortfolio(results: ReconResult[]): RankedProject[] {
   return results
     .map((result) => {
@@ -47,7 +52,8 @@ export function rankPortfolio(results: ReconResult[]): RankedProject[] {
         estimatedCreditsSaved,
         confidence,
         effort,
-        rankScore: Math.round((estimatedCreditsSaved * confidence * 10) / effort) / 10,
+        // rankScore spec: (estimatedCreditsSaved * confidence) / effort, rounded to 1 decimal.
+        rankScore: round1((estimatedCreditsSaved * confidence) / effort),
         findings: result.findings.length,
         topAction: result.importedActions[0]?.action,
       };
