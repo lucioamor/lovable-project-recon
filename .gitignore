@@ -6,3 +6,6 @@ dist/
 # generated reports
 *_USAGE_REPORT.md
 !docs/**/*_USAGE_REPORT.md
+
+# local/private notes
+local-notes/
