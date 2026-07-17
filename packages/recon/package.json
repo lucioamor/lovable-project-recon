@@ -1,6 +1,6 @@
 {
   "name": "@nxlv-ai/lovable-recon",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "CLI for Lovable runtime-waste recon and portfolio reports.",
   "bin": {
@@ -23,9 +23,9 @@
     "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
-    "@nxlv-ai/lovable-benchmarks": "^0.1.0",
-    "@nxlv-ai/lovable-core": "^0.1.0",
-    "@nxlv-ai/lovable-profile-cost": "^0.1.0"
+    "@nxlv-ai/lovable-benchmarks": "^0.2.0",
+    "@nxlv-ai/lovable-core": "^0.2.0",
+    "@nxlv-ai/lovable-profile-cost": "^0.2.0"
   },
   "publishConfig": {
     "access": "public"

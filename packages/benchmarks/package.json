@@ -1,6 +1,6 @@
 {
   "name": "@nxlv-ai/lovable-benchmarks",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "Portfolio benchmarks, ranking, percentiles, and reports for Lovable Recon.",
   "exports": {
@@ -20,7 +20,7 @@
     "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
-    "@nxlv-ai/lovable-core": "^0.1.0"
+    "@nxlv-ai/lovable-core": "^0.2.0"
   },
   "publishConfig": {
     "access": "public"

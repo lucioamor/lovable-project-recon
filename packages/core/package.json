@@ -1,6 +1,6 @@
 {
   "name": "@nxlv-ai/lovable-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "Core evidence model, collectors, rule engine, scoring, and reporting for Lovable Recon.",
   "exports": {
