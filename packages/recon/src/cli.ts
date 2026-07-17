@@ -47,14 +47,14 @@ Options:
   --help                              show this help
 
 Examples:
-  recon scan --mode demo --out ./central-genial_USAGE_REPORT.md
+  recon scan --mode demo --out .local/reports/central-genial_USAGE_REPORT.md
   recon scan --mode db --project my-app --db "postgresql://readonly:...@db.<ref>.supabase.co:5432/postgres"
-  recon scan --mode static --repo ./my-lovable-app --out ./my-app_STATIC_REPORT.md
+  recon scan --mode static --repo ./my-lovable-app --out .local/reports/my-app_STATIC_REPORT.md
   recon scan --mode index --index usage-reports/lovable_projects_index.json --project opportunity-monitor
-  recon scan --mode index --index usage-reports/lovable_projects_index.json --out ./PORTFOLIO_REPORT.md
+  recon scan --mode index --index usage-reports/lovable_projects_index.json --out .local/reports/PORTFOLIO_REPORT.md
   recon scan --mode evidence --evidence corpus/central-genial.evidence.json
-  recon scan --mode corpus --dir corpus --out ./CORPUS_REPORT.md
-  recon scan --mode portfolio --dir corpus --out ./PORTFOLIO_REPORT.md
+  recon scan --mode corpus --dir corpus --out .local/reports/CORPUS_REPORT.md
+  recon scan --mode portfolio --dir corpus --out .local/reports/PORTFOLIO_REPORT.md
   recon clean --mode demo
   recon clean --mode evidence --evidence corpus/central-genial.evidence.json
 `;

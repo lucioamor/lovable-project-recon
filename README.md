@@ -76,12 +76,12 @@ Requires **Node >= 22.6** for the zero-install source demo. The packaged CLI tar
 ```bash
 git clone https://github.com/lucioamor/lovable-project-recon.git
 cd lovable-project-recon
-node packages/recon/src/cli.ts scan --mode demo --out ./central-genial_USAGE_REPORT.md
+node packages/recon/src/cli.ts scan --mode demo --out .local/reports/central-genial_USAGE_REPORT.md
 ```
 
 This reproduces a real Lovable project audit from bundled evidence: `collect -> detect -> score -> report`.
 
-Open the generated `central-genial_USAGE_REPORT.md`.
+Open the generated `.local/reports/central-genial_USAGE_REPORT.md`.
 
 ## Packaged CLI
 
@@ -118,7 +118,7 @@ recon scan --mode demo --intent ./ROADMAP.md
 ```bash
 npm install
 export SUPABASE_DB_URL=postgresql://readonly:...@db.<ref>.supabase.co:5432/postgres
-node packages/recon/src/cli.ts scan --mode db --project my-app --out ./my-app_USAGE_REPORT.md
+node packages/recon/src/cli.ts scan --mode db --project my-app --out .local/reports/my-app_USAGE_REPORT.md
 ```
 
 `db` mode runs the audit query library inside a `READ ONLY` transaction with a statement timeout. It never writes. Queries that need restricted Supabase schemas such as `cron.*` degrade to warnings when unavailable.
@@ -126,7 +126,7 @@ node packages/recon/src/cli.ts scan --mode db --project my-app --out ./my-app_US
 ### Static repo mode
 
 ```bash
-node packages/recon/src/cli.ts scan --mode static --repo ./my-lovable-app --out ./my-app_STATIC_REPORT.md
+node packages/recon/src/cli.ts scan --mode static --repo ./my-lovable-app --out .local/reports/my-app_STATIC_REPORT.md
 ```
 
 `static` mode reads `supabase/config.toml`, SQL migrations, and source files. It never runs the app. It feeds client-amplification, RLS, AI model, and credential-shape evidence into the same rule engine.
@@ -136,13 +136,13 @@ node packages/recon/src/cli.ts scan --mode static --repo ./my-lovable-app --out 
 Single project:
 
 ```bash
-node packages/recon/src/cli.ts scan --mode index --index usage-reports/lovable_projects_index.json --project opportunity-monitor --out ./opportunity-monitor_INDEX_REPORT.md
+node packages/recon/src/cli.ts scan --mode index --index usage-reports/lovable_projects_index.json --project opportunity-monitor --out .local/reports/opportunity-monitor_INDEX_REPORT.md
 ```
 
 Whole portfolio:
 
 ```bash
-node packages/recon/src/cli.ts scan --mode index --index usage-reports/lovable_projects_index.json --out ./PORTFOLIO_REPORT.md
+node packages/recon/src/cli.ts scan --mode index --index usage-reports/lovable_projects_index.json --out .local/reports/PORTFOLIO_REPORT.md
 ```
 
 Imported audit actions from the index are shown in a separate report section and are not counted in the waste score.
@@ -150,7 +150,7 @@ Imported audit actions from the index are shown in a separate report section and
 ### Evidence mode
 
 ```bash
-node packages/recon/src/cli.ts scan --mode evidence --evidence corpus/central-genial.evidence.json --out ./central-genial_EVIDENCE_REPORT.md
+node packages/recon/src/cli.ts scan --mode evidence --evidence corpus/central-genial.evidence.json --out .local/reports/central-genial_EVIDENCE_REPORT.md
 ```
 
 Use evidence mode when you have a reviewed `ProjectEvidence` JSON file. Evidence is the preferred boundary for browser exporters, future Lovable usage APIs, and offline portfolio review.
@@ -183,6 +183,16 @@ Important cleanup rules:
 | `evidence` | One `ProjectEvidence` JSON file | Rich offline evidence |
 | `corpus` | Directory of `*.evidence.json` files | Evidence portfolio report |
 | `portfolio` | Directory of `*.evidence.json` files | Alias for evidence fan-out |
+
+## Where your data goes
+
+Recon output belongs in `.local/`, which is git-ignored. See [`.local/README.md`](.local/README.md).
+
+This repository is public; evidence collected from your own projects is not. A
+`ProjectEvidence` file captured from a live database can carry project refs, anon JWTs and
+`x-cron-secret` values, because pg_cron stores request headers inline in `cron.job.command`.
+The fixtures in `corpus/` are safe to track only because they were reviewed first. Anything
+you collect yourself has not been. Keep it in `.local/` until you have read it.
 
 ## Architecture
 

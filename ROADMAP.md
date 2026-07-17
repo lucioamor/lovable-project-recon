@@ -2,8 +2,8 @@
 
 _Cost/runtime/waste recon + cleanup for Lovable Cloud portfolios. Sibling of `lovable-audit`._
 
-**Last updated:** 2026-07-02  
-**Working state:** Plano V2 implemented through F6 contract-first plus safe clean planning.
+**Last updated:** 2026-07-16  
+**Working state:** contract-first pipeline plus safe clean planning.
 
 ## Current Product Surface
 
