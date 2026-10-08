@@ -1,0 +1,599 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "sample-06",
+    "name": "sample_06",
+    "supabaseRef": "sampleref04aaaaaaaaa",
+    "stack": "TanStack Start / CF Worker",
+    "evidenceGenerated": "2026-06-30",
+    "evidenceSource": "sample_06_USAGE_REPORT.md"
+  },
+  "resources": [
+    {
+      "id": "cloud",
+      "kind": "cloud",
+      "name": "Lovable Cloud (Supabase)",
+      "attrs": {
+        "status": "active",
+        "ref": "sampleref04aaaaaaaaa"
+      }
+    },
+    {
+      "id": "project",
+      "kind": "project",
+      "name": "sample_06",
+      "attrs": {
+        "projectId": "sample-06",
+        "tables": 30,
+        "edgeFns": 0,
+        "dbTotalBytes": 3145728,
+        "storageBuckets": 0,
+        "storageSizeMb": 0,
+        "idleState": "partial",
+        "driverCategories": [
+          "A",
+          "E"
+        ],
+        "indexSeverity": "High",
+        "primaryDriverConfirmed": true,
+        "policyIds": [
+          "POL-1",
+          "POL-4"
+        ]
+      }
+    },
+    {
+      "id": "cron_job:index-1",
+      "kind": "cron_job",
+      "name": "index-cron-1",
+      "attrs": {
+        "active": true,
+        "source": "index"
+      }
+    },
+    {
+      "id": "cron_job:index-2",
+      "kind": "cron_job",
+      "name": "index-cron-2",
+      "attrs": {
+        "active": true,
+        "source": "index"
+      }
+    },
+    {
+      "id": "cron_job:index-3",
+      "kind": "cron_job",
+      "name": "index-cron-3",
+      "attrs": {
+        "active": true,
+        "source": "index"
+      }
+    },
+    {
+      "id": "cron_job:index-4",
+      "kind": "cron_job",
+      "name": "index-cron-4",
+      "attrs": {
+        "active": true,
+        "source": "index"
+      }
+    },
+    {
+      "id": "cron_job:index-5",
+      "kind": "cron_job",
+      "name": "index-cron-5",
+      "attrs": {
+        "active": true,
+        "source": "index"
+      }
+    },
+    {
+      "id": "cron_job:index-6",
+      "kind": "cron_job",
+      "name": "index-cron-6",
+      "attrs": {
+        "active": true,
+        "source": "index"
+      }
+    },
+    {
+      "id": "cron_job:index-7",
+      "kind": "cron_job",
+      "name": "index-cron-7",
+      "attrs": {
+        "active": true,
+        "source": "index"
+      }
+    },
+    {
+      "id": "cron_job:index-8",
+      "kind": "cron_job",
+      "name": "index-cron-8",
+      "attrs": {
+        "active": true,
+        "source": "index"
+      }
+    },
+    {
+      "id": "cron_job:index-9",
+      "kind": "cron_job",
+      "name": "index-cron-9",
+      "attrs": {
+        "active": true,
+        "source": "index"
+      }
+    }
+  ],
+  "observations": [
+    {
+      "resourceId": "project",
+      "metric": "db_size_mb",
+      "value": 3,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "public_tables",
+      "value": 30,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "edge_functions",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_buckets",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_size_mb",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "pg_cron_active_jobs",
+      "value": 9,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    }
+  ],
+  "importedActions": [
+    {
+      "rank": 1,
+      "action": "Daily token ceiling + circuit breaker in runReconciliation (kills ~85% waste)",
+      "severity": "High",
+      "effort": "S",
+      "status": "Confirmed",
+      "policy": "POL-4",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 2,
+      "action": "embed-queue-2min -> */15 or event-driven (-660/day)",
+      "severity": "High",
+      "effort": "XS",
+      "status": "Confirmed",
+      "policy": "POL-1",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 3,
+      "action": "Window-guard ops-alerts-push; unit-test bypass logic",
+      "severity": "Medium",
+      "effort": "S",
+      "status": "Confirmed",
+      "policy": "POL-1",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 4,
+      "action": "Delete dead NVIDIA_API_KEY",
+      "severity": "Low",
+      "effort": "XS",
+      "status": "Confirmed",
+      "policy": "POL-6",
+      "source": "lovable_projects_index.json"
+    }
+  ],
+  "raw": {
+    "sourceIndex": "lovable_projects_index.json",
+    "sourceReports": [
+      "sample_06_USAGE_REPORT.md",
+      "sample_06b_USAGE_REPORT.md"
+    ],
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
+    "index": {
+      "sourcePath": "usage-reports/lovable_projects_index.json",
+      "generated": "2026-06-30",
+      "sourceCorpus": "20 usage audits / 18 distinct projects (sample_06 audited twice; sample-04 is a CTA audit)",
+      "policyCatalog": [
+        {
+          "id": "POL-1",
+          "name": "Scheduled-job (cron) hygiene",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 8,
+          "priority": "P0",
+          "summary": "No sub-15-min pollers; event-driven or sentinel-gated; scheduler-level idle/paused/deadline short-circuit; prod host only; judge health from net._http_response."
+        },
+        {
+          "id": "POL-2",
+          "name": "Log & raw-payload retention",
+          "severity": "High",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "Every log/append table has TTL/partition; no raw HTML/blobs in Postgres; media in Storage with size limit + orphan sweep; snapshots keep latest+changed."
+        },
+        {
+          "id": "POL-3",
+          "name": "Client & Realtime fetch defaults",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 7,
+          "priority": "P1",
+          "summary": "staleTime>=60s, preloadStaleTime>=30s, refetchIntervalInBackground=false, pause on hidden; one auth subscriber + keyed invalidation; minimal per-row Realtime + incremental updates; HTTP cache on SSR loaders."
+        },
+        {
+          "id": "POL-4",
+          "name": "AI cost governance",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 6,
+          "priority": "P0",
+          "summary": "Per-user/day token or USD ceiling + circuit breaker before provider call; ai_config.max_cost_usd non-NULL; pin catalog model IDs; bounded fan-out; idempotent generate functions."
+        },
+        {
+          "id": "POL-5",
+          "name": "RLS & tenancy baseline",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 10,
+          "priority": "P0",
+          "summary": "No USING(true)/tautology on operational tables; no anon UPDATE of unowned rows; rate-limit anon INSERT; revoke EXECUTE from anon on SECURITY DEFINER; no PII via broad SELECT; no dangerouslySetInnerHTML on anon input."
+        },
+        {
+          "id": "POL-6",
+          "name": "Secrets & auth-surface management",
+          "severity": "Critical",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "No JWT in cron.job.command (Vault); no service-role over HTTP; delete debug/reveal fns + rotate; verify_jwt=false fns need explicit gate + rate limit; remove dead secrets."
+        },
+        {
+          "id": "POL-7",
+          "name": "Write-amplification & trigger discipline",
+          "severity": "Medium",
+          "effort": "M",
+          "affected_projects": 4,
+          "priority": "P2",
+          "summary": "Cap notification/aggregate fan-out (digest/queue); batch progress updates; upsert not delete-all+reinsert."
+        },
+        {
+          "id": "POL-8",
+          "name": "Cost observability & attribution",
+          "severity": "High",
+          "effort": "S",
+          "affected_projects": 19,
+          "priority": "P1",
+          "summary": "Per-project usage ledger written by every AI/TTS/STT call site; attribute via credits--get_credit_balance by billable_item/project; gateway 7-day log not authoritative; no NULL cost columns in UI."
+        },
+        {
+          "id": "POL-9",
+          "name": "Idle-project lifecycle",
+          "severity": "Medium",
+          "effort": "S",
+          "affected_projects": 6,
+          "priority": "P1",
+          "summary": "Auto-pause scheduled/background work when no real activity > 30 days; flag idle Cloud instances for pause/consolidation; idle in app tables != not billing."
+        }
+      ],
+      "projectSnapshot": {
+        "id": "sample-06",
+        "name": "sample_06",
+        "supabase_ref": "sampleref04aaaaaaaaa",
+        "stack": "TanStack Start / CF Worker",
+        "db_size_mb": 3,
+        "public_tables": 30,
+        "pg_cron": {
+          "installed": true,
+          "active_jobs": 9,
+          "note": "embed-queue */2, reconcile */15, ops-alerts */15"
+        },
+        "edge_functions": 0,
+        "storage": {
+          "buckets": 0,
+          "size_mb": 0,
+          "note": "logic in /api/public/*-cron server routes"
+        },
+        "realtime": false,
+        "idle": "partial",
+        "last_activity": null,
+        "severity": "High",
+        "driver_categories": [
+          "A",
+          "E"
+        ],
+        "primary_driver_confirmed": true,
+        "policies": [
+          "POL-1",
+          "POL-4"
+        ],
+        "key_metrics": {
+          "embed_queue_daily": 720,
+          "reconcile_spike_2026_06_26": "458231 tokens / 96 calls vs 0 other days",
+          "circuit_breaker": false
+        },
+        "top_actions": [
+          {
+            "rank": 1,
+            "action": "Daily token ceiling + circuit breaker in runReconciliation (kills ~85% waste)",
+            "severity": "High",
+            "effort": "S",
+            "status": "Confirmed",
+            "policy": "POL-4"
+          },
+          {
+            "rank": 2,
+            "action": "embed-queue-2min -> */15 or event-driven (-660/day)",
+            "severity": "High",
+            "effort": "XS",
+            "status": "Confirmed",
+            "policy": "POL-1"
+          },
+          {
+            "rank": 3,
+            "action": "Window-guard ops-alerts-push; unit-test bypass logic",
+            "severity": "Medium",
+            "effort": "S",
+            "status": "Confirmed",
+            "policy": "POL-1"
+          },
+          {
+            "rank": 4,
+            "action": "Delete dead NVIDIA_API_KEY",
+            "severity": "Low",
+            "effort": "XS",
+            "status": "Confirmed",
+            "policy": "POL-6"
+          }
+        ]
+      },
+      "keyMetrics": {
+        "embed_queue_daily": 720,
+        "reconcile_spike_2026_06_26": "458231 tokens / 96 calls vs 0 other days",
+        "circuit_breaker": false
+      },
+      "importedActions": [
+        {
+          "rank": 1,
+          "action": "Daily token ceiling + circuit breaker in runReconciliation (kills ~85% waste)",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-4",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 2,
+          "action": "embed-queue-2min -> */15 or event-driven (-660/day)",
+          "severity": "High",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-1",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 3,
+          "action": "Window-guard ops-alerts-push; unit-test bypass logic",
+          "severity": "Medium",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-1",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 4,
+          "action": "Delete dead NVIDIA_API_KEY",
+          "severity": "Low",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-6",
+          "source": "lovable_projects_index.json"
+        }
+      ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "sample_06_USAGE_REPORT.md",
+          "sha256": "3c4420f9113185245463989b4f3b9393e276a040eebb190335eaa92a5dfa5729",
+          "title": "sample_06 - Usage Audit Report",
+          "auditDate": "2026-06-30",
+          "lineCount": 177,
+          "headingCount": 16,
+          "headings": [
+            {
+              "level": 1,
+              "title": "sample_06 - Usage Audit Report"
+            },
+            {
+              "level": 2,
+              "title": "TL;DR"
+            },
+            {
+              "level": 2,
+              "title": "1. Cron schedule (confirmed)"
+            },
+            {
+              "level": 2,
+              "title": "2. Evidence - AI token burn"
+            },
+            {
+              "level": 2,
+              "title": "3. Salient code paths"
+            },
+            {
+              "level": 3,
+              "title": "3.1 Reconcile cron - `src/routes/api/public/reconcile-cron.ts`"
+            },
+            {
+              "level": 3,
+              "title": "3.2 Embed queue cron - `src/routes/api/public/embed-queue-cron.ts`"
+            },
+            {
+              "level": 3,
+              "title": "3.3 Other AI call sites (potential burn vectors)"
+            },
+            {
+              "level": 2,
+              "title": "4. Database / schema findings"
+            },
+            {
+              "level": 2,
+              "title": "5. Secrets & auth surface"
+            },
+            {
+              "level": 2,
+              "title": "6. Worker invocation logs (configuration evidence)"
+            },
+            {
+              "level": 2,
+              "title": "7. Confirmed vs. hypothesis"
+            },
+            {
+              "level": 3,
+              "title": "Confirmed by query/code evidence"
+            },
+            {
+              "level": 3,
+              "title": "Hypotheses (need log/billing correlation)"
+            },
+            {
+              "level": 2,
+              "title": "8. Recommended remediations (ordered by impact)"
+            },
+            {
+              "level": 2,
+              "title": "9. Artifacts"
+            }
+          ]
+        },
+        {
+          "file": "sample_06b_USAGE_REPORT.md",
+          "sha256": "4a2852d5dc2794cfe1b58ba817f075bd23e9e07a6c17903757d91da28c17dc11",
+          "title": "sample_06 - USAGE AUDIT REPORT",
+          "lineCount": 234,
+          "headingCount": 29,
+          "headings": [
+            {
+              "level": 1,
+              "title": "sample_06 - USAGE AUDIT REPORT"
+            },
+            {
+              "level": 2,
+              "title": "0. Executive Summary"
+            },
+            {
+              "level": 2,
+              "title": "1. Project Topology"
+            },
+            {
+              "level": 3,
+              "title": "1.1 Stack"
+            },
+            {
+              "level": 3,
+              "title": "1.2 Public cron endpoints (all `POST`, all secret-gated by `x-cron-secret == OPS_CRON_SECRET`)"
+            },
+            {
+              "level": 2,
+              "title": "2. Database Footprint (confirmed)"
+            },
+            {
+              "level": 3,
+              "title": "2.1 Tables (public schema, owned by app, all RLS-enabled)"
+            },
+            {
+              "level": 3,
+              "title": "2.2 RLS posture"
+            },
+            {
+              "level": 3,
+              "title": "2.3 Triggers (confirmed material)"
+            },
+            {
+              "level": 3,
+              "title": "2.4 SECURITY DEFINER functions"
+            },
+            {
+              "level": 3,
+              "title": "2.5 pgvector extension"
+            },
+            {
+              "level": 2,
+              "title": "3. Cron Inventory + Confirmed Waste"
+            },
+            {
+              "level": 3,
+              "title": "3.1 `embed-queue-2min` - **CONFIRMED IDLE WASTE**"
+            },
+            {
+              "level": 3,
+              "title": "3.2 `do-it-reconcile-15min` - **CONFIRMED COST SPIKE, NO CIRCUIT BREAKER**"
+            },
+            {
+              "level": 3,
+              "title": "3.3 `ops-alerts-push-15min` - **CONFIRMED 24/7 FIRE WITHOUT WINDOW FILTER**"
+            },
+            {
+              "level": 3,
+              "title": "3.4 Other crons - not material"
+            },
+            {
+              "level": 2,
+              "title": "4. Token Burn Breakdown (14-day window, `event_log`)"
+            },
+            {
+              "level": 3,
+              "title": "4.1 By trigger"
+            },
+            {
+              "level": 3,
+              "title": "4.2 By model"
+            },
+            {
+              "level": 3,
+              "title": "4.3 Hypothesis: brain-dump cascade"
+            },
+            {
+              "level": 2,
+              "title": "5. Storage"
+            },
+            {
+              "level": 2,
+              "title": "6. Auth / Config Issues"
+            },
+            {
+              "level": 3,
+              "title": "6.1 `OPS_CRON_SECRET` - confirmed gated"
+            },
+            {
+              "level": 3,
+              "title": "6.2 Allowlist + role gating"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "warnings": []
+}

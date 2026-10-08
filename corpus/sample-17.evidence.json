@@ -1,0 +1,451 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "sample-17",
+    "name": "Sample 17",
+    "stack": "React",
+    "evidenceGenerated": "2026-06-30",
+    "evidenceSource": "Websummit_Rio_USAGE_REPORT.md"
+  },
+  "resources": [
+    {
+      "id": "project",
+      "kind": "project",
+      "name": "Sample 17",
+      "attrs": {
+        "projectId": "sample-17",
+        "tables": 20,
+        "storageBuckets": 1,
+        "storageSizeMb": 16,
+        "idleState": "no",
+        "lastActivity": "2026-06-29",
+        "idleDays": 1,
+        "driverCategories": [
+          "D",
+          "B",
+          "C"
+        ],
+        "indexSeverity": "High",
+        "primaryDriverConfirmed": true,
+        "policyIds": [
+          "POL-7",
+          "POL-3",
+          "POL-2"
+        ]
+      }
+    },
+    {
+      "id": "realtime",
+      "kind": "realtime",
+      "name": "Realtime",
+      "attrs": {
+        "source": "index",
+        "tables": "observed"
+      }
+    },
+    {
+      "id": "bucket:index-1",
+      "kind": "bucket",
+      "name": "storage-1",
+      "attrs": {
+        "source": "index",
+        "sizeMb": 16
+      }
+    }
+  ],
+  "observations": [
+    {
+      "resourceId": "project",
+      "metric": "public_tables",
+      "value": 20,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_buckets",
+      "value": 1,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_size_mb",
+      "value": 16,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "pg_cron_active_jobs",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "last_activity_days",
+      "value": 1,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    }
+  ],
+  "importedActions": [
+    {
+      "rank": 1,
+      "action": "Digest/disable on_new_member_notify (200 rows/onboarding)",
+      "severity": "High",
+      "effort": "M",
+      "status": "Confirmed",
+      "policy": "POL-7",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 2,
+      "action": "Narrow supabase_realtime to per-user notifications; drop profiles",
+      "severity": "High",
+      "effort": "M",
+      "status": "Confirmed",
+      "policy": "POL-3",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 3,
+      "action": "Payload-driven incremental updates (kill wildcard load())",
+      "severity": "High",
+      "effort": "M",
+      "status": "Confirmed",
+      "policy": "POL-3",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 4,
+      "action": "Notifications retention job",
+      "severity": "Medium",
+      "effort": "XS",
+      "status": "Confirmed",
+      "policy": "POL-2",
+      "source": "lovable_projects_index.json"
+    }
+  ],
+  "raw": {
+    "sourceIndex": "lovable_projects_index.json",
+    "sourceReports": [
+      "Websummit_Rio_USAGE_REPORT.md"
+    ],
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
+    "index": {
+      "sourcePath": "usage-reports/lovable_projects_index.json",
+      "generated": "2026-06-30",
+      "sourceCorpus": "20 usage audits / 18 distinct projects (sample_06 audited twice; sample-04 is a CTA audit)",
+      "policyCatalog": [
+        {
+          "id": "POL-1",
+          "name": "Scheduled-job (cron) hygiene",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 8,
+          "priority": "P0",
+          "summary": "No sub-15-min pollers; event-driven or sentinel-gated; scheduler-level idle/paused/deadline short-circuit; prod host only; judge health from net._http_response."
+        },
+        {
+          "id": "POL-2",
+          "name": "Log & raw-payload retention",
+          "severity": "High",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "Every log/append table has TTL/partition; no raw HTML/blobs in Postgres; media in Storage with size limit + orphan sweep; snapshots keep latest+changed."
+        },
+        {
+          "id": "POL-3",
+          "name": "Client & Realtime fetch defaults",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 7,
+          "priority": "P1",
+          "summary": "staleTime>=60s, preloadStaleTime>=30s, refetchIntervalInBackground=false, pause on hidden; one auth subscriber + keyed invalidation; minimal per-row Realtime + incremental updates; HTTP cache on SSR loaders."
+        },
+        {
+          "id": "POL-4",
+          "name": "AI cost governance",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 6,
+          "priority": "P0",
+          "summary": "Per-user/day token or USD ceiling + circuit breaker before provider call; ai_config.max_cost_usd non-NULL; pin catalog model IDs; bounded fan-out; idempotent generate functions."
+        },
+        {
+          "id": "POL-5",
+          "name": "RLS & tenancy baseline",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 10,
+          "priority": "P0",
+          "summary": "No USING(true)/tautology on operational tables; no anon UPDATE of unowned rows; rate-limit anon INSERT; revoke EXECUTE from anon on SECURITY DEFINER; no PII via broad SELECT; no dangerouslySetInnerHTML on anon input."
+        },
+        {
+          "id": "POL-6",
+          "name": "Secrets & auth-surface management",
+          "severity": "Critical",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "No JWT in cron.job.command (Vault); no service-role over HTTP; delete debug/reveal fns + rotate; verify_jwt=false fns need explicit gate + rate limit; remove dead secrets."
+        },
+        {
+          "id": "POL-7",
+          "name": "Write-amplification & trigger discipline",
+          "severity": "Medium",
+          "effort": "M",
+          "affected_projects": 4,
+          "priority": "P2",
+          "summary": "Cap notification/aggregate fan-out (digest/queue); batch progress updates; upsert not delete-all+reinsert."
+        },
+        {
+          "id": "POL-8",
+          "name": "Cost observability & attribution",
+          "severity": "High",
+          "effort": "S",
+          "affected_projects": 19,
+          "priority": "P1",
+          "summary": "Per-project usage ledger written by every AI/TTS/STT call site; attribute via credits--get_credit_balance by billable_item/project; gateway 7-day log not authoritative; no NULL cost columns in UI."
+        },
+        {
+          "id": "POL-9",
+          "name": "Idle-project lifecycle",
+          "severity": "Medium",
+          "effort": "S",
+          "affected_projects": 6,
+          "priority": "P1",
+          "summary": "Auto-pause scheduled/background work when no real activity > 30 days; flag idle Cloud instances for pause/consolidation; idle in app tables != not billing."
+        }
+      ],
+      "projectSnapshot": {
+        "id": "sample-17",
+        "name": "Sample 17",
+        "supabase_ref": null,
+        "stack": "React",
+        "db_size_mb": null,
+        "public_tables": 20,
+        "pg_cron": {
+          "installed": false,
+          "active_jobs": 0,
+          "note": "pg_cron/pg_net absent"
+        },
+        "edge_functions": null,
+        "storage": {
+          "buckets": 1,
+          "size_mb": 16,
+          "note": "avatars"
+        },
+        "realtime": true,
+        "idle": "no",
+        "last_activity": "2026-06-29",
+        "severity": "High",
+        "driver_categories": [
+          "D",
+          "B",
+          "C"
+        ],
+        "primary_driver_confirmed": true,
+        "policies": [
+          "POL-7",
+          "POL-3",
+          "POL-2"
+        ],
+        "key_metrics": {
+          "notifs_per_onboarding": 200,
+          "notifications_rows": 4234,
+          "realtime_publication_tables": 7,
+          "wildcard_subscriptions": 11
+        },
+        "top_actions": [
+          {
+            "rank": 1,
+            "action": "Digest/disable on_new_member_notify (200 rows/onboarding)",
+            "severity": "High",
+            "effort": "M",
+            "status": "Confirmed",
+            "policy": "POL-7"
+          },
+          {
+            "rank": 2,
+            "action": "Narrow supabase_realtime to per-user notifications; drop profiles",
+            "severity": "High",
+            "effort": "M",
+            "status": "Confirmed",
+            "policy": "POL-3"
+          },
+          {
+            "rank": 3,
+            "action": "Payload-driven incremental updates (kill wildcard load())",
+            "severity": "High",
+            "effort": "M",
+            "status": "Confirmed",
+            "policy": "POL-3"
+          },
+          {
+            "rank": 4,
+            "action": "Notifications retention job",
+            "severity": "Medium",
+            "effort": "XS",
+            "status": "Confirmed",
+            "policy": "POL-2"
+          }
+        ]
+      },
+      "keyMetrics": {
+        "notifs_per_onboarding": 200,
+        "notifications_rows": 4234,
+        "realtime_publication_tables": 7,
+        "wildcard_subscriptions": 11
+      },
+      "importedActions": [
+        {
+          "rank": 1,
+          "action": "Digest/disable on_new_member_notify (200 rows/onboarding)",
+          "severity": "High",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-7",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 2,
+          "action": "Narrow supabase_realtime to per-user notifications; drop profiles",
+          "severity": "High",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-3",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 3,
+          "action": "Payload-driven incremental updates (kill wildcard load())",
+          "severity": "High",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-3",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 4,
+          "action": "Notifications retention job",
+          "severity": "Medium",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-2",
+          "source": "lovable_projects_index.json"
+        }
+      ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "Websummit_Rio_USAGE_REPORT.md",
+          "sha256": "28aac43bc37812b0343d7bcce39e8d6f487924994407a943bc3e04fa69a92dcf",
+          "title": "Websummit Rio - Lovable/Supabase Usage Audit",
+          "lineCount": 318,
+          "headingCount": 29,
+          "headings": [
+            {
+              "level": 1,
+              "title": "Websummit Rio - Lovable/Supabase Usage Audit"
+            },
+            {
+              "level": 2,
+              "title": "0. TL;DR - Salient cost drivers (confirmed)"
+            },
+            {
+              "level": 2,
+              "title": "1. Database snapshot"
+            },
+            {
+              "level": 3,
+              "title": "1.1 Row counts (pg_stat_user_tables)"
+            },
+            {
+              "level": 3,
+              "title": "1.2 Notifications by type"
+            },
+            {
+              "level": 3,
+              "title": "1.3 Notifications by day (recent)"
+            },
+            {
+              "level": 2,
+              "title": "2. Confirmed cost drivers"
+            },
+            {
+              "level": 3,
+              "title": "2.1 `on_new_member_notify` trigger - fan-out on every onboarding completion"
+            },
+            {
+              "level": 3,
+              "title": "2.2 Wide Realtime publication"
+            },
+            {
+              "level": 3,
+              "title": "2.3 Algorithmic matchmaker LLM cost"
+            },
+            {
+              "level": 3,
+              "title": "2.4 `AlgoMatchRunner` mounting policy"
+            },
+            {
+              "level": 3,
+              "title": "2.5 Notifications table has no retention"
+            },
+            {
+              "level": 3,
+              "title": "2.6 Polling components (always mounted)"
+            },
+            {
+              "level": 3,
+              "title": "2.7 `lucioamorim` mass-connect leaves Lucio's `sparks` cardinality at 161"
+            },
+            {
+              "level": 2,
+              "title": "3. Triggers & functions inventory"
+            },
+            {
+              "level": 3,
+              "title": "3.1 Triggers (public schema)"
+            },
+            {
+              "level": 3,
+              "title": "3.2 Functions"
+            },
+            {
+              "level": 3,
+              "title": "3.3 Cron / pg_cron"
+            },
+            {
+              "level": 2,
+              "title": "4. Edge / server functions"
+            },
+            {
+              "level": 3,
+              "title": "4.1 AI Gateway call sites (Lovable AI Gateway)"
+            },
+            {
+              "level": 2,
+              "title": "5. Storage"
+            },
+            {
+              "level": 2,
+              "title": "6. Auth & config"
+            },
+            {
+              "level": 2,
+              "title": "7. Client-side cost amplifiers (confirmed)"
+            },
+            {
+              "level": 3,
+              "title": "7.1 Realtime subscriptions with `event: \"*\"` and full-loader refetch"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "warnings": []
+}

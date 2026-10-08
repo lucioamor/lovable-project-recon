@@ -1,0 +1,18 @@
+node_modules/
+dist/
+*.log
+.env
+.env.local
+# generated reports
+*_USAGE_REPORT.md
+!docs/**/*_USAGE_REPORT.md
+
+# local/private notes
+local-notes/
+
+# user data — live evidence, reports, handoffs.
+# This repo is public and live evidence carries project refs, anon JWTs and
+# cron secrets scraped from real databases. Never track it.
+# The README is tracked so the convention ships with the repo.
+.local/*
+!.local/README.md

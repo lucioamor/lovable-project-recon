@@ -1,0 +1,369 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "sample-13",
+    "name": "sample-13 (Sample 12)",
+    "supabaseRef": "sampleref08aaaaaaaaa",
+    "stack": "TanStack Start / CF",
+    "evidenceGenerated": "2026-06-30",
+    "evidenceSource": "sample-13_USAGE_REPORT.md"
+  },
+  "resources": [
+    {
+      "id": "cloud",
+      "kind": "cloud",
+      "name": "Lovable Cloud (Supabase)",
+      "attrs": {
+        "status": "active",
+        "ref": "sampleref08aaaaaaaaa"
+      }
+    },
+    {
+      "id": "project",
+      "kind": "project",
+      "name": "sample-13 (Sample 12)",
+      "attrs": {
+        "projectId": "sample-13",
+        "tables": 7,
+        "edgeFns": 5,
+        "dbTotalBytes": 12582912,
+        "storageBuckets": 1,
+        "storageSizeMb": 0,
+        "idleState": "runtime-clean",
+        "driverCategories": [
+          "F"
+        ],
+        "indexSeverity": "Low",
+        "primaryDriverConfirmed": true,
+        "policyIds": [
+          "POL-8",
+          "POL-9"
+        ]
+      }
+    },
+    {
+      "id": "bucket:index-1",
+      "kind": "bucket",
+      "name": "storage-1",
+      "attrs": {
+        "source": "index",
+        "sizeMb": 0
+      }
+    }
+  ],
+  "observations": [
+    {
+      "resourceId": "project",
+      "metric": "db_size_mb",
+      "value": 12,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "public_tables",
+      "value": 7,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "edge_functions",
+      "value": 5,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_buckets",
+      "value": 1,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_size_mb",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "pg_cron_active_jobs",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    }
+  ],
+  "importedActions": [
+    {
+      "rank": 1,
+      "action": "Investigate Build-mode editor sessions (runtime confirmed clean)",
+      "severity": "Low",
+      "effort": "XS",
+      "status": "Confirmed",
+      "policy": "POL-8",
+      "source": "lovable_projects_index.json"
+    }
+  ],
+  "raw": {
+    "sourceIndex": "lovable_projects_index.json",
+    "sourceReports": [
+      "sample-13_USAGE_REPORT.md"
+    ],
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
+    "index": {
+      "sourcePath": "usage-reports/lovable_projects_index.json",
+      "generated": "2026-06-30",
+      "sourceCorpus": "20 usage audits / 18 distinct projects (sample_06 audited twice; sample-04 is a CTA audit)",
+      "policyCatalog": [
+        {
+          "id": "POL-1",
+          "name": "Scheduled-job (cron) hygiene",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 8,
+          "priority": "P0",
+          "summary": "No sub-15-min pollers; event-driven or sentinel-gated; scheduler-level idle/paused/deadline short-circuit; prod host only; judge health from net._http_response."
+        },
+        {
+          "id": "POL-2",
+          "name": "Log & raw-payload retention",
+          "severity": "High",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "Every log/append table has TTL/partition; no raw HTML/blobs in Postgres; media in Storage with size limit + orphan sweep; snapshots keep latest+changed."
+        },
+        {
+          "id": "POL-3",
+          "name": "Client & Realtime fetch defaults",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 7,
+          "priority": "P1",
+          "summary": "staleTime>=60s, preloadStaleTime>=30s, refetchIntervalInBackground=false, pause on hidden; one auth subscriber + keyed invalidation; minimal per-row Realtime + incremental updates; HTTP cache on SSR loaders."
+        },
+        {
+          "id": "POL-4",
+          "name": "AI cost governance",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 6,
+          "priority": "P0",
+          "summary": "Per-user/day token or USD ceiling + circuit breaker before provider call; ai_config.max_cost_usd non-NULL; pin catalog model IDs; bounded fan-out; idempotent generate functions."
+        },
+        {
+          "id": "POL-5",
+          "name": "RLS & tenancy baseline",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 10,
+          "priority": "P0",
+          "summary": "No USING(true)/tautology on operational tables; no anon UPDATE of unowned rows; rate-limit anon INSERT; revoke EXECUTE from anon on SECURITY DEFINER; no PII via broad SELECT; no dangerouslySetInnerHTML on anon input."
+        },
+        {
+          "id": "POL-6",
+          "name": "Secrets & auth-surface management",
+          "severity": "Critical",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "No JWT in cron.job.command (Vault); no service-role over HTTP; delete debug/reveal fns + rotate; verify_jwt=false fns need explicit gate + rate limit; remove dead secrets."
+        },
+        {
+          "id": "POL-7",
+          "name": "Write-amplification & trigger discipline",
+          "severity": "Medium",
+          "effort": "M",
+          "affected_projects": 4,
+          "priority": "P2",
+          "summary": "Cap notification/aggregate fan-out (digest/queue); batch progress updates; upsert not delete-all+reinsert."
+        },
+        {
+          "id": "POL-8",
+          "name": "Cost observability & attribution",
+          "severity": "High",
+          "effort": "S",
+          "affected_projects": 19,
+          "priority": "P1",
+          "summary": "Per-project usage ledger written by every AI/TTS/STT call site; attribute via credits--get_credit_balance by billable_item/project; gateway 7-day log not authoritative; no NULL cost columns in UI."
+        },
+        {
+          "id": "POL-9",
+          "name": "Idle-project lifecycle",
+          "severity": "Medium",
+          "effort": "S",
+          "affected_projects": 6,
+          "priority": "P1",
+          "summary": "Auto-pause scheduled/background work when no real activity > 30 days; flag idle Cloud instances for pause/consolidation; idle in app tables != not billing."
+        }
+      ],
+      "projectSnapshot": {
+        "id": "sample-13",
+        "name": "sample-13 (Sample 12)",
+        "supabase_ref": "sampleref08aaaaaaaaa",
+        "stack": "TanStack Start / CF",
+        "db_size_mb": 12,
+        "public_tables": 7,
+        "pg_cron": {
+          "installed": false,
+          "active_jobs": 0
+        },
+        "edge_functions": 5,
+        "storage": {
+          "buckets": 1,
+          "size_mb": 0,
+          "note": "0 objects"
+        },
+        "realtime": false,
+        "idle": "runtime-clean",
+        "last_activity": null,
+        "severity": "Low",
+        "driver_categories": [
+          "F"
+        ],
+        "primary_driver_confirmed": true,
+        "policies": [
+          "POL-8",
+          "POL-9"
+        ],
+        "key_metrics": {
+          "build_mode_share_workspace": "62.3%",
+          "project_credits_7d": 98,
+          "build_mode_of_project": "~92 of 98",
+          "runtime": "confirmed clean"
+        },
+        "top_actions": [
+          {
+            "rank": 1,
+            "action": "Investigate Build-mode editor sessions (runtime confirmed clean)",
+            "severity": "Low",
+            "effort": "XS",
+            "status": "Confirmed",
+            "policy": "POL-8"
+          }
+        ]
+      },
+      "keyMetrics": {
+        "build_mode_share_workspace": "62.3%",
+        "project_credits_7d": 98,
+        "build_mode_of_project": "~92 of 98",
+        "runtime": "confirmed clean"
+      },
+      "importedActions": [
+        {
+          "rank": 1,
+          "action": "Investigate Build-mode editor sessions (runtime confirmed clean)",
+          "severity": "Low",
+          "effort": "XS",
+          "status": "Confirmed",
+          "policy": "POL-8",
+          "source": "lovable_projects_index.json"
+        }
+      ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "sample-13_USAGE_REPORT.md",
+          "sha256": "c4adf05480c2878a4bbfdac52aab225eca457d79669155e76e0bdf09ef0c97db",
+          "title": "sample-13 - Lovable/Supabase Project Usage Audit",
+          "lineCount": 195,
+          "headingCount": 23,
+          "headings": [
+            {
+              "level": 1,
+              "title": "sample-13 - Lovable/Supabase Project Usage Audit"
+            },
+            {
+              "level": 2,
+              "title": "1. Headline finding (confirmed)"
+            },
+            {
+              "level": 3,
+              "title": "Workspace-wide spend by billable_item (current billing period, 7 days)"
+            },
+            {
+              "level": 3,
+              "title": "This project's slice"
+            },
+            {
+              "level": 2,
+              "title": "2. Database - confirmed evidence"
+            },
+            {
+              "level": 3,
+              "title": "2.1 Size, health"
+            },
+            {
+              "level": 3,
+              "title": "2.2 Row counts (public schema)"
+            },
+            {
+              "level": 3,
+              "title": "2.3 Triggers"
+            },
+            {
+              "level": 3,
+              "title": "2.4 Functions"
+            },
+            {
+              "level": 3,
+              "title": "2.5 Extensions"
+            },
+            {
+              "level": 3,
+              "title": "2.6 Cron jobs"
+            },
+            {
+              "level": 3,
+              "title": "2.7 RLS policies (14 total, all public tables covered)"
+            },
+            {
+              "level": 3,
+              "title": "2.8 Top queries (pg_stat_statements)"
+            },
+            {
+              "level": 2,
+              "title": "3. Edge Functions - confirmed evidence"
+            },
+            {
+              "level": 3,
+              "title": "3.1 Invocation volume"
+            },
+            {
+              "level": 3,
+              "title": "3.2 Hypotheses worth HQ attention (not confirmed as active drivers)"
+            },
+            {
+              "level": 2,
+              "title": "4. Storage - confirmed evidence"
+            },
+            {
+              "level": 2,
+              "title": "5. Auth / Realtime - confirmed evidence"
+            },
+            {
+              "level": 2,
+              "title": "6. Client-side runtime patterns - confirmed evidence"
+            },
+            {
+              "level": 2,
+              "title": "7. Logs - confirmed evidence"
+            },
+            {
+              "level": 2,
+              "title": "8. Configuration notes"
+            },
+            {
+              "level": 2,
+              "title": "9. Hypotheses (NOT confirmed, flagged for HQ)"
+            },
+            {
+              "level": 2,
+              "title": "10. Summary table for HQ"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "warnings": []
+}

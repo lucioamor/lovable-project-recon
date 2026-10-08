@@ -1,0 +1,30 @@
+{
+  "packages": {
+    "packages/core": {
+      "release-type": "node",
+      "package-name": "@nxlv-ai/lovable-core",
+      "component": "lovable-core"
+    },
+    "packages/profile-cost": {
+      "release-type": "node",
+      "package-name": "@nxlv-ai/lovable-profile-cost",
+      "component": "lovable-profile-cost"
+    },
+    "packages/benchmarks": {
+      "release-type": "node",
+      "package-name": "@nxlv-ai/lovable-benchmarks",
+      "component": "lovable-benchmarks"
+    },
+    "packages/recon": {
+      "release-type": "node",
+      "package-name": "@nxlv-ai/lovable-recon",
+      "component": "lovable-recon"
+    }
+  },
+  "plugins": [
+    {
+      "type": "node-workspace",
+      "updatePeerDependencies": true
+    }
+  ]
+}

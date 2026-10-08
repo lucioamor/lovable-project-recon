@@ -1,0 +1,6 @@
+{
+  "packages/core": "0.1.0",
+  "packages/profile-cost": "0.1.0",
+  "packages/benchmarks": "0.1.0",
+  "packages/recon": "0.1.0"
+}

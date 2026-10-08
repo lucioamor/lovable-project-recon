@@ -1,0 +1,408 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "sample-09",
+    "name": "Sample 09",
+    "stack": "TanStack Start (server fns)",
+    "evidenceGenerated": "2026-06-30",
+    "evidenceSource": "IesBrazil_Pipeline_USAGE_REPORT.md"
+  },
+  "resources": [
+    {
+      "id": "project",
+      "kind": "project",
+      "name": "Sample 09",
+      "attrs": {
+        "projectId": "sample-09",
+        "tables": 16,
+        "edgeFns": 1,
+        "dbTotalBytes": 24117248,
+        "storageBuckets": 0,
+        "storageSizeMb": 0,
+        "idleState": "no",
+        "driverCategories": [
+          "B",
+          "C"
+        ],
+        "indexSeverity": "High",
+        "primaryDriverConfirmed": true,
+        "policyIds": [
+          "POL-3",
+          "POL-2",
+          "POL-5"
+        ]
+      }
+    }
+  ],
+  "observations": [
+    {
+      "resourceId": "project",
+      "metric": "db_size_mb",
+      "value": 23,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "public_tables",
+      "value": 16,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "edge_functions",
+      "value": 1,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_buckets",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "storage_size_mb",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    },
+    {
+      "resourceId": "project",
+      "metric": "pg_cron_active_jobs",
+      "value": 0,
+      "measuredAt": "2026-06-30T00:00:00.000Z"
+    }
+  ],
+  "importedActions": [
+    {
+      "rank": 1,
+      "action": "Mark cancelling terminal + 10-min janitor; refetchIntervalInBackground=false",
+      "severity": "High",
+      "effort": "S",
+      "status": "Confirmed",
+      "policy": "POL-3",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 2,
+      "action": "Retention on db_admin_log + LIMIT/pagination on log reads",
+      "severity": "High",
+      "effort": "S",
+      "status": "Confirmed",
+      "policy": "POL-2",
+      "source": "lovable_projects_index.json"
+    },
+    {
+      "rank": 3,
+      "action": "Replace USING(true) with role/tenant predicates",
+      "severity": "High",
+      "effort": "M",
+      "status": "Confirmed",
+      "policy": "POL-5",
+      "source": "lovable_projects_index.json"
+    }
+  ],
+  "raw": {
+    "sourceIndex": "lovable_projects_index.json",
+    "sourceReports": [
+      "IesBrazil_Pipeline_USAGE_REPORT.md"
+    ],
+    "conversion": "hand-reviewed corpus fixture derived from structured index and source usage report review",
+    "index": {
+      "sourcePath": "usage-reports/lovable_projects_index.json",
+      "generated": "2026-06-30",
+      "sourceCorpus": "20 usage audits / 18 distinct projects (sample_06 audited twice; sample-04 is a CTA audit)",
+      "policyCatalog": [
+        {
+          "id": "POL-1",
+          "name": "Scheduled-job (cron) hygiene",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 8,
+          "priority": "P0",
+          "summary": "No sub-15-min pollers; event-driven or sentinel-gated; scheduler-level idle/paused/deadline short-circuit; prod host only; judge health from net._http_response."
+        },
+        {
+          "id": "POL-2",
+          "name": "Log & raw-payload retention",
+          "severity": "High",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "Every log/append table has TTL/partition; no raw HTML/blobs in Postgres; media in Storage with size limit + orphan sweep; snapshots keep latest+changed."
+        },
+        {
+          "id": "POL-3",
+          "name": "Client & Realtime fetch defaults",
+          "severity": "High",
+          "effort": "S-M",
+          "affected_projects": 7,
+          "priority": "P1",
+          "summary": "staleTime>=60s, preloadStaleTime>=30s, refetchIntervalInBackground=false, pause on hidden; one auth subscriber + keyed invalidation; minimal per-row Realtime + incremental updates; HTTP cache on SSR loaders."
+        },
+        {
+          "id": "POL-4",
+          "name": "AI cost governance",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 6,
+          "priority": "P0",
+          "summary": "Per-user/day token or USD ceiling + circuit breaker before provider call; ai_config.max_cost_usd non-NULL; pin catalog model IDs; bounded fan-out; idempotent generate functions."
+        },
+        {
+          "id": "POL-5",
+          "name": "RLS & tenancy baseline",
+          "severity": "Critical",
+          "effort": "S-M",
+          "affected_projects": 10,
+          "priority": "P0",
+          "summary": "No USING(true)/tautology on operational tables; no anon UPDATE of unowned rows; rate-limit anon INSERT; revoke EXECUTE from anon on SECURITY DEFINER; no PII via broad SELECT; no dangerouslySetInnerHTML on anon input."
+        },
+        {
+          "id": "POL-6",
+          "name": "Secrets & auth-surface management",
+          "severity": "Critical",
+          "effort": "XS-S",
+          "affected_projects": 7,
+          "priority": "P0",
+          "summary": "No JWT in cron.job.command (Vault); no service-role over HTTP; delete debug/reveal fns + rotate; verify_jwt=false fns need explicit gate + rate limit; remove dead secrets."
+        },
+        {
+          "id": "POL-7",
+          "name": "Write-amplification & trigger discipline",
+          "severity": "Medium",
+          "effort": "M",
+          "affected_projects": 4,
+          "priority": "P2",
+          "summary": "Cap notification/aggregate fan-out (digest/queue); batch progress updates; upsert not delete-all+reinsert."
+        },
+        {
+          "id": "POL-8",
+          "name": "Cost observability & attribution",
+          "severity": "High",
+          "effort": "S",
+          "affected_projects": 19,
+          "priority": "P1",
+          "summary": "Per-project usage ledger written by every AI/TTS/STT call site; attribute via credits--get_credit_balance by billable_item/project; gateway 7-day log not authoritative; no NULL cost columns in UI."
+        },
+        {
+          "id": "POL-9",
+          "name": "Idle-project lifecycle",
+          "severity": "Medium",
+          "effort": "S",
+          "affected_projects": 6,
+          "priority": "P1",
+          "summary": "Auto-pause scheduled/background work when no real activity > 30 days; flag idle Cloud instances for pause/consolidation; idle in app tables != not billing."
+        }
+      ],
+      "projectSnapshot": {
+        "id": "sample-09",
+        "name": "Sample 09",
+        "supabase_ref": null,
+        "stack": "TanStack Start (server fns)",
+        "db_size_mb": 23,
+        "public_tables": 16,
+        "pg_cron": {
+          "installed": false,
+          "active_jobs": 0,
+          "note": "no pg_cron/pg_net/pgmq; scheduling is client polling"
+        },
+        "edge_functions": 1,
+        "storage": {
+          "buckets": 0,
+          "size_mb": 0
+        },
+        "realtime": false,
+        "idle": "no",
+        "last_activity": null,
+        "severity": "High",
+        "driver_categories": [
+          "B",
+          "C"
+        ],
+        "primary_driver_confirmed": true,
+        "policies": [
+          "POL-3",
+          "POL-2",
+          "POL-5"
+        ],
+        "key_metrics": {
+          "dock_poll": "4s foreground+background",
+          "per_batch_poll": "2s",
+          "stuck_batch_polled_days": 11,
+          "db_admin_log_rows": 11584,
+          "rls": "USING(true) all operational tables"
+        },
+        "top_actions": [
+          {
+            "rank": 1,
+            "action": "Mark cancelling terminal + 10-min janitor; refetchIntervalInBackground=false",
+            "severity": "High",
+            "effort": "S",
+            "status": "Confirmed",
+            "policy": "POL-3"
+          },
+          {
+            "rank": 2,
+            "action": "Retention on db_admin_log + LIMIT/pagination on log reads",
+            "severity": "High",
+            "effort": "S",
+            "status": "Confirmed",
+            "policy": "POL-2"
+          },
+          {
+            "rank": 3,
+            "action": "Replace USING(true) with role/tenant predicates",
+            "severity": "High",
+            "effort": "M",
+            "status": "Confirmed",
+            "policy": "POL-5"
+          }
+        ]
+      },
+      "keyMetrics": {
+        "dock_poll": "4s foreground+background",
+        "per_batch_poll": "2s",
+        "stuck_batch_polled_days": 11,
+        "db_admin_log_rows": 11584,
+        "rls": "USING(true) all operational tables"
+      },
+      "importedActions": [
+        {
+          "rank": 1,
+          "action": "Mark cancelling terminal + 10-min janitor; refetchIntervalInBackground=false",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-3",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 2,
+          "action": "Retention on db_admin_log + LIMIT/pagination on log reads",
+          "severity": "High",
+          "effort": "S",
+          "status": "Confirmed",
+          "policy": "POL-2",
+          "source": "lovable_projects_index.json"
+        },
+        {
+          "rank": 3,
+          "action": "Replace USING(true) with role/tenant predicates",
+          "severity": "High",
+          "effort": "M",
+          "status": "Confirmed",
+          "policy": "POL-5",
+          "source": "lovable_projects_index.json"
+        }
+      ]
+    },
+    "usageReportReview": {
+      "reviewedAt": "2026-07-02",
+      "method": "source-report checksum + heading audit; structured metrics retained from canonical index where present",
+      "sourceReports": [
+        {
+          "file": "IesBrazil_Pipeline_USAGE_REPORT.md",
+          "sha256": "cfa25a3f225876e9c4cd5480a5171dc373174d6c43ec928cabb26608d84a3a66",
+          "title": "Sample 09 - Lovable/Supabase Usage Audit Report",
+          "lineCount": 347,
+          "headingCount": 23,
+          "headings": [
+            {
+              "level": 1,
+              "title": "Sample 09 - Lovable/Supabase Usage Audit Report"
+            },
+            {
+              "level": 2,
+              "title": "1. TL;DR - Suspected drivers of daily credit burn"
+            },
+            {
+              "level": 2,
+              "title": "2. Database inventory"
+            },
+            {
+              "level": 3,
+              "title": "2.1 Top tables by size (`pg_stat_user_tables`, `public` schema)"
+            },
+            {
+              "level": 3,
+              "title": "2.2 Extensions"
+            },
+            {
+              "level": 3,
+              "title": "2.3 Triggers (22 in `public`)"
+            },
+            {
+              "level": 2,
+              "title": "3. Client-driven polling (primary credit driver)"
+            },
+            {
+              "level": 3,
+              "title": "3.1 Global dock - `BatchTrackerProvider` (mounted at `_authenticated` layout)"
+            },
+            {
+              "level": 3,
+              "title": "3.2 Stuck `cancelling` batches"
+            },
+            {
+              "level": 3,
+              "title": "3.3 Other background pollers (per authenticated tab)"
+            },
+            {
+              "level": 2,
+              "title": "4. Logging & retention"
+            },
+            {
+              "level": 3,
+              "title": "4.1 `db_admin_log` - unbounded"
+            },
+            {
+              "level": 3,
+              "title": "4.2 `firecrawl_relay_log` - small but unbounded"
+            },
+            {
+              "level": 3,
+              "title": "4.3 `llm_call_log`"
+            },
+            {
+              "level": 2,
+              "title": "5. RLS posture (relevant to egress / query cost)"
+            },
+            {
+              "level": 2,
+              "title": "6. Firecrawl relay usage"
+            },
+            {
+              "level": 2,
+              "title": "7. Edge Functions"
+            },
+            {
+              "level": 2,
+              "title": "8. Auth & config"
+            },
+            {
+              "level": 2,
+              "title": "9. Confirmed vs. hypothesis"
+            },
+            {
+              "level": 3,
+              "title": "Confirmed (reproducible from DB state and source)"
+            },
+            {
+              "level": 3,
+              "title": "Hypothesis (needs HQ-side confirmation against billing telemetry)"
+            },
+            {
+              "level": 2,
+              "title": "10. Recommended remediations (project-side, ordered by impact)"
+            },
+            {
+              "level": 2,
+              "title": "11. Appendix - files inspected"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "warnings": []
+}
